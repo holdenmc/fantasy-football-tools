@@ -2,6 +2,8 @@
 
 Collection of scripts for analyzing a fantasy football league on Fleaflicker
 
+node version: 16.13.0
+
 Technical TODO
 - add a frontend with React or Vue (or experiment with both)
 - mess around with deno

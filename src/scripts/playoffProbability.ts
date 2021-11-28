@@ -3,11 +3,13 @@ import _ from 'lodash';
 import fs from 'fs';
 import path from 'path';
 import { IGame, ITeamData } from '../interfaces';
+import { calculateSingleGameProbability, determineHead2HeadTiebreaker } from './utils';
 
 // An independent script that calculates teams odds of making the playoffs
 // ts-node src/scripts/playoffProbability.ts
 
 // TODO: split this script into separate scripts
+// TODO: put logs behind a verbose/silent mode flag
 
 /**
  * Flaws in this analysis
@@ -37,76 +39,18 @@ const schedule: IGame[] = teamAndScheduleData.schedule;
 
 const NUM_SIMULATIONS = 1000000; // 1 mil
 
-// not sure if this is a good assumption, can always modify and see how it changes
-// I backed into this, comparing it to yahoo win probabilities for future matchups in another league.
-// Within a percentage point of 6 matchups I checked there, but it may be overfit to a certain range
-const PYTHAGOREAN_CONSTANT = 4.6;
-const calculatePythagoreanExpectation = (pointsFor: number, pointsAgainst: number): number => {
-    return (Math.pow(pointsFor, PYTHAGOREAN_CONSTANT)) / (Math.pow(pointsFor, PYTHAGOREAN_CONSTANT) + Math.pow(pointsAgainst, PYTHAGOREAN_CONSTANT));
-};
-
 /**
- * Determine expected values for wins and losses, based on schedule and projected future PPG
+ * Determine the proper sorted order of the teams, taking into account tiebreakers
+ * @param teams
+ * @returns
  */
-const determineExpectedWins = () => {
-    const highlightMatchups = 'Holden'; // name to log individual game probabilities for
-    const seasonTeams: Record<string, ITeamData> = _.cloneDeep(teams);
-
-    for (const matchup of schedule) {
-        const teamA = seasonTeams[matchup.home];
-        const teamB = seasonTeams[matchup.away];
-        let winProbA = calculatePythagoreanExpectation(teamA.projectedFuturePPG, teamB.projectedFuturePPG);
-
-        if (matchup.home === highlightMatchups || matchup.away === highlightMatchups) {
-            console.log(`${matchup.home} vs. ${matchup.away}: ${(winProbA * 100).toFixed(2)}`);
-        }
-
-        teamA.wins += winProbA;
-        teamA.losses += (1 - winProbA);
-        teamB.wins += (1 - winProbA);
-        teamB.losses += winProbA;
-    }
-
-    const resultsList = [[
-        'Rank',
-        'Name',
-        'Expected Wins',
-        'Expected Losses'
-    ]];
-
-    const sortedTeamList = Object.values(seasonTeams).sort((a, b) => a.wins > b.wins ? -1 : 1);
-    sortedTeamList.forEach((entity, index) => {
-        resultsList.push([
-            `${index + 1}`,
-            entity.name,
-            entity.wins.toFixed(2),
-            entity.losses.toFixed(2),
-        ]);
-    });
-
-    console.log(table(resultsList));
-};
-
-const determineHead2HeadTiebreaker = (teamA: ITeamData, teamB: ITeamData): ITeamData | null => {
-    const teamAWins = teamA.records?.[teamB.name] ?? 0;
-    const teamBWins = teamB.records?.[teamA.name] ?? 0;
-
-    if (teamAWins > teamBWins) {
-        return teamA;
-    } else if (teamBWins > teamAWins) {
-        return teamB;
-    }
-
-    return null;
-};
-
-const determineResults = (seasonTeams: typeof teams) => {
-    const sortFunc = (a, b) => {
+const determineResults = (teams: Record<string, ITeamData>) => {
+    const sortFunc = (a: { wins: number; }, b: { wins: number }) => {
         return (a.wins > b.wins) ? -1 : 1;
     };
 
     // just sorted by wins, not tiebreakers
-    const sortedTeamsByWins = Object.values(seasonTeams).sort(sortFunc);
+    const sortedTeamsByWins = Object.values(teams).sort(sortFunc);
 
     const rankedNames: string[] = [];
     const rankingList: ITeamData[] = [];
@@ -115,9 +59,9 @@ const determineResults = (seasonTeams: typeof teams) => {
         let eligibleTeams = sortedTeamsByWins.filter((team) => !rankedNames.includes(team.name));
 
         if (i === 1) {
-            // special handling for the 2 seed, which s always the other division winner, regardless of record
+            // special handling for the 2 seed, which is always the other division winner, regardless of record
             const firstSeedDivision = rankingList[0].division;
-            eligibleTeams = Object.values(seasonTeams).filter(a => a.division !== firstSeedDivision).sort(sortFunc);
+            eligibleTeams = Object.values(teams).filter(a => a.division !== firstSeedDivision).sort(sortFunc);
         }
 
         const tiedTeams = eligibleTeams.filter((team) => team.wins === eligibleTeams[0].wins);
@@ -139,11 +83,10 @@ const determineResults = (seasonTeams: typeof teams) => {
                 // console.log(`Selected team ${selectedTeam.name} from ${tiedTeams.length}-way tie (${tiedTeams.map(team => team.name).join(',')}) due to highest totalPoints`);
             }
         } else {
-            // 3 or more teams - can that even be generalized?
+            // 3 or more teams
             let outrightHead2HeadWinner;
 
             // console.log(`Evaluating multi-team tie between ${tiedTeams.map(team => team.name).join(', ')}`);
-
             outrightHead2HeadWinner = tiedTeams.filter((consideredTeam) => {
                 const h2hWinners = tiedTeams.filter((team) => team.name !== consideredTeam.name).map((team) => determineHead2HeadTiebreaker(team, consideredTeam));
                 return h2hWinners.every((team) => team?.name === consideredTeam.name);
@@ -178,7 +121,7 @@ const determineResults = (seasonTeams: typeof teams) => {
         ]);
     });
 
-    // console.log(seasonTeams);
+    // console.log(teams);
     // console.log(table(resultsList));
     return rankingList;
 };
@@ -189,7 +132,7 @@ const runIndividualSimulation = (schedule: IGame[], teams: Record<string, ITeamD
     for (const matchup of schedule) {
         const teamA = seasonTeams[matchup.home];
         const teamB = seasonTeams[matchup.away];
-        let winProbA = calculatePythagoreanExpectation(teamA.projectedFuturePPG, teamB.projectedFuturePPG);
+        let winProbA = calculateSingleGameProbability(teamA.projectedFuturePPG, teamB.projectedFuturePPG);
 
         const result = Math.random();
         if (result <= winProbA) {
@@ -228,7 +171,7 @@ const simulatePlayoffs = (playoffTeams: ITeamData[]) => {
     let winnerA: ITeamData, winnerB: ITeamData;
 
     // first semifinal
-    let winProbA = calculatePythagoreanExpectation(oneSeed.projectedFuturePPG, fourSeed.projectedFuturePPG);
+    let winProbA = calculateSingleGameProbability(oneSeed.projectedFuturePPG, fourSeed.projectedFuturePPG);
     const resultA = Math.random();
 
     if (resultA <= winProbA) {
@@ -238,7 +181,7 @@ const simulatePlayoffs = (playoffTeams: ITeamData[]) => {
     }
 
     // second semifinal
-    let winProbB = calculatePythagoreanExpectation(twoSeed.projectedFuturePPG, threeSeed.projectedFuturePPG);
+    let winProbB = calculateSingleGameProbability(twoSeed.projectedFuturePPG, threeSeed.projectedFuturePPG);
     const resultB = Math.random();
 
     if (resultB <= winProbB) {
@@ -248,7 +191,7 @@ const simulatePlayoffs = (playoffTeams: ITeamData[]) => {
     }
 
     // final
-    let winProbChamp = calculatePythagoreanExpectation(winnerA.projectedFuturePPG, winnerB.projectedFuturePPG);
+    let winProbChamp = calculateSingleGameProbability(winnerA.projectedFuturePPG, winnerB.projectedFuturePPG);
     const resultChamp = Math.random();
 
     if (resultChamp <= winProbChamp) {
@@ -281,12 +224,12 @@ const runSimulations = (schedule: IGame[], teams: Record<string, ITeamData>) => 
         const results = runIndividualSimulation(schedule, teamsCopy);
         const playoffTeams = results.slice(0, 4);
 
-        const [champion, runnerUp] = simulatePlayoffs(playoffTeams);
-
         playoffTeams.forEach((team, index) => {
             statsToAnalyze[team.name].playoffAppearances++;
             statsToAnalyze[team.name].rankings[`${index + 1}`]++;
         });
+
+        const [champion, runnerUp] = simulatePlayoffs(playoffTeams);
 
         statsToAnalyze[champion.name].championships++;
         statsToAnalyze[runnerUp.name].runnerUps++;
@@ -330,7 +273,7 @@ const runSimulations = (schedule: IGame[], teams: Record<string, ITeamData>) => 
         ]);
     });
 
-    console.log(table(resultsList));
+    // console.log(table(resultsList));
     // console.log(JSON.stringify(teamsCopy, null, 2));
     // console.log('Wins for the 4 seed', JSON.stringify(fourthSeedWins, null, 2));
     // console.log('Wins for the 5 seed', JSON.stringify(fifthSeedWins, null, 2));
@@ -410,7 +353,7 @@ const weeklyGameLeverages = (params: {
 
         resultsList[0].push(`${game.home} win`, `${game.away} win`);
 
-        const homeWinProbability = calculatePythagoreanExpectation(teams[game.home].projectedFuturePPG, teams[game.away].projectedFuturePPG);
+        const homeWinProbability = calculateSingleGameProbability(teams[game.home].projectedFuturePPG, teams[game.away].projectedFuturePPG);
         resultsList[1].push(`${(homeWinProbability * 100).toFixed(2)}%`, `${((1 - homeWinProbability) * 100).toFixed(2)}%`);
 
         Object.keys(baseProbabilityMap).forEach((name, index) => {
@@ -450,7 +393,7 @@ const determineEveryPossibleOutcome = (params: {
         }
     });
     // probability of home team winning each game
-    const myGamesHomeWinProbability: number[] = myGames.map((game) => calculatePythagoreanExpectation(teamsCopy[game.home].projectedFuturePPG, teamsCopy[game.away].projectedFuturePPG));
+    const myGamesHomeWinProbability: number[] = myGames.map((game) => calculateSingleGameProbability(teamsCopy[game.home].projectedFuturePPG, teamsCopy[game.away].projectedFuturePPG));
 
     let resultsList = [[
         'Outcome',
@@ -524,7 +467,6 @@ const determineEveryPossibleOutcome = (params: {
     console.log(table(resultsList));
 };
 
-// determineExpectedWins();
 // runIndividualSimulation(schedule, teams);
 runSimulations(schedule, teams);
 // runWeeklyGameLeverages(schedule, teams);
