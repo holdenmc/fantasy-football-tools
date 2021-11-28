@@ -3,8 +3,15 @@
     "Paul": {
       "name": "Paul",
       "records": {
+        "Carter": 0,
+        "Brandon": 1,
+        "Zach": 0,
+        "Holden": 0,
+        "Chris": 0,
+        "Jeremy": 0,
+        "Mike": 0,
         "Jake": 1,
-        "Brandon": 1
+        "Kevin": 0
       },
       "wins": 2,
       "losses": 9,
@@ -15,14 +22,15 @@
     "Carter": {
       "name": "Carter",
       "records": {
+        "Paul": 1,
+        "Brandon": 1,
         "Zach": 2,
+        "Holden": 1,
         "Chris": 1,
         "Jeremy": 2,
-        "Brandon": 1,
-        "Jake": 1,
         "Mike": 1,
-        "Holden": 1,
-        "Paul": 1
+        "Jake": 1,
+        "Kevin": 0
       },
       "wins": 10,
       "losses": 1,
@@ -33,13 +41,15 @@
     "Brandon": {
       "name": "Brandon",
       "records": {
+        "Paul": 0,
+        "Carter": 0,
+        "Zach": 2,
+        "Holden": 1,
+        "Chris": 1,
         "Jeremy": 1,
         "Mike": 1,
-        "Holden": 1,
-        "Zach": 2,
-        "Chris": 1,
-        "Kevin": 1,
-        "Jake": 1
+        "Jake": 1,
+        "Kevin": 1
       },
       "wins": 8,
       "losses": 3,
@@ -50,9 +60,15 @@
     "Zach": {
       "name": "Zach",
       "records": {
-        "Jeremy": 2,
         "Paul": 1,
-        "Chris": 1
+        "Carter": 0,
+        "Brandon": 0,
+        "Holden": 0,
+        "Chris": 1,
+        "Jeremy": 2,
+        "Mike": 0,
+        "Jake": 0,
+        "Kevin": 0
       },
       "wins": 4,
       "losses": 7,
@@ -63,11 +79,15 @@
     "Holden": {
       "name": "Holden",
       "records": {
-        "Chris": 1,
         "Paul": 2,
-        "Mike": 1,
+        "Carter": 0,
+        "Brandon": 0,
+        "Zach": 1,
+        "Chris": 1,
         "Jeremy": 1,
-        "Zach": 1
+        "Mike": 1,
+        "Jake": 0,
+        "Kevin": 0
       },
       "wins": 6,
       "losses": 5,
@@ -79,9 +99,14 @@
       "name": "Chris",
       "records": {
         "Paul": 1,
+        "Carter": 0,
+        "Brandon": 0,
+        "Zach": 0,
+        "Holden": 0,
+        "Jeremy": 0,
         "Mike": 2,
-        "Kevin": 1,
-        "Jake": 1
+        "Jake": 1,
+        "Kevin": 1
       },
       "wins": 5,
       "losses": 6,
@@ -93,8 +118,14 @@
       "name": "Jeremy",
       "records": {
         "Paul": 1,
+        "Carter": 0,
+        "Brandon": 0,
+        "Zach": 0,
+        "Holden": 0,
         "Chris": 1,
-        "Mike": 1
+        "Mike": 1,
+        "Jake": 0,
+        "Kevin": 0
       },
       "wins": 3,
       "losses": 8,
@@ -106,7 +137,14 @@
       "name": "Mike",
       "records": {
         "Paul": 1,
-        "Holden": 1
+        "Carter": 0,
+        "Brandon": 0,
+        "Zach": 0,
+        "Holden": 1,
+        "Chris": 0,
+        "Jeremy": 0,
+        "Jake": 0,
+        "Kevin": 0
       },
       "wins": 2,
       "losses": 9,
@@ -117,11 +155,15 @@
     "Jake": {
       "name": "Jake",
       "records": {
-        "Kevin": 1,
-        "Zach": 1,
-        "Mike": 2,
         "Paul": 1,
-        "Holden": 2
+        "Carter": 0,
+        "Brandon": 0,
+        "Zach": 1,
+        "Holden": 2,
+        "Chris": 0,
+        "Jeremy": 0,
+        "Mike": 2,
+        "Kevin": 1
       },
       "wins": 7,
       "losses": 4,
@@ -132,13 +174,15 @@
     "Kevin": {
       "name": "Kevin",
       "records": {
-        "Jeremy": 2,
-        "Zach": 1,
-        "Chris": 1,
         "Paul": 1,
+        "Carter": 1,
         "Brandon": 1,
+        "Zach": 1,
+        "Holden": 0,
+        "Chris": 1,
+        "Jeremy": 2,
         "Mike": 1,
-        "Carter": 1
+        "Jake": 0
       },
       "wins": 8,
       "losses": 3,

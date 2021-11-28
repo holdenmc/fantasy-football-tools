@@ -36,6 +36,7 @@ const computeTeams = async () => {
             name: curr,
             records: {},
         };
+        Object.values(idToName).filter((name) => name !== curr).forEach((name) => acc[curr].records[name] = 0);
         return acc;
     }, {});
 
