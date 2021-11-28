@@ -35,20 +35,10 @@ const currentWeek = 12;
 const dataFilePath = path.join(__dirname, `../data/teamSchedules/2021-${currentWeek}.json`);
 const teamAndScheduleData = JSON.parse(fs.readFileSync(dataFilePath, 'utf8'));
 
-const teams: Record<string, ITeamData> = teamAndScheduleData.teams;
-const schedule: IGame[] = teamAndScheduleData.schedule;
-
-
-const runWeeklyGameLeverages = (params: {
-    schedule: IGame[],
-    teams: Record<string, ITeamData>
-}) => {
-    const { schedule, teams } = params;
-    console.log('beginning baseline simulation');
-    const baseProbabilityMap = runSimulations({ schedule, teams });
-    console.log('Done with baseline simulation');
-    weeklyGameLeverages({ week: currentWeek, baseProbabilityMap, schedule, teams });
-};
+const {
+  teams: originalTeams,
+  schedule: originalSchedule,
+}: { teams: Record<string, ITeamData>; schedule: IGame[]; } = teamAndScheduleData;
 
 const weeklyGameLeverages = (params: {
     week: number;
@@ -56,161 +46,183 @@ const weeklyGameLeverages = (params: {
     schedule: IGame[];
     teams: Record<string, ITeamData>;
 }) => {
-    const { week, baseProbabilityMap, schedule, teams } = params;
+  const {
+    week, baseProbabilityMap, schedule, teams,
+  } = params;
 
-    const gamesToAnalyze = schedule.filter((game) => game.week === week);
+  const gamesToAnalyze = schedule.filter((game) => game.week === week);
 
-    const resultsList = [[
-        'Name',
-        'Base Probability'
-    ], [
-        '',
-        '',
-    ]];
+  const resultsList = [[
+    'Name',
+    'Base Probability',
+  ], [
+    '',
+    '',
+  ]];
 
-    Object.keys(baseProbabilityMap).forEach((name) => {
-        resultsList.push([
-            name,
-            baseProbabilityMap[name].toFixed(2),
-        ]);
+  Object.keys(baseProbabilityMap).forEach((name) => {
+    resultsList.push([
+      name,
+      baseProbabilityMap[name].toFixed(2),
+    ]);
+  });
+
+  gamesToAnalyze.forEach((game) => {
+    // new schedule without the game in question
+    const newSchedule = _.cloneDeep(schedule)
+      .filter((filterGame) => !(filterGame.home === game.home
+        && filterGame.away === game.away
+        && filterGame.week === game.week));
+    // console.log(newSchedule);
+
+    const newProbabilityMaps: Record<string, number>[] = [];
+
+    ['home', 'away'].forEach((winner) => {
+      const teamsCopy = _.cloneDeep(teams);
+      if (winner === 'home') {
+        teamsCopy[game.home].wins++;
+        teamsCopy[game.away].losses++;
+        teamsCopy[game.home].records[game.away]++;
+      } else {
+        teamsCopy[game.away].wins++;
+        teamsCopy[game.home].losses++;
+        teamsCopy[game.away].records[game.home]++;
+      }
+
+      // console.log(JSON.stringify(teamsCopy, null, 2));
+
+      // console.log(`Running simulation where ${winner === 'home' ? game.home : game.away} wins ${game.home} vs. ${game.away} in week ${week}`);
+      const newProbabilityMap = runSimulations({ schedule: newSchedule, teams: teamsCopy });
+
+      newProbabilityMaps.push(newProbabilityMap);
     });
 
-    gamesToAnalyze.forEach((game) => {
-        // new schedule without the game in question
-        const newSchedule = _.cloneDeep(schedule).filter((filterGame) => !(filterGame.home === game.home && filterGame.away === game.away && filterGame.week === game.week));
-        // console.log(newSchedule);
+    resultsList[0].push(`${game.home} win`, `${game.away} win`);
 
-        const newProbabilityMaps: Record<string, number>[] = [];
+    const homeWinProbability = calculateSingleGameProbability(
+      teams[game.home].projectedFuturePPG,
+      teams[game.away].projectedFuturePPG,
+    );
+    resultsList[1].push(`${(homeWinProbability * 100).toFixed(2)}%`, `${((1 - homeWinProbability) * 100).toFixed(2)}%`);
 
-        ['home', 'away'].forEach((winner) => {
-            const teamsCopy = _.cloneDeep(teams);
-            if (winner === 'home') {
-                teamsCopy[game.home].wins++;
-                teamsCopy[game.away].losses++;
-                teamsCopy[game.home].records[game.away]++;
-            } else {
-                teamsCopy[game.away].wins++;
-                teamsCopy[game.home].losses++;
-                teamsCopy[game.away].records[game.home]++;
-            }
-
-            // console.log(JSON.stringify(teamsCopy, null, 2));
-
-            // console.log(`Running simulation where ${winner === 'home' ? game.home : game.away} wins ${game.home} vs. ${game.away} in week ${week}`);
-            const newProbabilityMap = runSimulations({ schedule: newSchedule, teams: teamsCopy });
-
-            newProbabilityMaps.push(newProbabilityMap);
-        });
-
-        resultsList[0].push(`${game.home} win`, `${game.away} win`);
-
-        const homeWinProbability = calculateSingleGameProbability(teams[game.home].projectedFuturePPG, teams[game.away].projectedFuturePPG);
-        resultsList[1].push(`${(homeWinProbability * 100).toFixed(2)}%`, `${((1 - homeWinProbability) * 100).toFixed(2)}%`);
-
-        Object.keys(baseProbabilityMap).forEach((name, index) => {
-            resultsList[index + 2].push(
-                `${(newProbabilityMaps[0][name] - baseProbabilityMap[name]).toFixed(2)}%`,
-                `${(newProbabilityMaps[1][name] - baseProbabilityMap[name]).toFixed(2)}%`,
-            );
-        });
-        console.log(`Done with simulation of ${game.home} vs. ${game.away} in week ${week}`);
+    Object.keys(baseProbabilityMap).forEach((name, index) => {
+      resultsList[index + 2].push(
+        `${(newProbabilityMaps[0][name] - baseProbabilityMap[name]).toFixed(2)}%`,
+        `${(newProbabilityMaps[1][name] - baseProbabilityMap[name]).toFixed(2)}%`,
+      );
     });
+    console.log(`Done with simulation of ${game.home} vs. ${game.away} in week ${week}`);
+  });
 
-    // console.log(JSON.stringify(resultsList, null, 2));
-    console.log(table(resultsList));
+  // console.log(JSON.stringify(resultsList, null, 2));
+  console.log(table(resultsList));
+};
+
+const runWeeklyGameLeverages = (params: {
+    schedule: IGame[],
+    teams: Record<string, ITeamData>
+}) => {
+  const { schedule, teams } = params;
+  console.log('beginning baseline simulation');
+  const baseProbabilityMap = runSimulations({ schedule, teams });
+  console.log('Done with baseline simulation');
+  weeklyGameLeverages({
+    week: currentWeek, baseProbabilityMap, schedule, teams,
+  });
 };
 
 const determineEveryPossibleOutcome = (params: {
     schedule: IGame[];
     teams: Record<string, ITeamData>;
 }) => {
-    const scheduleCopy = _.cloneDeep(schedule);
-    const teamsCopy = _.cloneDeep(teams);
-    // For just my games
-    const name = 'Jake';
-    // determine who makes the playoffs in every individual scenario + the odds of that scenario
+  const { schedule, teams } = params;
+  const scheduleCopy = _.cloneDeep(schedule);
+  const teamsCopy = _.cloneDeep(teams);
+  // For just my games
+  const name = 'Jake';
+  // determine who makes the playoffs in every individual scenario + the odds of that scenario
 
-    // all potential outcomes for my games
-    let outcomes: string[][] = [];
-    const myGames = schedule.filter((filterGame) => filterGame.home === name || filterGame.away === name);
-    myGames.forEach(() => {
-        const results = ['win', 'lose'];
-        if (outcomes.length === 0) {
-            outcomes.push([results[0]], [results[1]]);
-        } else {
-            outcomes = _.flatMap(outcomes, (outcome) => {
-                return [outcome.concat(results[0]), outcome.concat(results[1])];
-            });
-        }
-    });
-    // probability of home team winning each game
-    const myGamesHomeWinProbability: number[] = myGames.map((game) => calculateSingleGameProbability(teamsCopy[game.home].projectedFuturePPG, teamsCopy[game.away].projectedFuturePPG));
+  // all potential outcomes for my games
+  let outcomes: string[][] = [];
+  const myGames = schedule.filter((filterGame) => filterGame.home === name || filterGame.away === name);
+  myGames.forEach(() => {
+    const results = ['win', 'lose'];
+    if (outcomes.length === 0) {
+      outcomes.push([results[0]], [results[1]]);
+    } else {
+      outcomes = _.flatMap(outcomes, (outcome) => [outcome.concat(results[0]), outcome.concat(results[1])]);
+    }
+  });
+  // probability of home team winning each game
+  const myGamesHomeWinProbability: number[] = myGames.map((game) => calculateSingleGameProbability(
+    teamsCopy[game.home].projectedFuturePPG,
+    teamsCopy[game.away].projectedFuturePPG,
+  ));
 
-    let resultsList = [[
-        'Outcome',
-        'Wins',
-        'Losses',
-        'Probability',
-        'Playoff Probability'
-    ]];
+  let resultsList = [[
+    'Outcome',
+    'Wins',
+    'Losses',
+    'Probability',
+    'Playoff Probability',
+  ]];
 
-    const data: any[] = [];
+  const data: any[] = [];
 
-    // for each set of outcomes, simulate the season
-    outcomes.forEach((outcomeSet, index) => {
-        const oddsOfScenario = outcomeSet.reduce((acc: number, outcome: string, index: number) => {
-            const currentGame = myGames[index];
-            const homeTeamWinProb = myGamesHomeWinProbability[index];
-            if (currentGame.home === name) {
-                return acc * (outcome === 'win' ? homeTeamWinProb : (1 - homeTeamWinProb));
-            } else {
-                // current person is the away team
-                return acc * (outcome === 'win' ? (1 - homeTeamWinProb) : homeTeamWinProb );
-            }
-        }, 1);
-        console.log(outcomeSet, oddsOfScenario.toFixed(2));
+  // for each set of outcomes, simulate the season
+  outcomes.forEach((outcomeSet, index) => {
+    const oddsOfScenario = outcomeSet.reduce((acc: number, outcome: string, gameIndex: number) => {
+      const currentGame = myGames[gameIndex];
+      const homeTeamWinProb = myGamesHomeWinProbability[gameIndex];
+      if (currentGame.home === name) {
+        return acc * (outcome === 'win' ? homeTeamWinProb : (1 - homeTeamWinProb));
+      }
+      // current person is the away team
+      return acc * (outcome === 'win' ? (1 - homeTeamWinProb) : homeTeamWinProb);
+    }, 1);
+    console.log(outcomeSet, oddsOfScenario.toFixed(2));
 
-        // simulate playoffs in each scenario and determine odds then
+    // simulate playoffs in each scenario and determine odds then
 
-        // updated schedule and teams for this scenario
-        const newSchedule = _.cloneDeep(scheduleCopy).filter((filterGame) => filterGame.home !== name && filterGame.away !== name);
-        const newTeams = _.cloneDeep(teamsCopy);
-        myGames.forEach((game, index) => {
-            // set the winners and losers of all of my games
-            const outcome = outcomeSet[index];
-            let opponentName;
-            if (game.home === name) {
-                opponentName = game.away;
-            } else {
-                opponentName = game.home;
-            }
-            if (outcome === 'win') {
-                newTeams[name].wins++;
-                newTeams[name].records[opponentName]++;
-                newTeams[opponentName].losses++;
-            } else {
-                newTeams[opponentName].wins++;
-                newTeams[opponentName].records[name]++;
-                newTeams[name].losses++;
-            }
-        });
-
-        const simulationResults = runSimulations({ schedule: newSchedule, teams: newTeams });
-        console.log(`Completed outcome set ${index + 1} of ${outcomes.length}`);
-
-        data.push([
-            outcomeSet.join(', '),
-            outcomeSet.filter(a => a === 'win').length,
-            outcomeSet.filter(a => a === 'lose').length,
-            `${(oddsOfScenario * 100).toFixed(2)}%`,
-            `${simulationResults[name].toFixed(2)}%`,
-        ]);
+    // updated schedule and teams for this scenario
+    const newSchedule = _.cloneDeep(scheduleCopy).filter((game) => game.home !== name && game.away !== name);
+    const newTeams = _.cloneDeep(teamsCopy);
+    myGames.forEach((game, gameIndex) => {
+      // set the winners and losers of all of my games
+      const outcome = outcomeSet[gameIndex];
+      let opponentName;
+      if (game.home === name) {
+        opponentName = game.away;
+      } else {
+        opponentName = game.home;
+      }
+      if (outcome === 'win') {
+        newTeams[name].wins++;
+        newTeams[name].records[opponentName]++;
+        newTeams[opponentName].losses++;
+      } else {
+        newTeams[opponentName].wins++;
+        newTeams[opponentName].records[name]++;
+        newTeams[name].losses++;
+      }
     });
 
-    resultsList = resultsList.concat(data.sort((a, b) => Number(a[1]) > Number(b[1]) ? -1 : 1));
+    const simulationResults = runSimulations({ schedule: newSchedule, teams: newTeams });
+    console.log(`Completed outcome set ${index + 1} of ${outcomes.length}`);
 
-    console.log(table(resultsList));
+    data.push([
+      outcomeSet.join(', '),
+      outcomeSet.filter((a) => a === 'win').length,
+      outcomeSet.filter((a) => a === 'lose').length,
+      `${(oddsOfScenario * 100).toFixed(2)}%`,
+      `${simulationResults[name].toFixed(2)}%`,
+    ]);
+  });
+
+  resultsList = resultsList.concat(data.sort((a, b) => (Number(a[1]) > Number(b[1]) ? -1 : 1)));
+
+  console.log(table(resultsList));
 };
 
-// runWeeklyGameLeverages({ schedule, teams });
-// determineEveryPossibleOutcome({ schedule, teams });
+runWeeklyGameLeverages({ schedule: originalSchedule, teams: originalTeams });
+determineEveryPossibleOutcome({ schedule: originalSchedule, teams: originalTeams });
