@@ -1,0 +1,19 @@
+{
+  "name": "fantasy-football-tools",
+  "version": "1.0.0",
+  "description": "Collection of scripts for analyzing a fantasy football league on Fleaflicker",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/holdenmc/fantasy-football-tools.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/holdenmc/fantasy-football-tools/issues"
+  },
+  "homepage": "https://github.com/holdenmc/fantasy-football-tools#readme"
+}
