@@ -15,6 +15,21 @@ import { idToName, leagueId } from '../leagueData';
 
 const maxWeeks = 14;
 
+// From footballguys' league dominator tool
+// Last updated: 11/23/21 6:13 pm
+const teamFuturePPG: Record<string, number> = {
+    Carter: 157.60,
+    Brandon: 151.61,
+    Kevin: 151.55,
+    Holden: 149.35,
+    Chris: 144.24,
+    Jake: 134.68,
+    Jeremy: 131.84,
+    Zach: 130.95,
+    Mike: 123.99,
+    Paul: 111.80,
+};
+
 const computeTeams = async () => {
     const teams = Object.values(idToName).reduce((acc, curr) => {
         acc[curr] = {
@@ -81,6 +96,15 @@ const computeTeams = async () => {
                 teams[awayTeamName].records[homeTeamName]++;
             }
         });
+    });
+
+    // compute total points for tiebreakers by adding projections
+    Object.keys(teams).forEach((ownerName) => {
+        // TODO: move this to team schedule json file generation
+        teams[ownerName].projectedFuturePPG = teamFuturePPG[ownerName];
+        const remainingWeeks = maxWeeks - (currentWeek - 1);
+        teams[ownerName].totalPoints += remainingWeeks * teams[ownerName].projectedFuturePPG;
+        // console.log(ownerName, teams[ownerName].totalPoints);
     });
 
     // console.log(JSON.stringify(teams, null, 4));
