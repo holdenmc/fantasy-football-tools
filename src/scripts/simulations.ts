@@ -1,21 +1,8 @@
 import _ from 'lodash';
-import path from 'path';
-import { table } from 'table';
-import fs from 'fs';
 import type { ITeamData, IGame } from '../interfaces';
 import { calculateSingleGameProbability, determineHead2HeadTiebreaker } from './utils';
 
-// ts-node src/scripts/simulations.ts
-
-// Import file containing team and schedule data
-const currentWeek = 12;
-const dataFilePath = path.join(__dirname, `../data/teamSchedules/2021-${currentWeek}.json`);
-const teamAndScheduleData = JSON.parse(fs.readFileSync(dataFilePath, 'utf8'));
-
-const {
-  teams: originalTeams,
-  schedule: originalSchedule,
-}: { teams: Record<string, ITeamData>; schedule: IGame[]; } = teamAndScheduleData;
+// TODO: add log level functionality for more verbose logging
 
 // default number of simulations to run
 const NUM_SIMULATIONS = 1000000; // 1 mil
@@ -25,7 +12,10 @@ const NUM_SIMULATIONS = 1000000; // 1 mil
  * @param teams
  * @returns
  */
-const determineResults = (teams: Record<string, ITeamData>) => {
+const determineResults = (params: {
+    teams: Record<string, ITeamData>;
+}) => {
+  const { teams } = params;
   const sortFunc = (a: { wins: number; }, b: { wins: number }) => ((a.wins > b.wins) ? -1 : 1);
 
   // just sorted by wins, not tiebreakers
@@ -43,6 +33,7 @@ const determineResults = (teams: Record<string, ITeamData>) => {
       eligibleTeams = Object.values(teams).filter((a) => a.division !== firstSeedDivision).sort(sortFunc);
     }
 
+    // teams tied with the current first eligible team
     const tiedTeams = eligibleTeams.filter((team) => team.wins === eligibleTeams[0].wins);
     let selectedTeam: ITeamData;
 
@@ -85,23 +76,6 @@ const determineResults = (teams: Record<string, ITeamData>) => {
     rankingList.push(selectedTeam);
   }
 
-  const resultsList = [[
-    'Rank',
-    'Name',
-    'Wins',
-    'Losses',
-  ]];
-  rankingList.forEach((entity, index) => {
-    resultsList.push([
-      `${index + 1}`,
-      entity.name,
-      entity.wins.toFixed(2),
-      entity.losses.toFixed(2),
-    ]);
-  });
-
-  // console.log(teams);
-  // console.log(table(resultsList));
   return rankingList;
 };
 
@@ -131,7 +105,7 @@ const runIndividualSimulation = (params: {
     }
   });
 
-  return determineResults(seasonTeams);
+  return determineResults({ teams: seasonTeams });
 };
 
 /**
@@ -140,13 +114,10 @@ const runIndividualSimulation = (params: {
  * @returns [winner, runnerup]
  */
 const simulatePlayoffs = (playoffTeams: ITeamData[]): ITeamData[] => {
-  const oneSeed = playoffTeams[0];
-  const twoSeed = playoffTeams[1];
-  const threeSeed = playoffTeams[2];
-  const fourSeed = playoffTeams[3];
+  const [oneSeed, twoSeed, threeSeed, fourSeed] = playoffTeams;
 
-  let winnerA: ITeamData; let
-    winnerB: ITeamData;
+  let winnerA: ITeamData;
+  let winnerB: ITeamData;
 
   // first semifinal
   const winProbA = calculateSingleGameProbability(oneSeed.projectedFuturePPG, fourSeed.projectedFuturePPG);
@@ -183,20 +154,30 @@ export const runSimulations = (params: {
     schedule: IGame[];
     teams: Record<string, ITeamData>;
     shouldSimulatePlayoffs?: boolean;
-    logResults?: boolean;
     numSimulations?: number;
-}) => {
+}): Record<string, {
+  numSeasons: number;
+  playoffAppearances: number;
+  championships: number;
+  runnerUps: number;
+  rankings: {
+    1: number;
+    2: number;
+    3: number;
+    4: number;
+  };
+}> => {
   const {
     schedule,
     teams,
     shouldSimulatePlayoffs = false,
-    logResults = false,
     numSimulations = NUM_SIMULATIONS,
   } = params;
   const teamsCopy: Record<string, ITeamData> = _.cloneDeep(teams);
 
   const statsToAnalyze = Object.keys(teamsCopy).reduce((acc, curr) => {
     acc[curr] = {
+      numSeasons: numSimulations,
       playoffAppearances: 0,
       championships: 0,
       runnerUps: 0,
@@ -227,57 +208,19 @@ export const runSimulations = (params: {
     }
   }
 
-  // TODO: separate this logging logic from the actual simulation logic
-  const resultsList = [[
-    'Rank',
-    'Name',
-    '% Playoffs',
-    '% 1st',
-    '% 2nd',
-    '% 3rd',
-    '% 4th',
-    ...(shouldSimulatePlayoffs ? [
-      '% Appear in Final',
-      '% Runner Up',
-      '% Champion',
-    ] : []),
-  ]];
+  return statsToAnalyze;
+};
 
-  const sortedTeamList = Object.values(teamsCopy).sort((a, b) => ((
-    statsToAnalyze[a.name].playoffAppearances > statsToAnalyze[b.name].playoffAppearances
-  ) ? -1 : 1));
-
-  const getStringPercentage = (value: number) => ((value / numSimulations) * 100).toFixed(2);
-
-  sortedTeamList.forEach((entity, index) => {
-    const teamStats = statsToAnalyze[entity.name];
-    resultsList.push([
-      `${index + 1}`,
-      entity.name,
-      getStringPercentage(teamStats.playoffAppearances),
-      getStringPercentage(teamStats.rankings['1']),
-      getStringPercentage(teamStats.rankings['2']),
-      getStringPercentage(teamStats.rankings['3']),
-      getStringPercentage(teamStats.rankings['4']),
-      ...(shouldSimulatePlayoffs ? [
-        getStringPercentage((teamStats.championships + teamStats.runnerUps)),
-        getStringPercentage(teamStats.runnerUps),
-        getStringPercentage(teamStats.championships),
-      ] : []),
-    ]);
-  });
-
-  if (logResults) {
-    console.log(table(resultsList));
-  }
-
-  const probabilityMap: Record<string, number> = sortedTeamList.reduce((acc, curr) => {
-    acc[curr.name] = ((statsToAnalyze[curr.name].playoffAppearances / numSimulations) * 100);
+export const generateProbabilityMap = (
+  data: Record<string, {
+    playoffAppearances: number;
+    numSeasons: number;
+  }>,
+): Record<string, number> => {
+  const probabilityMap: Record<string, number> = Object.keys(data).reduce((acc, curr) => {
+    acc[curr] = ((data[curr].playoffAppearances / data[curr].numSeasons) * 100);
     return acc;
   }, {});
 
   return probabilityMap;
 };
-
-// runIndividualSimulation({ schedule, teams });
-runSimulations({ schedule: originalSchedule, teams: originalTeams, logResults: true });

@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { IGame, ITeamData } from '../interfaces';
 import { calculateSingleGameProbability } from './utils';
-import { runSimulations } from './simulations';
+import { generateProbabilityMap, runSimulations } from './simulations';
 
 // An independent script that calculates teams odds of making the playoffs
 // ts-node src/scripts/playoffProbability.ts
@@ -92,7 +92,8 @@ const weeklyGameLeverages = (params: {
       // console.log(JSON.stringify(teamsCopy, null, 2));
 
       // console.log(`Running simulation where ${winner === 'home' ? game.home : game.away} wins ${game.home} vs. ${game.away} in week ${week}`);
-      const newProbabilityMap = runSimulations({ schedule: newSchedule, teams: teamsCopy });
+      const simulationResults = runSimulations({ schedule: newSchedule, teams: teamsCopy });
+      const newProbabilityMap = generateProbabilityMap(simulationResults);
 
       newProbabilityMaps.push(newProbabilityMap);
     });
@@ -124,8 +125,9 @@ const runWeeklyGameLeverages = (params: {
 }) => {
   const { schedule, teams } = params;
   console.log('beginning baseline simulation');
-  const baseProbabilityMap = runSimulations({ schedule, teams });
-  console.log('Done with baseline simulation');
+  const simulationResults = runSimulations({ schedule, teams });
+  const baseProbabilityMap = generateProbabilityMap(simulationResults);
+  console.log('Done with baseline simulation', baseProbabilityMap);
   weeklyGameLeverages({
     week: currentWeek, baseProbabilityMap, schedule, teams,
   });
@@ -139,7 +141,7 @@ const determineEveryPossibleOutcome = (params: {
   const scheduleCopy = _.cloneDeep(schedule);
   const teamsCopy = _.cloneDeep(teams);
   // For just my games
-  const name = 'Jake';
+  const name = 'Holden';
   // determine who makes the playoffs in every individual scenario + the odds of that scenario
 
   // all potential outcomes for my games
@@ -208,6 +210,7 @@ const determineEveryPossibleOutcome = (params: {
     });
 
     const simulationResults = runSimulations({ schedule: newSchedule, teams: newTeams });
+    const probabilityMap = generateProbabilityMap(simulationResults);
     console.log(`Completed outcome set ${index + 1} of ${outcomes.length}`);
 
     data.push([
@@ -215,7 +218,7 @@ const determineEveryPossibleOutcome = (params: {
       outcomeSet.filter((a) => a === 'win').length,
       outcomeSet.filter((a) => a === 'lose').length,
       `${(oddsOfScenario * 100).toFixed(2)}%`,
-      `${simulationResults[name].toFixed(2)}%`,
+      `${probabilityMap[name].toFixed(2)}%`,
     ]);
   });
 
