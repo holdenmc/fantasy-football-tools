@@ -1,6 +1,7 @@
 import request from 'superagent';
 import fs from 'fs';
 import path from 'path';
+import { idToName, leagueId } from '../leagueData';
 
 // ts-node src/scripts/generateTeamSchedule.ts
 
@@ -12,72 +13,21 @@ import path from 'path';
  * generate schedule array { home: string; away: string; week?: number; }[]
  */
 
-// TODO: get this from Fleaflicker API?
-const idToName = {
-    1245039: 'Carter',
-    1259806: 'Kevin',
-    1245697: 'Brandon',
-    1246726: 'Holden',
-    1251378: 'Jake',
-    1247091: 'Chris',
-    1248871: 'Mike',
-    1245860: 'Zach',
-    1247364: 'Jeremy',
-    1244239: 'Paul',
-};
-const leagueId = 183250;
 const maxWeeks = 14;
 
 const computeTeams = async () => {
-    const teams = {
-        Carter: {
-            name: 'Carter',
+    const teams = Object.values(idToName).reduce((acc, curr) => {
+        acc[curr] = {
+            name: curr,
             records: {},
-        },
-        Kevin: {
-            name: 'Kevin',
-            records: {},
-        },
-        Brandon: {
-            name: 'Brandon',
-            records: {},
-        },
-        Holden: {
-            name: 'Holden',
-            records: {},
-        },
-        Jake: {
-            name: 'Jake',
-            records: {},
-        },
-        Chris: {
-            name: 'Chris',
-            records: {},
-        },
-        Mike: {
-            name: 'Mike',
-            records: {},
-        },
-        Zach: {
-            name: 'Zach',
-            records: {},
-        },
-        Jeremy: {
-            name: 'Jeremy',
-            records: {},
-        },
-        Paul: {
-            name: 'Paul',
-            records: {},
-        },
-    };
+        };
+        return acc;
+    }, {});
 
     const leagueStandings: any = await request
         .get('https://www.fleaflicker.com/api/FetchLeagueStandings')
         .query({ leagueId })
         .send();
-
-    // console.log(leagueStandings.body);
 
     const divisions = leagueStandings.body.divisions;
     divisions.forEach((division) => {
@@ -93,12 +43,15 @@ const computeTeams = async () => {
         });
     });
 
+    // get the current week and use that to identify current week in league year
     const currentWeekScoreboard: any = await request
         .get('https://www.fleaflicker.com/api/FetchLeagueScoreboard')
         .query({ leagueId })
         .send();
 
     const currentWeek = currentWeekScoreboard.body.schedulePeriod.value;
+    const isCurrentWeekComplete = currentWeekScoreboard.body.games[0].isFinalScore;
+    // 1 to (current week - 1) in array form (i.e. [1, 2] when current week is 3)
     const schedulingPeriodsToQuery = [...Array(currentWeek).keys()].slice(1);
 
     const requestPromises = schedulingPeriodsToQuery.map((scoring_period) => request
@@ -109,7 +62,8 @@ const computeTeams = async () => {
 
     const results: any[] = await Promise.all(requestPromises);
 
-    results.forEach((scoreboard) => {
+    // If the current week is complete, include it in the records calculations
+    [...(isCurrentWeekComplete ? [currentWeekScoreboard] : []), ...results].forEach((scoreboard) => {
         scoreboard.body.games.forEach((game) => {
             const isHomeWinner = game.homeResult === 'WIN';
             const homeTeamName = idToName[game.home.id];
@@ -136,7 +90,7 @@ const computeTeams = async () => {
 const computeSchedules = async () => {
     const schedule: { home: string; away: string; week: number; }[] = [];
 
-    // note: always get current week's scoreboard
+    // always get current week's scoreboard
     const currentWeekScoreboard: any = await request
         .get('https://www.fleaflicker.com/api/FetchLeagueScoreboard')
         .query({ leagueId })
@@ -144,7 +98,6 @@ const computeSchedules = async () => {
 
     const currentWeek = currentWeekScoreboard.body.schedulePeriod.value;
     const isCurrentWeekComplete = currentWeekScoreboard.body.games[0].isFinalScore;
-    console.log('isCurrentWeekComplete', isCurrentWeekComplete);
 
     // numbers from currentWeek + 1 to end of season
     const schedulingPeriodsToQuery = [...Array(maxWeeks + 1).keys()].slice(currentWeek + 1);
@@ -157,6 +110,7 @@ const computeSchedules = async () => {
 
     const results = await Promise.all(requestPromises);
 
+    // we need to include the current week's games if it's not complete
     [...(isCurrentWeekComplete ? [] : [currentWeekScoreboard]), ...results].forEach((scoreboard) => {
         scoreboard.body.games.forEach((game) => {
             schedule.push({ home: idToName[game.home.id], away: idToName[game.away.id], week: scoreboard.body.schedulePeriod.value });

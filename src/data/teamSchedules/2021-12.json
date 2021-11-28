@@ -1,5 +1,16 @@
 {
   "teams": {
+    "Paul": {
+      "name": "Paul",
+      "records": {
+        "Jake": 1,
+        "Brandon": 1
+      },
+      "wins": 2,
+      "losses": 9,
+      "division": "Dan Dan Noodles",
+      "totalPoints": 1092.2
+    },
     "Carter": {
       "name": "Carter",
       "records": {
@@ -17,22 +28,6 @@
       "division": "3-Cup Chickens",
       "totalPoints": 1616.12
     },
-    "Kevin": {
-      "name": "Kevin",
-      "records": {
-        "Jeremy": 2,
-        "Zach": 1,
-        "Chris": 1,
-        "Paul": 1,
-        "Brandon": 1,
-        "Mike": 1,
-        "Carter": 1
-      },
-      "wins": 8,
-      "losses": 3,
-      "division": "3-Cup Chickens",
-      "totalPoints": 1493.1
-    },
     "Brandon": {
       "name": "Brandon",
       "records": {
@@ -49,6 +44,18 @@
       "division": "3-Cup Chickens",
       "totalPoints": 1531.2
     },
+    "Zach": {
+      "name": "Zach",
+      "records": {
+        "Jeremy": 2,
+        "Paul": 1,
+        "Chris": 1
+      },
+      "wins": 4,
+      "losses": 7,
+      "division": "3-Cup Chickens",
+      "totalPoints": 1268.5
+    },
     "Holden": {
       "name": "Holden",
       "records": {
@@ -62,6 +69,42 @@
       "losses": 5,
       "division": "Dan Dan Noodles",
       "totalPoints": 1467.1
+    },
+    "Chris": {
+      "name": "Chris",
+      "records": {
+        "Paul": 1,
+        "Mike": 2,
+        "Kevin": 1,
+        "Jake": 1
+      },
+      "wins": 5,
+      "losses": 6,
+      "division": "Dan Dan Noodles",
+      "totalPoints": 1529.52
+    },
+    "Jeremy": {
+      "name": "Jeremy",
+      "records": {
+        "Paul": 1,
+        "Chris": 1,
+        "Mike": 1
+      },
+      "wins": 3,
+      "losses": 8,
+      "division": "3-Cup Chickens",
+      "totalPoints": 1347.84
+    },
+    "Mike": {
+      "name": "Mike",
+      "records": {
+        "Paul": 1,
+        "Holden": 1
+      },
+      "wins": 2,
+      "losses": 9,
+      "division": "Dan Dan Noodles",
+      "totalPoints": 1108.34
     },
     "Jake": {
       "name": "Jake",
@@ -77,64 +120,21 @@
       "division": "Dan Dan Noodles",
       "totalPoints": 1450.64
     },
-    "Chris": {
-      "name": "Chris",
-      "records": {
-        "Paul": 1,
-        "Mike": 2,
-        "Kevin": 1,
-        "Jake": 1
-      },
-      "wins": 5,
-      "losses": 6,
-      "division": "Dan Dan Noodles",
-      "totalPoints": 1529.52
-    },
-    "Mike": {
-      "name": "Mike",
-      "records": {
-        "Paul": 1,
-        "Holden": 1
-      },
-      "wins": 2,
-      "losses": 9,
-      "division": "Dan Dan Noodles",
-      "totalPoints": 1108.34
-    },
-    "Zach": {
-      "name": "Zach",
+    "Kevin": {
+      "name": "Kevin",
       "records": {
         "Jeremy": 2,
-        "Paul": 1,
-        "Chris": 1
-      },
-      "wins": 4,
-      "losses": 7,
-      "division": "3-Cup Chickens",
-      "totalPoints": 1268.5
-    },
-    "Jeremy": {
-      "name": "Jeremy",
-      "records": {
-        "Paul": 1,
+        "Zach": 1,
         "Chris": 1,
-        "Mike": 1
+        "Paul": 1,
+        "Brandon": 1,
+        "Mike": 1,
+        "Carter": 1
       },
-      "wins": 3,
-      "losses": 8,
+      "wins": 8,
+      "losses": 3,
       "division": "3-Cup Chickens",
-      "totalPoints": 1347.84
-    },
-    "Paul": {
-      "name": "Paul",
-      "records": {
-        "Jake": 1,
-        "Brandon": 1
-      },
-      "wins": 2,
-      "losses": 9,
-      "division": "Dan Dan Noodles",
-      "totalPoints": 1092.2
+      "totalPoints": 1493.1
     }
   },
   "schedule": [
