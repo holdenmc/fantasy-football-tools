@@ -86,14 +86,8 @@ const computeTeams = async () => {
             const awayTeamName = idToName[game.away.id];
 
             if (isHomeWinner) {
-                if (!teams[homeTeamName].records[awayTeamName]) {
-                    teams[homeTeamName].records[awayTeamName] = 0;
-                }
                 teams[homeTeamName].records[awayTeamName]++;
             } else {
-                if (!teams[awayTeamName].records[homeTeamName]) {
-                    teams[awayTeamName].records[homeTeamName] = 0;
-                }
                 teams[awayTeamName].records[homeTeamName]++;
             }
         });
