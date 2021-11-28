@@ -2,7 +2,26 @@ import _ from 'lodash';
 import type { ITeamData, IGame } from '../interfaces';
 import { calculateSingleGameProbability, determineHead2HeadTiebreaker } from './utils';
 
+// Script for simulating one or many seasons
+
 // TODO: add log level functionality for more verbose logging
+/**
+ * Flaws in this analysis
+ * - Relies on projected future PPG from FBG's projection system
+ * - Assumes season-end total ppg = current total + games remaining * future ppg
+ *   but that doesn't take into account wins/losses. i.e. if I win some game as an underdog, I probably overperformed my ppg
+ * - individual game win probability model might be overfit, hard to say
+ * - assumes future ppg is the same every week
+ */
+
+/**
+ * Future improvements
+ * - Determine highest leverage games for a given team owner
+ *    - for each game on my schedule, calculate win probability removing it from simulation and setting result and compare
+ *
+ * - Add ability to highlight a specific result - like when does Jeremy ever make the playoffs
+ *    - could persist simulation results in a db and make them queryable
+ */
 
 // default number of simulations to run
 const NUM_SIMULATIONS = 1000000; // 1 mil
