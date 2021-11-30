@@ -27,9 +27,10 @@ const weeklyGameLeverages = (params: {
     baseProbabilityMap: Record<string, number>;
     schedule: IGame[];
     teams: Record<string, ITeamData>;
+    includeGameProbability?: boolean; // include a second header row with probability of each game
 }) => {
   const {
-    week, baseProbabilityMap, schedule, teams,
+    week, baseProbabilityMap, schedule, teams, includeGameProbability = false,
   } = params;
 
   const gamesToAnalyze = schedule.filter((game) => game.week === week);
@@ -37,10 +38,11 @@ const weeklyGameLeverages = (params: {
   const resultsList = [[
     'Name',
     'Base Probability',
-  ], [
-    '',
-    '',
   ]];
+
+  if (includeGameProbability) {
+    resultsList.push(['', '']);
+  }
 
   Object.keys(baseProbabilityMap).forEach((name) => {
     resultsList.push([
@@ -82,14 +84,20 @@ const weeklyGameLeverages = (params: {
 
     resultsList[0].push(`${game.home} win`, `${game.away} win`);
 
-    const homeWinProbability = calculateSingleGameProbability(
-      teams[game.home].projectedFuturePPG,
-      teams[game.away].projectedFuturePPG,
-    );
-    resultsList[1].push(`${(homeWinProbability * 100).toFixed(2)}%`, `${((1 - homeWinProbability) * 100).toFixed(2)}%`);
+    if (includeGameProbability) {
+      const homeWinProbability = calculateSingleGameProbability(
+        teams[game.home].projectedFuturePPG,
+        teams[game.away].projectedFuturePPG,
+      );
+      resultsList[1].push(
+        `${(homeWinProbability * 100).toFixed(2)}%`,
+        `${((1 - homeWinProbability) * 100).toFixed(2)}%`,
+      );
+    }
 
     Object.keys(baseProbabilityMap).forEach((name, index) => {
-      resultsList[index + 2].push(
+      const resultsIndex = includeGameProbability ? index + 2 : index + 1;
+      resultsList[resultsIndex].push(
         `${(newProbabilityMaps[0][name] - baseProbabilityMap[name]).toFixed(2)}%`,
         `${(newProbabilityMaps[1][name] - baseProbabilityMap[name]).toFixed(2)}%`,
       );

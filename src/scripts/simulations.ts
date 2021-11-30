@@ -236,10 +236,12 @@ export const generateProbabilityMap = (
     numSeasons: number;
   }>,
 ): Record<string, number> => {
-  const probabilityMap: Record<string, number> = Object.keys(data).reduce((acc, curr) => {
-    acc[curr] = ((data[curr].playoffAppearances / data[curr].numSeasons) * 100);
-    return acc;
-  }, {});
+  const probabilityMap: Record<string, number> = Object.keys(data)
+    .sort((a, b) => (data[a].playoffAppearances > data[b].playoffAppearances ? -1 : 1))
+    .reduce((acc, curr) => {
+      acc[curr] = ((data[curr].playoffAppearances / data[curr].numSeasons) * 100);
+      return acc;
+    }, {});
 
   return probabilityMap;
 };
