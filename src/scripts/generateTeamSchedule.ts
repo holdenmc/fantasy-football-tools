@@ -6,6 +6,7 @@ import { idToName, leagueId } from '../leagueData';
 // ts-node src/scripts/generateTeamSchedule.ts
 
 /**
+ * Calls fleaflicker api to
  * generate team map - Record<string, ITeamData>
  * generate schedule array IGame[]
  * output them to a file in data/teamSchedules
@@ -16,18 +17,18 @@ import { idToName, leagueId } from '../leagueData';
 const maxWeeks = 14;
 
 // From footballguys' league dominator tool
-// Last updated: 11/23/21 6:13 pm
+// Last updated: 11/30/21 12:45 pm
 const teamFuturePPG: Record<string, number> = {
-  Carter: 157.60,
-  Brandon: 151.61,
-  Kevin: 151.55,
-  Holden: 149.35,
-  Chris: 144.24,
-  Jake: 134.68,
-  Jeremy: 131.84,
-  Zach: 130.95,
-  Mike: 123.99,
-  Paul: 111.80,
+  Carter: 157.37,
+  Brandon: 151.17,
+  Kevin: 149.87,
+  Holden: 148.36,
+  Chris: 138.89,
+  Jake: 131.68,
+  Zach: 128.33,
+  Jeremy: 124.09,
+  Mike: 123.98,
+  Paul: 113.61,
 };
 
 const computeTeams = async () => {

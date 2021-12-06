@@ -13,9 +13,11 @@ import { generateProbabilityMap, runSimulations } from './simulations';
 // TODO: put logs behind a verbose/silent mode flag
 
 // Import file containing team and schedule data
-const currentWeek = 12;
+const currentWeek = 13;
 const dataFilePath = path.join(__dirname, `../data/teamSchedules/2021-${currentWeek}.json`);
 const teamAndScheduleData = JSON.parse(fs.readFileSync(dataFilePath, 'utf8'));
+
+const numSimulations = 2000000; // 2 mil
 
 const {
   teams: originalTeams,
@@ -28,16 +30,22 @@ const weeklyGameLeverages = (params: {
     schedule: IGame[];
     teams: Record<string, ITeamData>;
     includeGameProbability?: boolean; // include a second header row with probability of each game
+    userFilter?: string[]; // names to include in output
+    scheduleFilter?: string[]; // include all the games remaining for this set of users
 }) => {
   const {
-    week, baseProbabilityMap, schedule, teams, includeGameProbability = false,
+    week, baseProbabilityMap, schedule, teams, includeGameProbability = false, userFilter, scheduleFilter,
   } = params;
 
-  const gamesToAnalyze = schedule.filter((game) => game.week === week);
+  const includeInOutput = (name) => !userFilter || userFilter.includes(name);
+
+  const gamesToAnalyze = scheduleFilter
+    ? schedule.filter((game) => scheduleFilter.includes(game.home) || scheduleFilter.includes(game.away))
+    : schedule.filter((game) => game.week === week);
 
   const resultsList = [[
     'Name',
-    'Base Probability',
+    'Baseline',
   ]];
 
   if (includeGameProbability) {
@@ -45,11 +53,15 @@ const weeklyGameLeverages = (params: {
   }
 
   Object.keys(baseProbabilityMap).forEach((name) => {
-    resultsList.push([
-      name,
-      baseProbabilityMap[name].toFixed(2),
-    ]);
+    if (includeInOutput(name)) {
+      resultsList.push([
+        name,
+        baseProbabilityMap[name].toFixed(2),
+      ]);
+    }
   });
+
+  // console.log(resultsList);
 
   gamesToAnalyze.forEach((game) => {
     // new schedule without the game in question
@@ -76,13 +88,13 @@ const weeklyGameLeverages = (params: {
       // console.log(JSON.stringify(teamsCopy, null, 2));
 
       // console.log(`Running simulation where ${winner === 'home' ? game.home : game.away} wins ${game.home} vs. ${game.away} in week ${week}`);
-      const simulationResults = runSimulations({ schedule: newSchedule, teams: teamsCopy });
+      const simulationResults = runSimulations({ schedule: newSchedule, teams: teamsCopy, numSimulations });
       const newProbabilityMap = generateProbabilityMap(simulationResults);
 
       newProbabilityMaps.push(newProbabilityMap);
     });
 
-    resultsList[0].push(`${game.home} win`, `${game.away} win`);
+    resultsList[0].push(`${game.home} W (${game.week})`, `${game.away} W (${game.week})`);
 
     if (includeGameProbability) {
       const homeWinProbability = calculateSingleGameProbability(
@@ -95,12 +107,16 @@ const weeklyGameLeverages = (params: {
       );
     }
 
-    Object.keys(baseProbabilityMap).forEach((name, index) => {
-      const resultsIndex = includeGameProbability ? index + 2 : index + 1;
-      resultsList[resultsIndex].push(
-        `${(newProbabilityMaps[0][name] - baseProbabilityMap[name]).toFixed(2)}%`,
-        `${(newProbabilityMaps[1][name] - baseProbabilityMap[name]).toFixed(2)}%`,
-      );
+    let index = 0;
+    Object.keys(baseProbabilityMap).forEach((name) => {
+      if (includeInOutput(name)) {
+        const resultsIndex = includeGameProbability ? index + 2 : index + 1;
+        resultsList[resultsIndex].push(
+          `${(newProbabilityMaps[0][name] - baseProbabilityMap[name]).toFixed(2)}%`,
+          `${(newProbabilityMaps[1][name] - baseProbabilityMap[name]).toFixed(2)}%`,
+        );
+        index++;
+      }
     });
     console.log(`Done with simulation of ${game.home} vs. ${game.away} in week ${week}`);
   });
@@ -115,11 +131,16 @@ const runWeeklyGameLeverages = (params: {
 }) => {
   const { schedule, teams } = params;
   console.log('beginning baseline simulation');
-  const simulationResults = runSimulations({ schedule, teams });
+  const simulationResults = runSimulations({ schedule, teams, numSimulations });
   const baseProbabilityMap = generateProbabilityMap(simulationResults);
   console.log('Done with baseline simulation', baseProbabilityMap);
   weeklyGameLeverages({
-    week: currentWeek, baseProbabilityMap, schedule, teams,
+    week: currentWeek,
+    baseProbabilityMap,
+    schedule,
+    teams,
+    userFilter: ['Holden', 'Kevin', 'Jake'],
+    scheduleFilter: ['Holden', 'Kevin', 'Jake'],
   });
 };
 

@@ -12,7 +12,7 @@ import { calculateSingleGameProbability } from './utils';
 // for each possible set of outcomes for their remaining schedule
 
 // Import file containing team and schedule data
-const currentWeek = 12;
+const currentWeek = 13;
 const dataFilePath = path.join(__dirname, `../data/teamSchedules/2021-${currentWeek}.json`);
 const teamAndScheduleData = JSON.parse(fs.readFileSync(dataFilePath, 'utf8'));
 
