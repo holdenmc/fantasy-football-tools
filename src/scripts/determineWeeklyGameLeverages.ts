@@ -13,7 +13,7 @@ import { generateProbabilityMap, runSimulations } from './simulations';
 // TODO: put logs behind a verbose/silent mode flag
 
 // Import file containing team and schedule data
-const currentWeek = 13;
+const currentWeek = 14;
 const dataFilePath = path.join(__dirname, `../data/teamSchedules/2021-${currentWeek}.json`);
 const teamAndScheduleData = JSON.parse(fs.readFileSync(dataFilePath, 'utf8'));
 

@@ -16,19 +16,20 @@ import { idToName, leagueId } from '../leagueData';
 
 const maxWeeks = 14;
 
-// From footballguys' league dominator tool
+// Usually from footballguys' league dominator tool
 // Last updated: 11/30/21 12:45 pm
+// for final week, used fleaflicker's optimum projection for each team
 const teamFuturePPG: Record<string, number> = {
-  Carter: 157.37,
-  Brandon: 151.17,
-  Kevin: 149.87,
-  Holden: 148.36,
-  Chris: 138.89,
-  Jake: 131.68,
-  Zach: 128.33,
-  Jeremy: 124.09,
-  Mike: 123.98,
-  Paul: 113.61,
+  Carter: 154.51,
+  Kevin: 148.33,
+  Brandon: 147.56,
+  Holden: 143.94,
+  Chris: 121.55,
+  Jake: 110.96,
+  Mike: 109.56,
+  Zach: 107.87,
+  Paul: 97.82,
+  Jeremy: 93.37,
 };
 
 const computeTeams = async () => {
@@ -97,9 +98,8 @@ const computeTeams = async () => {
 
   // compute total points for tiebreakers by adding projections
   Object.keys(teams).forEach((ownerName) => {
-    // TODO: move this to team schedule json file generation
     teams[ownerName].projectedFuturePPG = teamFuturePPG[ownerName];
-    const remainingWeeks = maxWeeks - (currentWeek - 1);
+    const remainingWeeks = maxWeeks - (isCurrentWeekComplete ? currentWeek : currentWeek - 1);
     teams[ownerName].totalPoints += remainingWeeks * teams[ownerName].projectedFuturePPG;
     // console.log(ownerName, teams[ownerName].totalPoints);
   });
