@@ -15,21 +15,21 @@ import { idToName, leagueId } from '../leagueData';
 // TODO: extract fleaflicker API code to a helper file
 
 const maxWeeks = 14;
+const currentYear = 2022;
 
-// Usually from footballguys' league dominator tool
-// Last updated: 11/30/21 12:45 pm
-// for final week, used fleaflicker's optimum projection for each team
+// Usually from footballguys' free league dominator tool: https://league.footballguys.com/#fbgroster/forecast/points
+// Last updated: 11/8/22 10:25 pm
 const teamFuturePPG: Record<string, number> = {
-  Carter: 154.51,
-  Kevin: 148.33,
-  Brandon: 147.56,
-  Holden: 143.94,
-  Chris: 121.55,
-  Jake: 110.96,
-  Mike: 109.56,
-  Zach: 107.87,
-  Paul: 97.82,
-  Jeremy: 93.37,
+  Chris: 152.67,
+  Zach: 147.65,
+  Kevin: 144.91,
+  Carter: 143.96,
+  Brandon: 137.56,
+  Jeremy: 133.23,
+  Jake: 126.45,
+  Mike: 123.26,
+  Paul: 119.80,
+  Holden: 100.72,
 };
 
 const computeTeams = async () => {
@@ -151,7 +151,7 @@ const computeAndWriteToFile = async () => {
     schedule: await computeSchedules(),
   };
   const currentWeek = fileData.schedule[0].week;
-  const filePath = path.join(__dirname, `../data/teamSchedules/2021-${currentWeek}.json`);
+  const filePath = path.join(__dirname, `../data/teamSchedules/${currentYear}-${currentWeek}.json`);
   fs.writeFileSync(filePath, JSON.stringify(fileData, null, 2), 'utf8');
 };
 
