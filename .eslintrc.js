@@ -19,7 +19,7 @@ module.exports = {
   ],
   rules: {
     'no-console': 'off',
-    'max-len': ['error', { ignoreComments: true, code: 120 }],
+    'max-len': ['error', { ignoreComments: true, code: 200 }],
     'import/extensions': [
       'error',
       'ignorePackages',

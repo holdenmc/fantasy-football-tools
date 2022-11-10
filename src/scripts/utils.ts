@@ -5,11 +5,23 @@ import { ITeamData } from '../interfaces';
 // Within a percentage point of 6 matchups I checked there, but it may be overfit to a certain range
 const PYTHAGOREAN_CONSTANT = 4.6;
 
+const probabilityCache = {};
+
 export const calculateSingleGameProbability = (
   pointsFor: number,
   pointsAgainst: number,
-): number => (pointsFor ** PYTHAGOREAN_CONSTANT)
-    / (pointsFor ** PYTHAGOREAN_CONSTANT + pointsAgainst ** PYTHAGOREAN_CONSTANT);
+): number => {
+  const cacheKey = (pointsFor > pointsAgainst) ? `${pointsFor}^${pointsAgainst}` : `${pointsAgainst}^${pointsFor}`;
+
+  if (probabilityCache[cacheKey]) {
+    return probabilityCache[cacheKey];
+  }
+
+  const probability = (pointsFor ** PYTHAGOREAN_CONSTANT) / (pointsFor ** PYTHAGOREAN_CONSTANT + pointsAgainst ** PYTHAGOREAN_CONSTANT);
+  probabilityCache[cacheKey] = probability;
+
+  return probability;
+};
 
 /**
  * Given two teams, determine who wins a h2h tiebreaker, returns null if neither

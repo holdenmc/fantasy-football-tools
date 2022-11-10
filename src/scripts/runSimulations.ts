@@ -9,8 +9,9 @@ import { runSimulations } from './simulations';
 // simulate the season and log the results in a table
 
 // Import file containing team and schedule data
-const currentWeek = 14;
-const dataFilePath = path.join(__dirname, `../data/teamSchedules/2021-${currentWeek}.json`);
+const currentYear = 2022;
+const currentWeek = 10;
+const dataFilePath = path.join(__dirname, `../data/teamSchedules/${currentYear}-${currentWeek}.json`);
 const teamAndScheduleData = JSON.parse(fs.readFileSync(dataFilePath, 'utf8'));
 
 const {
@@ -78,5 +79,5 @@ const simulateAndLogResults = (params: {
 simulateAndLogResults({
   schedule: originalSchedule,
   teams: originalTeams,
-  shouldSimulatePlayoffs: true,
+  shouldSimulatePlayoffs: false,
 });

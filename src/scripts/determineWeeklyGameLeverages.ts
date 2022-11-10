@@ -13,8 +13,9 @@ import { generateProbabilityMap, runSimulations } from './simulations';
 // TODO: put logs behind a verbose/silent mode flag
 
 // Import file containing team and schedule data
-const currentWeek = 14;
-const dataFilePath = path.join(__dirname, `../data/teamSchedules/2021-${currentWeek}.json`);
+const currentYear = 2022;
+const currentWeek = 10;
+const dataFilePath = path.join(__dirname, `../data/teamSchedules/${currentYear}-${currentWeek}.json`);
 const teamAndScheduleData = JSON.parse(fs.readFileSync(dataFilePath, 'utf8'));
 
 const numSimulations = 2000000; // 2 mil
@@ -139,8 +140,8 @@ const runWeeklyGameLeverages = (params: {
     baseProbabilityMap,
     schedule,
     teams,
-    userFilter: ['Holden', 'Kevin', 'Jake'],
-    scheduleFilter: ['Holden', 'Kevin', 'Jake'],
+    // userFilter: ['Holden', 'Kevin', 'Jake'],
+    // scheduleFilter: ['Holden', 'Kevin', 'Jake'],
   });
 };
 
