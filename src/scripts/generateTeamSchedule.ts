@@ -18,18 +18,18 @@ const maxWeeks = 14;
 const currentYear = 2022;
 
 // Usually from footballguys' free league dominator tool: https://league.footballguys.com/#fbgroster/forecast/points
-// Last updated: 11/8/22 10:25 pm
+// Last updated: 11/16/22 9:32 pm
 const teamFuturePPG: Record<string, number> = {
-  Chris: 152.67,
-  Zach: 147.65,
-  Kevin: 144.91,
-  Carter: 143.96,
-  Brandon: 137.56,
-  Jeremy: 133.23,
-  Jake: 126.45,
-  Mike: 123.26,
-  Paul: 119.80,
-  Holden: 100.72,
+  Chris: 152.70,
+  Zach: 147.85,
+  Kevin: 147.12,
+  Brandon: 144.28,
+  Carter: 142.71,
+  Jeremy: 131.63,
+  Jake: 127.68,
+  Mike: 125.59,
+  Paul: 116.86,
+  Holden: 104.36,
 };
 
 const computeTeams = async () => {

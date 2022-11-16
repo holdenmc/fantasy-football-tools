@@ -14,11 +14,11 @@ import { generateProbabilityMap, runSimulations } from './simulations';
 
 // Import file containing team and schedule data
 const currentYear = 2022;
-const currentWeek = 10;
+const currentWeek = 11;
 const dataFilePath = path.join(__dirname, `../data/teamSchedules/${currentYear}-${currentWeek}.json`);
 const teamAndScheduleData = JSON.parse(fs.readFileSync(dataFilePath, 'utf8'));
 
-const numSimulations = 2000000; // 2 mil
+const numSimulations = 1000000; // 1 mil
 
 const {
   teams: originalTeams,
@@ -132,7 +132,10 @@ const runWeeklyGameLeverages = (params: {
 }) => {
   const { schedule, teams } = params;
   console.log('beginning baseline simulation');
-  const simulationResults = runSimulations({ schedule, teams, numSimulations });
+  // TODO: pull base results from file system
+  // const simulationResults = runSimulations({ schedule, teams, numSimulations });
+  const simulationResultsPath = path.join(__dirname, `../data/simulationResults/${currentYear}-${currentWeek}.json`);
+  const simulationResults = JSON.parse(fs.readFileSync(simulationResultsPath, 'utf8'));
   const baseProbabilityMap = generateProbabilityMap(simulationResults);
   console.log('Done with baseline simulation', baseProbabilityMap);
   weeklyGameLeverages({
