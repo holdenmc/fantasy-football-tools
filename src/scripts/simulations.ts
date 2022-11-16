@@ -21,6 +21,8 @@ import { calculateSingleGameProbability, determineHead2HeadTiebreaker } from './
  *
  * - Add ability to highlight a specific result - like when does Jeremy ever make the playoffs
  *    - could persist simulation results in a db and make them queryable
+ *
+ * - more performance improvements. this is still all super slow...
  */
 
 // default number of simulations to run
