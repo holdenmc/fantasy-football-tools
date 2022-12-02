@@ -14,11 +14,12 @@ import { generateProbabilityMap, runSimulations } from './simulations';
 
 // Import file containing team and schedule data
 const currentYear = 2022;
-const currentWeek = 11;
+const currentWeek = 12;
 const dataFilePath = path.join(__dirname, `../data/teamSchedules/${currentYear}-${currentWeek}.json`);
 const teamAndScheduleData = JSON.parse(fs.readFileSync(dataFilePath, 'utf8'));
 
 const numSimulations = 1000000; // 1 mil
+const includeWeekInHeader = false;
 
 const {
   teams: originalTeams,
@@ -95,7 +96,7 @@ const weeklyGameLeverages = (params: {
       newProbabilityMaps.push(newProbabilityMap);
     });
 
-    resultsList[0].push(`${game.home} W (${game.week})`, `${game.away} W (${game.week})`);
+    resultsList[0].push(`${game.home}${includeWeekInHeader ? ` W (${game.week})` : ''}`, `${game.away}${includeWeekInHeader ? ` W (${game.week})` : ''}`);
 
     if (includeGameProbability) {
       const homeWinProbability = calculateSingleGameProbability(
