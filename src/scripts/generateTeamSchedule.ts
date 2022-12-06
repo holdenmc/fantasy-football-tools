@@ -14,22 +14,22 @@ import { idToName, leagueId } from '../leagueData';
 
 // TODO: extract fleaflicker API code to a helper file
 
-const maxWeeks = 14;
+const maxWeeks = 15;
 const currentYear = 2022;
 
 // Usually from footballguys' free league dominator tool: https://league.footballguys.com/#fbgroster/forecast/points
-// Last updated: 11/16/22 9:32 pm
+// Last updated: 12/1/22 7:30 pm
 const teamFuturePPG: Record<string, number> = {
-  Chris: 152.70,
-  Zach: 147.85,
-  Kevin: 147.12,
-  Brandon: 144.28,
-  Carter: 142.71,
-  Jeremy: 131.63,
-  Jake: 127.68,
-  Mike: 125.59,
-  Paul: 116.86,
-  Holden: 104.36,
+  Chris: 159.85,
+  Kevin: 148.44,
+  Zach: 148.06,
+  Brandon: 143.50,
+  Carter: 132.33,
+  Mike: 126.72,
+  Jeremy: 126.33,
+  Jake: 124.05,
+  Paul: 113.94,
+  Holden: 107.89,
 };
 
 const computeTeams = async () => {

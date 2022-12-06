@@ -1,0 +1,122 @@
+{
+  "Paul": {
+    "numSeasons": 1000000,
+    "playoffAppearances": 0,
+    "championships": 0,
+    "runnerUps": 0,
+    "rankings": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0
+    }
+  },
+  "Carter": {
+    "numSeasons": 1000000,
+    "playoffAppearances": 957532,
+    "championships": 0,
+    "runnerUps": 0,
+    "rankings": {
+      "1": 4036,
+      "2": 56634,
+      "3": 75422,
+      "4": 821440
+    }
+  },
+  "Brandon": {
+    "numSeasons": 1000000,
+    "playoffAppearances": 1000000,
+    "championships": 0,
+    "runnerUps": 0,
+    "rankings": {
+      "1": 170951,
+      "2": 768379,
+      "3": 7225,
+      "4": 53445
+    }
+  },
+  "Zach": {
+    "numSeasons": 1000000,
+    "playoffAppearances": 42468,
+    "championships": 0,
+    "runnerUps": 0,
+    "rankings": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 42468
+    }
+  },
+  "Holden": {
+    "numSeasons": 1000000,
+    "playoffAppearances": 0,
+    "championships": 0,
+    "runnerUps": 0,
+    "rankings": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0
+    }
+  },
+  "Chris": {
+    "numSeasons": 1000000,
+    "playoffAppearances": 1000000,
+    "championships": 0,
+    "runnerUps": 0,
+    "rankings": {
+      "1": 511481,
+      "2": 96579,
+      "3": 375190,
+      "4": 16750
+    }
+  },
+  "Jeremy": {
+    "numSeasons": 1000000,
+    "playoffAppearances": 0,
+    "championships": 0,
+    "runnerUps": 0,
+    "rankings": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0
+    }
+  },
+  "Mike": {
+    "numSeasons": 1000000,
+    "playoffAppearances": 0,
+    "championships": 0,
+    "runnerUps": 0,
+    "rankings": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0
+    }
+  },
+  "Jake": {
+    "numSeasons": 1000000,
+    "playoffAppearances": 0,
+    "championships": 0,
+    "runnerUps": 0,
+    "rankings": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0
+    }
+  },
+  "Kevin": {
+    "numSeasons": 1000000,
+    "playoffAppearances": 1000000,
+    "championships": 0,
+    "runnerUps": 0,
+    "rankings": {
+      "1": 313532,
+      "2": 78408,
+      "3": 542163,
+      "4": 65897
+    }
+  }
+}

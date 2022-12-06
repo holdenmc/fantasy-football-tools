@@ -10,7 +10,7 @@ import { runSimulations } from './simulations';
 
 // Import file containing team and schedule data
 const currentYear = 2022;
-const currentWeek = 12;
+const currentWeek = 13;
 const previousWeek = currentWeek - 1;
 const dataFilePath = path.join(__dirname, `../data/teamSchedules/${currentYear}-${currentWeek}.json`);
 const teamAndScheduleData = JSON.parse(fs.readFileSync(dataFilePath, 'utf8'));
