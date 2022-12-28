@@ -16,6 +16,7 @@ import { idToName, leagueId } from '../leagueData';
 
 const maxWeeks = 15;
 const currentYear = 2022;
+const version = 1;
 
 // Usually from footballguys' free league dominator tool: https://league.footballguys.com/#fbgroster/forecast/points
 // Last updated: 12/1/22 7:30 pm
@@ -26,7 +27,7 @@ const teamFuturePPG: Record<string, number> = {
   Brandon: 143.50,
   Carter: 132.33,
   Mike: 126.72,
-  Jeremy: 126.33,
+  Jeremy: 250,
   Jake: 124.05,
   Paul: 113.94,
   Holden: 107.89,
@@ -151,7 +152,7 @@ const computeAndWriteToFile = async () => {
     schedule: await computeSchedules(),
   };
   const currentWeek = fileData.schedule[0].week;
-  const filePath = path.join(__dirname, `../data/teamSchedules/${currentYear}-${currentWeek}.json`);
+  const filePath = path.join(__dirname, `../data/teamSchedules/${currentYear}-${currentWeek}-${version}.json`);
   fs.writeFileSync(filePath, JSON.stringify(fileData, null, 2), 'utf8');
 };
 
