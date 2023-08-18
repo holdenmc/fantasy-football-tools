@@ -15,7 +15,7 @@ import { idToName, leagueId } from '../leagueData';
 // TODO: extract fleaflicker API code to a helper file
 
 const maxWeeks = 15;
-const currentYear = 2022;
+const currentYear = 2023;
 const version = 1;
 
 // Usually from footballguys' free league dominator tool: https://league.footballguys.com/#fbgroster/forecast/points

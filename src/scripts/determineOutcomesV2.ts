@@ -11,8 +11,9 @@ import { calculateSingleGameProbability } from './utils';
 // for a set remaining games, determine who makes the playoff in every scenario
 
 // Import file containing team and schedule data
-const currentWeek = 14;
-const dataFilePath = path.join(__dirname, `../data/teamSchedules/2021-${currentWeek}.json`);
+const currentWeek = 1;
+const currentYear = 2023;
+const dataFilePath = path.join(__dirname, `../data/teamSchedules/${currentYear}-${currentWeek}.json`);
 const teamAndScheduleData = JSON.parse(fs.readFileSync(dataFilePath, 'utf8'));
 
 const {

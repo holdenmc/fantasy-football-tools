@@ -9,8 +9,8 @@ import { runSimulations } from './simulations';
 // simulate the season, write the results to the file system and log the results in a table
 
 // Import file containing team and schedule data
-const currentYear = 2022;
-const currentWeek = 14;
+const currentYear = 2023;
+const currentWeek = 1;
 const currentWeekVersion = 1;
 const previousWeek = currentWeek - 1;
 const dataFilePath = path.join(__dirname, `../data/teamSchedules/${currentYear}-${currentWeek}-${currentWeekVersion}.json`);
