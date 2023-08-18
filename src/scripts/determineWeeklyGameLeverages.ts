@@ -3,7 +3,9 @@ import _ from 'lodash';
 import fs from 'fs';
 import path from 'path';
 import { IGame, ITeamData } from '../interfaces';
-import { calculateSingleGameProbability } from './utils';
+import {
+  calculateSingleGameProbability, currentWeek, currentYear, getTeamAndScheduleData,
+} from './utils';
 import { generateProbabilityMap, runSimulations } from './simulations';
 
 // ts-node src/scripts/determineWeeklyGameLeverages.ts
@@ -13,18 +15,10 @@ import { generateProbabilityMap, runSimulations } from './simulations';
 // TODO: put logs behind a verbose/silent mode flag
 
 // Import file containing team and schedule data
-const currentYear = 2023;
-const currentWeek = 1;
-const dataFilePath = path.join(__dirname, `../data/teamSchedules/${currentYear}-${currentWeek}.json`);
-const teamAndScheduleData = JSON.parse(fs.readFileSync(dataFilePath, 'utf8'));
+const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData();
 
 const numSimulations = 1000000; // 1 mil
 const includeWeekInHeader = false;
-
-const {
-  teams: originalTeams,
-  schedule: originalSchedule,
-}: { teams: Record<string, ITeamData>; schedule: IGame[]; } = teamAndScheduleData;
 
 const weeklyGameLeverages = (params: {
     week: number;

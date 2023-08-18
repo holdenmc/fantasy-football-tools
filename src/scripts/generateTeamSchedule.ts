@@ -16,7 +16,7 @@ import { idToName, leagueId } from '../leagueData';
 
 const maxWeeks = 15;
 const currentYear = 2023;
-const version = 1;
+const version = 0;
 
 // Usually from footballguys' free league dominator tool: https://league.footballguys.com/#fbgroster/forecast/points
 // Last updated: 12/1/22 7:30 pm

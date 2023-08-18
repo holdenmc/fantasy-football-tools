@@ -3,23 +3,15 @@ import fs from 'fs';
 import { table } from 'table';
 import type { ITeamData, IGame } from '../interfaces';
 import { runSimulations } from './simulations';
+import { getTeamAndScheduleData, currentWeek, currentYear } from './utils';
 
 // ts-node src/scripts/runSimulations.ts
 
 // simulate the season, write the results to the file system and log the results in a table
 
 // Import file containing team and schedule data
-const currentYear = 2023;
-const currentWeek = 1;
-const currentWeekVersion = 1;
 const previousWeek = currentWeek - 1;
-const dataFilePath = path.join(__dirname, `../data/teamSchedules/${currentYear}-${currentWeek}-${currentWeekVersion}.json`);
-const teamAndScheduleData = JSON.parse(fs.readFileSync(dataFilePath, 'utf8'));
-
-const {
-  teams: originalTeams,
-  schedule: originalSchedule,
-}: { teams: Record<string, ITeamData>; schedule: IGame[]; } = teamAndScheduleData;
+const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData();
 
 // Simulate the season multiple times
 const simulateAndLogResults = (params: {

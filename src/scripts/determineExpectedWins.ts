@@ -1,19 +1,12 @@
-import path from 'path';
-import fs from 'fs';
 import { table } from 'table';
 import _ from 'lodash';
-import { IGame, ITeamData } from '../interfaces';
-import { calculateSingleGameProbability } from './utils';
+import { ITeamData } from '../interfaces';
+import { calculateSingleGameProbability, getTeamAndScheduleData } from './utils';
 
 // ts-node src/scripts/determineExpectedWins.ts
 
 // Import file containing team and schedule data
-const currentWeek = 1;
-const currentYear = 2023;
-const dataFilePath = path.join(__dirname, `../data/teamSchedules/${currentYear}-${currentWeek}.json`);
-const teamAndScheduleData = JSON.parse(fs.readFileSync(dataFilePath, 'utf8'));
-
-const { teams, schedule }: { teams: Record<string, ITeamData>; schedule: IGame[]; } = teamAndScheduleData;
+const { teams, schedule } = getTeamAndScheduleData();
 
 /**
  * Determine expected values for wins and losses, based on schedule and projected future PPG

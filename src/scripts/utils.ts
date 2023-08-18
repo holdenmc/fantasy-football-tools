@@ -1,4 +1,6 @@
-import { ITeamData } from '../interfaces';
+import fs from 'fs';
+import path from 'path';
+import { IGame, ITeamData } from '../interfaces';
 
 // not sure if this is a good assumption, can always modify and see how it changes
 // I backed into this, comparing it to yahoo win probabilities for future matchups in another league.
@@ -43,4 +45,15 @@ export const determineHead2HeadTiebreaker = (
   }
 
   return null;
+};
+
+export const currentWeek = 1;
+export const currentYear = 2023;
+
+export const getTeamAndScheduleData = (): { teams: Record<string, ITeamData>; schedule: IGame[]; } => {
+  // Import file containing team and schedule data
+  const version = 0;
+  const dataFilePath = path.join(__dirname, `../data/teamSchedules/${currentYear}-${currentWeek}-${version}.json`);
+  const teamAndScheduleData = JSON.parse(fs.readFileSync(dataFilePath, 'utf8'));
+  return teamAndScheduleData;
 };

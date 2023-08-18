@@ -1,25 +1,15 @@
-import path from 'path';
-import fs from 'fs';
 import { table } from 'table';
 import _ from 'lodash';
 import { IGame, ITeamData } from '../interfaces';
 import { generateProbabilityMap, runSimulations } from './simulations';
-import { calculateSingleGameProbability } from './utils';
+import { calculateSingleGameProbability, getTeamAndScheduleData } from './utils';
 
 // ts-node src/scripts/determineOutcomesV2.ts
 
 // for a set remaining games, determine who makes the playoff in every scenario
 
 // Import file containing team and schedule data
-const currentWeek = 1;
-const currentYear = 2023;
-const dataFilePath = path.join(__dirname, `../data/teamSchedules/${currentYear}-${currentWeek}.json`);
-const teamAndScheduleData = JSON.parse(fs.readFileSync(dataFilePath, 'utf8'));
-
-const {
-  teams: originalTeams,
-  schedule: originalSchedule,
-}: { teams: Record<string, ITeamData>; schedule: IGame[]; } = teamAndScheduleData;
+const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData();
 
 const determineEveryPossibleOutcome = (params: {
   schedule: IGame[];
