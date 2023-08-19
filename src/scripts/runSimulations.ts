@@ -91,12 +91,11 @@ const simulateAndLogResults = (params: {
     ]);
   });
 
-  // console.log(JSON.stringify(resultsList, null, 2));
   console.log(table(resultsList));
 };
 
 simulateAndLogResults({
   schedule: originalSchedule,
   teams: originalTeams,
-  shouldSimulatePlayoffs: false,
+  shouldSimulatePlayoffs: true,
 });

@@ -1,122 +1,122 @@
 {
   "Paul": {
     "numSeasons": 1000000,
-    "playoffAppearances": 297538,
-    "championships": 0,
-    "runnerUps": 0,
+    "playoffAppearances": 154788,
+    "championships": 19363,
+    "runnerUps": 35559,
     "rankings": {
-      "1": 60445,
-      "2": 58185,
-      "3": 85551,
-      "4": 93357
+      "1": 15428,
+      "2": 18202,
+      "3": 47412,
+      "4": 73746
     }
   },
   "Carter": {
     "numSeasons": 1000000,
-    "playoffAppearances": 593506,
-    "championships": 0,
-    "runnerUps": 0,
+    "playoffAppearances": 761685,
+    "championships": 241618,
+    "runnerUps": 192468,
     "rankings": {
-      "1": 200000,
-      "2": 124958,
-      "3": 149853,
-      "4": 118695
+      "1": 288189,
+      "2": 143965,
+      "3": 199197,
+      "4": 130334
     }
   },
   "Brandon": {
     "numSeasons": 1000000,
-    "playoffAppearances": 544665,
-    "championships": 0,
-    "runnerUps": 0,
+    "playoffAppearances": 760655,
+    "championships": 238331,
+    "runnerUps": 191904,
     "rankings": {
-      "1": 160769,
-      "2": 95835,
-      "3": 156112,
-      "4": 131949
+      "1": 253894,
+      "2": 126033,
+      "3": 236512,
+      "4": 144216
     }
   },
   "Zach": {
     "numSeasons": 1000000,
-    "playoffAppearances": 485505,
-    "championships": 0,
-    "runnerUps": 0,
+    "playoffAppearances": 593854,
+    "championships": 149081,
+    "runnerUps": 151700,
     "rankings": {
-      "1": 123955,
-      "2": 157105,
-      "3": 100702,
-      "4": 103743
+      "1": 125135,
+      "2": 209574,
+      "3": 122962,
+      "4": 136183
     }
   },
   "Holden": {
     "numSeasons": 1000000,
-    "playoffAppearances": 198168,
-    "championships": 0,
-    "runnerUps": 0,
+    "playoffAppearances": 28751,
+    "championships": 1827,
+    "runnerUps": 5402,
     "rankings": {
-      "1": 29570,
-      "2": 57113,
-      "3": 49643,
-      "4": 61842
+      "1": 1425,
+      "2": 7074,
+      "3": 6450,
+      "4": 13802
     }
   },
   "Chris": {
     "numSeasons": 1000000,
-    "playoffAppearances": 479506,
-    "championships": 0,
-    "runnerUps": 0,
+    "playoffAppearances": 692653,
+    "championships": 183114,
+    "runnerUps": 179355,
     "rankings": {
-      "1": 118059,
-      "2": 174076,
-      "3": 89915,
-      "4": 97456
+      "1": 180946,
+      "2": 304607,
+      "3": 97111,
+      "4": 109989
     }
   },
   "Jeremy": {
     "numSeasons": 1000000,
-    "playoffAppearances": 345164,
-    "championships": 0,
-    "runnerUps": 0,
+    "playoffAppearances": 195911,
+    "championships": 28060,
+    "runnerUps": 46236,
     "rankings": {
-      "1": 74115,
-      "2": 99607,
-      "3": 81972,
-      "4": 89470
+      "1": 21506,
+      "2": 52480,
+      "3": 48394,
+      "4": 73531
     }
   },
   "Mike": {
     "numSeasons": 1000000,
-    "playoffAppearances": 333393,
-    "championships": 0,
-    "runnerUps": 0,
+    "playoffAppearances": 248371,
+    "championships": 36172,
+    "runnerUps": 59310,
     "rankings": {
-      "1": 67757,
-      "2": 98643,
-      "3": 77784,
-      "4": 89209
+      "1": 29409,
+      "2": 67844,
+      "3": 61653,
+      "4": 89465
     }
   },
   "Jake": {
     "numSeasons": 1000000,
-    "playoffAppearances": 304074,
-    "championships": 0,
-    "runnerUps": 0,
+    "playoffAppearances": 126552,
+    "championships": 15247,
+    "runnerUps": 28903,
     "rankings": {
-      "1": 63596,
-      "2": 56358,
-      "3": 89607,
-      "4": 94513
+      "1": 11845,
+      "2": 14386,
+      "3": 38315,
+      "4": 62006
     }
   },
   "Kevin": {
     "numSeasons": 1000000,
-    "playoffAppearances": 418481,
-    "championships": 0,
-    "runnerUps": 0,
+    "playoffAppearances": 436780,
+    "championships": 87187,
+    "runnerUps": 109163,
     "rankings": {
-      "1": 101734,
-      "2": 78120,
-      "3": 118861,
-      "4": 119766
+      "1": 72223,
+      "2": 55835,
+      "3": 141994,
+      "4": 166728
     }
   }
 }
