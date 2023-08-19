@@ -1,10 +1,16 @@
 {
-    "extends": "@tsconfig/node16/tsconfig.json",
-    "compilerOptions": {
-      "preserveConstEnums": true,
-      "outDir": "dist",
-      "noImplicitAny": false,
-    },
-    "include": ["src/**/*"],
-    "exclude": ["node_modules"]
-  }
+  // "extends": "@tsconfig/node18/tsconfig.json", // TODO: figure out why this doesn't work
+  "compilerOptions": {
+    "preserveConstEnums": true,
+    "outDir": "dist",
+    "noImplicitAny": false,
+    "target": "ES2015",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}
