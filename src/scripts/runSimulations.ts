@@ -8,6 +8,7 @@ import { getTeamAndScheduleData, currentWeek, currentYear } from './utils';
 // ts-node src/scripts/runSimulations.ts
 
 // simulate the season, write the results to the file system and log the results in a table
+// TODO: make this not assume the previous week exists
 
 // Import file containing team and schedule data
 const previousWeek = currentWeek - 1;
