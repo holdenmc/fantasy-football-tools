@@ -47,7 +47,7 @@ const simulateAndLogResults = (params: {
     'Rank',
     'Name',
     '% Playoffs',
-    'Change',
+    ...(includeChangeWeekOverWeek ? ['Change'] : []),
     '% 1st',
     '% 2nd',
     '% 3rd',
@@ -91,6 +91,7 @@ const simulateAndLogResults = (params: {
     ]);
   });
 
+  // console.log(JSON.stringify(resultsList, null, 2));
   console.log(table(resultsList));
 };
 

@@ -13,7 +13,7 @@ export const calculateSingleGameProbability = (
   pointsFor: number,
   pointsAgainst: number,
 ): number => {
-  const cacheKey = (pointsFor > pointsAgainst) ? `${pointsFor}^${pointsAgainst}` : `${pointsAgainst}^${pointsFor}`;
+  const cacheKey = `${pointsFor}^${pointsAgainst}`;
 
   if (probabilityCache[cacheKey]) {
     return probabilityCache[cacheKey];

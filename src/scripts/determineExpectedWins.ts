@@ -1,5 +1,5 @@
 import { table } from 'table';
-import _ from 'lodash';
+import * as _ from 'lodash';
 import { ITeamData } from '../interfaces';
 import { calculateSingleGameProbability, getTeamAndScheduleData } from './utils';
 

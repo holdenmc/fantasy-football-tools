@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import * as _ from 'lodash';
 import type { ITeamData, IGame } from '../interfaces';
 import { calculateSingleGameProbability, determineHead2HeadTiebreaker } from './utils';
 
