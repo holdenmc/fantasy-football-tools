@@ -7,6 +7,8 @@ export interface ITeamData {
     division: string;
     // wins over opponent i.e. if a team beat Carter once and me twice { Carter: 1, Holden: 2 }
     records: Record<string, number>;
+    totalOpponentPoints: number;
+    totalOpponentPPG: number;
 }
 
 export interface IGame {

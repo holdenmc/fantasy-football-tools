@@ -26,8 +26,14 @@ const determineExpectedWins = () => {
 
     teamA.wins += winProbA;
     teamA.losses += (1 - winProbA);
+    teamA.totalOpponentPoints += teamB.projectedFuturePPG;
     teamB.wins += (1 - winProbA);
     teamB.losses += winProbA;
+    teamB.totalOpponentPoints += teamA.projectedFuturePPG;
+  });
+
+  Object.values(seasonTeams).forEach((team) => {
+    seasonTeams[team.name].totalOpponentPPG = (team.totalOpponentPoints) / (team.wins + team.losses);
   });
 
   const resultsList = [[
@@ -35,15 +41,20 @@ const determineExpectedWins = () => {
     'Name',
     'Expected Wins',
     'Expected Losses',
+    'SoS (PPG)',
+    'SoS (Rank)',
   ]];
 
   const sortedTeamList = Object.values(seasonTeams).sort((a, b) => (a.wins > b.wins ? -1 : 1));
+  const sortedBySoS = Object.values(seasonTeams).sort((a, b) => (a.totalOpponentPoints > b.totalOpponentPoints ? -1 : 1));
   sortedTeamList.forEach((entity, index) => {
     resultsList.push([
       `${index + 1}`,
       entity.name,
       entity.wins.toFixed(2),
       entity.losses.toFixed(2),
+      entity.totalOpponentPPG.toFixed(2),
+      `${sortedBySoS.findIndex((team) => team.name === entity.name) + 1}`,
     ]);
   });
 

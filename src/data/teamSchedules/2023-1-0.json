@@ -17,6 +17,8 @@
       "losses": 0,
       "division": "3-Cup Chickens",
       "totalPoints": 1746,
+      "totalOpponentPoints": 0,
+      "totalOpponentPPG": 0,
       "projectedFuturePPG": 116.4
     },
     "Carter": {
@@ -36,6 +38,8 @@
       "losses": 0,
       "division": "3-Cup Chickens",
       "totalPoints": 2064.9,
+      "totalOpponentPoints": 0,
+      "totalOpponentPPG": 0,
       "projectedFuturePPG": 137.66
     },
     "Brandon": {
@@ -55,6 +59,8 @@
       "losses": 0,
       "division": "3-Cup Chickens",
       "totalPoints": 2061.4500000000003,
+      "totalOpponentPoints": 0,
+      "totalOpponentPPG": 0,
       "projectedFuturePPG": 137.43
     },
     "Zach": {
@@ -74,6 +80,8 @@
       "losses": 0,
       "division": "Dan Dan Noodles",
       "totalPoints": 1980,
+      "totalOpponentPoints": 0,
+      "totalOpponentPPG": 0,
       "projectedFuturePPG": 132
     },
     "Holden": {
@@ -93,6 +101,8 @@
       "losses": 0,
       "division": "Dan Dan Noodles",
       "totalPoints": 1571.25,
+      "totalOpponentPoints": 0,
+      "totalOpponentPPG": 0,
       "projectedFuturePPG": 104.75
     },
     "Chris": {
@@ -112,6 +122,8 @@
       "losses": 0,
       "division": "Dan Dan Noodles",
       "totalPoints": 1997.7,
+      "totalOpponentPoints": 0,
+      "totalOpponentPPG": 0,
       "projectedFuturePPG": 133.18
     },
     "Jeremy": {
@@ -131,6 +143,8 @@
       "losses": 0,
       "division": "Dan Dan Noodles",
       "totalPoints": 1786.2,
+      "totalOpponentPoints": 0,
+      "totalOpponentPPG": 0,
       "projectedFuturePPG": 119.08
     },
     "Mike": {
@@ -150,6 +164,8 @@
       "losses": 0,
       "division": "Dan Dan Noodles",
       "totalPoints": 1794.15,
+      "totalOpponentPoints": 0,
+      "totalOpponentPPG": 0,
       "projectedFuturePPG": 119.61
     },
     "Jake": {
@@ -169,6 +185,8 @@
       "losses": 0,
       "division": "3-Cup Chickens",
       "totalPoints": 1735.35,
+      "totalOpponentPoints": 0,
+      "totalOpponentPPG": 0,
       "projectedFuturePPG": 115.69
     },
     "Kevin": {
@@ -188,6 +206,8 @@
       "losses": 0,
       "division": "3-Cup Chickens",
       "totalPoints": 1900.8,
+      "totalOpponentPoints": 0,
+      "totalOpponentPPG": 0,
       "projectedFuturePPG": 126.72
     }
   },

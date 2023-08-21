@@ -66,6 +66,8 @@ const computeTeams = async () => {
       teams[team].losses = 0;
       teams[team].division = divisionName;
       teams[team].totalPoints = 0;
+      teams[team].totalOpponentPoints = 0;
+      teams[team].totalOpponentPPG = 0;
     });
   });
 
