@@ -1,0 +1,591 @@
+{
+  "teams": {
+    "Paul": {
+      "name": "Paul",
+      "records": {
+        "Carter": 0,
+        "Brandon": 0,
+        "Zach": 0,
+        "Holden": 0,
+        "Chris": 0,
+        "Jeremy": 0,
+        "Mike": 0,
+        "Jake": 0,
+        "Kevin": 0
+      },
+      "wins": 0,
+      "losses": 0,
+      "division": "3-Cup Chickens",
+      "totalPoints": 1770.15,
+      "totalOpponentPoints": 0,
+      "totalOpponentPPG": 0,
+      "projectedFuturePPG": 118.01
+    },
+    "Carter": {
+      "name": "Carter",
+      "records": {
+        "Paul": 0,
+        "Brandon": 0,
+        "Zach": 0,
+        "Holden": 0,
+        "Chris": 0,
+        "Jeremy": 0,
+        "Mike": 0,
+        "Jake": 0,
+        "Kevin": 0
+      },
+      "wins": 0,
+      "losses": 0,
+      "division": "3-Cup Chickens",
+      "totalPoints": 2116.2000000000003,
+      "totalOpponentPoints": 0,
+      "totalOpponentPPG": 0,
+      "projectedFuturePPG": 141.08
+    },
+    "Brandon": {
+      "name": "Brandon",
+      "records": {
+        "Paul": 0,
+        "Carter": 0,
+        "Zach": 0,
+        "Holden": 0,
+        "Chris": 0,
+        "Jeremy": 0,
+        "Mike": 0,
+        "Jake": 0,
+        "Kevin": 0
+      },
+      "wins": 0,
+      "losses": 0,
+      "division": "3-Cup Chickens",
+      "totalPoints": 2195.1,
+      "totalOpponentPoints": 0,
+      "totalOpponentPPG": 0,
+      "projectedFuturePPG": 146.34
+    },
+    "Zach": {
+      "name": "Zach",
+      "records": {
+        "Paul": 0,
+        "Carter": 0,
+        "Brandon": 0,
+        "Holden": 0,
+        "Chris": 0,
+        "Jeremy": 0,
+        "Mike": 0,
+        "Jake": 0,
+        "Kevin": 0
+      },
+      "wins": 0,
+      "losses": 0,
+      "division": "Dan Dan Noodles",
+      "totalPoints": 2015.85,
+      "totalOpponentPoints": 0,
+      "totalOpponentPPG": 0,
+      "projectedFuturePPG": 134.39
+    },
+    "Holden": {
+      "name": "Holden",
+      "records": {
+        "Paul": 0,
+        "Carter": 0,
+        "Brandon": 0,
+        "Zach": 0,
+        "Chris": 0,
+        "Jeremy": 0,
+        "Mike": 0,
+        "Jake": 0,
+        "Kevin": 0
+      },
+      "wins": 0,
+      "losses": 0,
+      "division": "Dan Dan Noodles",
+      "totalPoints": 1539.8999999999999,
+      "totalOpponentPoints": 0,
+      "totalOpponentPPG": 0,
+      "projectedFuturePPG": 102.66
+    },
+    "Chris": {
+      "name": "Chris",
+      "records": {
+        "Paul": 0,
+        "Carter": 0,
+        "Brandon": 0,
+        "Zach": 0,
+        "Holden": 0,
+        "Jeremy": 0,
+        "Mike": 0,
+        "Jake": 0,
+        "Kevin": 0
+      },
+      "wins": 0,
+      "losses": 0,
+      "division": "Dan Dan Noodles",
+      "totalPoints": 1887.3,
+      "totalOpponentPoints": 0,
+      "totalOpponentPPG": 0,
+      "projectedFuturePPG": 125.82
+    },
+    "Jeremy": {
+      "name": "Jeremy",
+      "records": {
+        "Paul": 0,
+        "Carter": 0,
+        "Brandon": 0,
+        "Zach": 0,
+        "Holden": 0,
+        "Chris": 0,
+        "Mike": 0,
+        "Jake": 0,
+        "Kevin": 0
+      },
+      "wins": 0,
+      "losses": 0,
+      "division": "Dan Dan Noodles",
+      "totalPoints": 2018.1,
+      "totalOpponentPoints": 0,
+      "totalOpponentPPG": 0,
+      "projectedFuturePPG": 134.54
+    },
+    "Mike": {
+      "name": "Mike",
+      "records": {
+        "Paul": 0,
+        "Carter": 0,
+        "Brandon": 0,
+        "Zach": 0,
+        "Holden": 0,
+        "Chris": 0,
+        "Jeremy": 0,
+        "Jake": 0,
+        "Kevin": 0
+      },
+      "wins": 0,
+      "losses": 0,
+      "division": "Dan Dan Noodles",
+      "totalPoints": 1836.3,
+      "totalOpponentPoints": 0,
+      "totalOpponentPPG": 0,
+      "projectedFuturePPG": 122.42
+    },
+    "Jake": {
+      "name": "Jake",
+      "records": {
+        "Paul": 0,
+        "Carter": 0,
+        "Brandon": 0,
+        "Zach": 0,
+        "Holden": 0,
+        "Chris": 0,
+        "Jeremy": 0,
+        "Mike": 0,
+        "Kevin": 0
+      },
+      "wins": 0,
+      "losses": 0,
+      "division": "3-Cup Chickens",
+      "totalPoints": 1511.25,
+      "totalOpponentPoints": 0,
+      "totalOpponentPPG": 0,
+      "projectedFuturePPG": 100.75
+    },
+    "Kevin": {
+      "name": "Kevin",
+      "records": {
+        "Paul": 0,
+        "Carter": 0,
+        "Brandon": 0,
+        "Zach": 0,
+        "Holden": 0,
+        "Chris": 0,
+        "Jeremy": 0,
+        "Mike": 0,
+        "Jake": 0
+      },
+      "wins": 0,
+      "losses": 0,
+      "division": "3-Cup Chickens",
+      "totalPoints": 1913.55,
+      "totalOpponentPoints": 0,
+      "totalOpponentPPG": 0,
+      "projectedFuturePPG": 127.57
+    }
+  },
+  "schedule": [
+    {
+      "home": "Carter",
+      "away": "Kevin",
+      "week": 0
+    },
+    {
+      "home": "Kevin",
+      "away": "Carter",
+      "week": 0
+    },
+    {
+      "home": "Carter",
+      "away": "Brandon",
+      "week": 0
+    },
+    {
+      "home": "Brandon",
+      "away": "Carter",
+      "week": 0
+    },
+    {
+      "home": "Carter",
+      "away": "Jake",
+      "week": 0
+    },
+    {
+      "home": "Jake",
+      "away": "Carter",
+      "week": 0
+    },
+    {
+      "home": "Carter",
+      "away": "Paul",
+      "week": 0
+    },
+    {
+      "home": "Paul",
+      "away": "Carter",
+      "week": 0
+    },
+    {
+      "home": "Kevin",
+      "away": "Brandon",
+      "week": 0
+    },
+    {
+      "home": "Brandon",
+      "away": "Kevin",
+      "week": 0
+    },
+    {
+      "home": "Kevin",
+      "away": "Jake",
+      "week": 0
+    },
+    {
+      "home": "Jake",
+      "away": "Kevin",
+      "week": 0
+    },
+    {
+      "home": "Kevin",
+      "away": "Paul",
+      "week": 0
+    },
+    {
+      "home": "Paul",
+      "away": "Kevin",
+      "week": 0
+    },
+    {
+      "home": "Brandon",
+      "away": "Jake",
+      "week": 0
+    },
+    {
+      "home": "Jake",
+      "away": "Brandon",
+      "week": 0
+    },
+    {
+      "home": "Brandon",
+      "away": "Paul",
+      "week": 0
+    },
+    {
+      "home": "Paul",
+      "away": "Brandon",
+      "week": 0
+    },
+    {
+      "home": "Jake",
+      "away": "Paul",
+      "week": 0
+    },
+    {
+      "home": "Paul",
+      "away": "Jake",
+      "week": 0
+    },
+    {
+      "home": "Chris",
+      "away": "Zach",
+      "week": 0
+    },
+    {
+      "home": "Zach",
+      "away": "Chris",
+      "week": 0
+    },
+    {
+      "home": "Chris",
+      "away": "Jeremy",
+      "week": 0
+    },
+    {
+      "home": "Jeremy",
+      "away": "Chris",
+      "week": 0
+    },
+    {
+      "home": "Chris",
+      "away": "Mike",
+      "week": 0
+    },
+    {
+      "home": "Mike",
+      "away": "Chris",
+      "week": 0
+    },
+    {
+      "home": "Chris",
+      "away": "Holden",
+      "week": 0
+    },
+    {
+      "home": "Holden",
+      "away": "Chris",
+      "week": 0
+    },
+    {
+      "home": "Zach",
+      "away": "Jeremy",
+      "week": 0
+    },
+    {
+      "home": "Jeremy",
+      "away": "Zach",
+      "week": 0
+    },
+    {
+      "home": "Zach",
+      "away": "Mike",
+      "week": 0
+    },
+    {
+      "home": "Mike",
+      "away": "Zach",
+      "week": 0
+    },
+    {
+      "home": "Zach",
+      "away": "Holden",
+      "week": 0
+    },
+    {
+      "home": "Holden",
+      "away": "Zach",
+      "week": 0
+    },
+    {
+      "home": "Jeremy",
+      "away": "Mike",
+      "week": 0
+    },
+    {
+      "home": "Mike",
+      "away": "Jeremy",
+      "week": 0
+    },
+    {
+      "home": "Jeremy",
+      "away": "Holden",
+      "week": 0
+    },
+    {
+      "home": "Holden",
+      "away": "Jeremy",
+      "week": 0
+    },
+    {
+      "home": "Mike",
+      "away": "Holden",
+      "week": 0
+    },
+    {
+      "home": "Holden",
+      "away": "Mike",
+      "week": 0
+    },
+    {
+      "home": "Carter",
+      "away": "Chris",
+      "week": 0
+    },
+    {
+      "home": "Chris",
+      "away": "Carter",
+      "week": 0
+    },
+    {
+      "home": "Carter",
+      "away": "Zach",
+      "week": 0
+    },
+    {
+      "home": "Carter",
+      "away": "Jeremy",
+      "week": 0
+    },
+    {
+      "home": "Carter",
+      "away": "Mike",
+      "week": 0
+    },
+    {
+      "home": "Carter",
+      "away": "Holden",
+      "week": 0
+    },
+    {
+      "home": "Kevin",
+      "away": "Chris",
+      "week": 0
+    },
+    {
+      "home": "Kevin",
+      "away": "Zach",
+      "week": 0
+    },
+    {
+      "home": "Zach",
+      "away": "Kevin",
+      "week": 0
+    },
+    {
+      "home": "Kevin",
+      "away": "Jeremy",
+      "week": 0
+    },
+    {
+      "home": "Kevin",
+      "away": "Mike",
+      "week": 0
+    },
+    {
+      "home": "Kevin",
+      "away": "Holden",
+      "week": 0
+    },
+    {
+      "home": "Brandon",
+      "away": "Chris",
+      "week": 0
+    },
+    {
+      "home": "Brandon",
+      "away": "Zach",
+      "week": 0
+    },
+    {
+      "home": "Brandon",
+      "away": "Jeremy",
+      "week": 0
+    },
+    {
+      "home": "Jeremy",
+      "away": "Brandon",
+      "week": 0
+    },
+    {
+      "home": "Brandon",
+      "away": "Mike",
+      "week": 0
+    },
+    {
+      "home": "Brandon",
+      "away": "Holden",
+      "week": 0
+    },
+    {
+      "home": "Jake",
+      "away": "Chris",
+      "week": 0
+    },
+    {
+      "home": "Jake",
+      "away": "Zach",
+      "week": 0
+    },
+    {
+      "home": "Jake",
+      "away": "Jeremy",
+      "week": 0
+    },
+    {
+      "home": "Jake",
+      "away": "Mike",
+      "week": 0
+    },
+    {
+      "home": "Mike",
+      "away": "Jake",
+      "week": 0
+    },
+    {
+      "home": "Jake",
+      "away": "Holden",
+      "week": 0
+    },
+    {
+      "home": "Paul",
+      "away": "Chris",
+      "week": 0
+    },
+    {
+      "home": "Paul",
+      "away": "Zach",
+      "week": 0
+    },
+    {
+      "home": "Paul",
+      "away": "Jeremy",
+      "week": 0
+    },
+    {
+      "home": "Paul",
+      "away": "Mike",
+      "week": 0
+    },
+    {
+      "home": "Paul",
+      "away": "Holden",
+      "week": 0
+    },
+    {
+      "home": "Holden",
+      "away": "Paul",
+      "week": 0
+    },
+    {
+      "home": "Brandon",
+      "away": "Jake",
+      "week": 0
+    },
+    {
+      "home": "Carter",
+      "away": "Holden",
+      "week": 0
+    },
+    {
+      "home": "Jeremy",
+      "away": "Paul",
+      "week": 0
+    },
+    {
+      "home": "Zach",
+      "away": "Mike",
+      "week": 0
+    },
+    {
+      "home": "Kevin",
+      "away": "Chris",
+      "week": 0
+    }
+  ]
+}

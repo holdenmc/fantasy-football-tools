@@ -10,31 +10,31 @@ import { idToName } from '../leagueData';
 
 const maxWeeks = 15;
 const currentYear = 2023;
-const version = 0;
+const version = 1;
 
 // Usually from footballguys' free league dominator tool: https://league.footballguys.com/#fbgroster/forecast/points
-// Last updated: 8/18/23 6:00 pm
+// Last updated: 8/24/23 10:00 pm
 const teamFuturePPG: Record<string, number> = {
-  Carter: 137.66,
-  Brandon: 137.43,
-  Chris: 133.18,
-  Zach: 132.00,
-  Kevin: 126.72,
-  Mike: 119.61,
-  Jeremy: 119.08,
-  Paul: 116.40,
-  Jake: 115.69,
-  Holden: 104.75,
+  Brandon: 146.34,
+  Carter: 141.08,
+  Jeremy: 134.54,
+  Zach: 134.39,
+  Kevin: 127.57,
+  Chris: 125.82,
+  Mike: 122.42,
+  Paul: 118.01,
+  Holden: 102.66,
+  Jake: 100.75, // assumed 6 ppg kicker pickup
 };
 
 const divisions = [{
   name: '3-Cup Chickens',
   teams: [
     'Carter',
-    'Brandon',
     'Kevin',
-    'Paul',
+    'Brandon',
     'Jake',
+    'Paul',
   ],
 }, {
   name: 'Dan Dan Noodles',
@@ -99,11 +99,18 @@ const computeSchedules = async () => {
     divisions[1].teams.forEach((divisionOneTeam, divisionOneIndex) => {
       schedule.push({ home: divisionZeroteam, away: divisionOneTeam, week: 0 });
 
-      // non-divisional extra game x2
-      if (divisionZeroIndex === divisionOneIndex || ((divisionZeroIndex + 1) % 5) === divisionOneIndex) {
+      // non-divisional extra game x1
+      if (divisionZeroIndex === divisionOneIndex) {
         schedule.push({ home: divisionOneTeam, away: divisionZeroteam, week: 0 });
       }
     });
+  });
+
+  // 1x game against the median
+  const topHalf = Object.keys(teamFuturePPG).slice(0, 5);
+  const bottomHalf = Object.keys(teamFuturePPG).slice(5, 10);
+  topHalf.forEach((name, index) => {
+    schedule.push({ home: name, away: bottomHalf[bottomHalf.length - 1 - index], week: 0 });
   });
 
   // console.log(schedule.length); // should be 75

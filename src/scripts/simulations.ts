@@ -26,7 +26,7 @@ import { calculateSingleGameProbability, determineHead2HeadTiebreaker } from './
  */
 
 // default number of simulations to run
-const NUM_SIMULATIONS = 1000000; // 1 mil
+const NUM_SIMULATIONS = 10000000; // 1 mil
 
 /**
  * Determine the proper sorted order of the teams, taking into account tiebreakers
