@@ -16,21 +16,21 @@ import { idToName, leagueId } from '../leagueData';
 
 const maxWeeks = 15;
 const currentYear = 2023;
-const version = 0;
+const version = 2;
 
 // Usually from footballguys' free league dominator tool: https://league.footballguys.com/#fbgroster/forecast/points
 // Last updated: 8/18/23 6:00 pm
 const teamFuturePPG: Record<string, number> = {
-  Carter: 137.66,
-  Brandon: 137.43,
-  Chris: 133.18,
-  Zach: 132.00,
-  Kevin: 126.72,
-  Mike: 119.61,
-  Jeremy: 119.08,
-  Paul: 116.40,
-  Jake: 115.69,
-  Holden: 104.75,
+  Brandon: 146.93,
+  Carter: 143.71,
+  Jeremy: 134.92,
+  Chris: 133.14,
+  Zach: 130.41,
+  Mike: 120.64,
+  Paul: 118.68,
+  Holden: 100.18,
+  Jake: 100.03,
+  Kevin: 96.54,
 };
 
 const computeTeams = async () => {
@@ -133,13 +133,20 @@ const computeSchedules = async () => {
 
   // we need to include the current week's games if it's not complete
   [...(isCurrentWeekComplete ? [] : [currentWeekScoreboard]), ...results].forEach((scoreboard) => {
-    scoreboard.body.games.forEach((game) => {
+    scoreboard.body.games?.forEach((game) => {
       schedule.push({
         home: idToName[game.home.id],
         away: idToName[game.away.id],
         week: scoreboard.body.schedulePeriod.value,
       });
     });
+  });
+
+  // 1x game against the median in week 8, simulated as top half vs. bottom counterpart (i.e. 1 vs. 10, 2 vs. 9, etc...)
+  const topHalf = Object.keys(teamFuturePPG).slice(0, 5);
+  const bottomHalf = Object.keys(teamFuturePPG).slice(5, 10);
+  topHalf.forEach((name, index) => {
+    schedule.push({ home: name, away: bottomHalf[bottomHalf.length - 1 - index], week: 8 });
   });
 
   // console.log(JSON.stringify(schedule, null, 4));
