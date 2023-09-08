@@ -10,7 +10,7 @@ import { calculateSingleGameProbability, getTeamAndScheduleData } from './utils'
 // for each possible set of outcomes for their remaining schedule
 
 // Import file containing team and schedule data
-const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData();
+const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({ version: 2, week: 1, year: 2023 });
 
 const determineEveryPossibleOutcome = (params: {
   schedule: IGame[];

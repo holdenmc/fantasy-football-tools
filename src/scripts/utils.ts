@@ -47,14 +47,12 @@ export const determineHead2HeadTiebreaker = (
   return null;
 };
 
-// TODO: refactor to pass in year and week to the getTeamAndScheduleData call
-export const currentWeek = 1;
 export const currentYear = 2023;
 
-export const getTeamAndScheduleData = (options: { version?: number } = {}): { teams: Record<string, ITeamData>; schedule: IGame[]; } => {
+export const getTeamAndScheduleData = (options: { version?: number, week?: number, year?: number } = {}): { teams: Record<string, ITeamData>; schedule: IGame[]; } => {
   // Import file containing team and schedule data
-  const { version = 0 } = options;
-  const dataFilePath = path.join(__dirname, `../data/teamSchedules/${currentYear}-${currentWeek}-${version}.json`);
+  const { version = 0, week = 1, year = 2023 } = options;
+  const dataFilePath = path.join(__dirname, `../data/teamSchedules/${year}-${week}-${version}.json`);
   const teamAndScheduleData = JSON.parse(fs.readFileSync(dataFilePath, 'utf8'));
   return teamAndScheduleData;
 };

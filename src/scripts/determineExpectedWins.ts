@@ -6,7 +6,7 @@ import { calculateSingleGameProbability, getTeamAndScheduleData } from './utils'
 // ts-node src/scripts/determineExpectedWins.ts
 
 // Import file containing team and schedule data
-const { teams, schedule } = getTeamAndScheduleData({ version: 1 });
+const { teams, schedule } = getTeamAndScheduleData({ version: 1, week: 1, year: 2023 });
 
 /**
  * Determine expected values for wins and losses, based on schedule and projected future PPG

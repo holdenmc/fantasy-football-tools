@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { IGame, ITeamData } from '../interfaces';
 import {
-  calculateSingleGameProbability, currentWeek, currentYear, getTeamAndScheduleData,
+  calculateSingleGameProbability, currentYear, getTeamAndScheduleData,
 } from './utils';
 import { generateProbabilityMap, runSimulations } from './simulations';
 
@@ -15,7 +15,8 @@ import { generateProbabilityMap, runSimulations } from './simulations';
 // TODO: put logs behind a verbose/silent mode flag
 
 // Import file containing team and schedule data
-const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData();
+const currentWeek = 1;
+const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({ version: 2, week: currentWeek, year: 2023 });
 
 const numSimulations = 1000000; // 1 mil
 const includeWeekInHeader = false;
@@ -127,8 +128,7 @@ const runWeeklyGameLeverages = (params: {
 }) => {
   const { schedule, teams } = params;
   console.log('beginning baseline simulation');
-  // TODO: pull base results from file system
-  // const simulationResults = runSimulations({ schedule, teams, numSimulations });
+
   const simulationResultsPath = path.join(__dirname, `../data/simulationResults/${currentYear}-${currentWeek}.json`);
   const simulationResults = JSON.parse(fs.readFileSync(simulationResultsPath, 'utf8'));
   const baseProbabilityMap = generateProbabilityMap(simulationResults);

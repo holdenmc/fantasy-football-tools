@@ -3,19 +3,20 @@ import fs from 'fs';
 import { table } from 'table';
 import type { ITeamData, IGame } from '../interfaces';
 import { runSimulations } from './simulations';
-import { getTeamAndScheduleData, currentWeek, currentYear } from './utils';
+import { getTeamAndScheduleData, currentYear } from './utils';
 
 // ts-node src/scripts/runSimulations.ts
 
 // simulate the season, write the results to the file system and log the results in a table
 
 // Import file containing team and schedule data
-const previousWeek = 1;
-const previousVersion = 0;
-const currentVersion = 1;
+const previousWeek = 1; // previous week and version to compare aainst
+const previousVersion = 1;
+const currentVersion = 2; // current version of current week
+const currentWeek = 1;
 const includeChangeWeekOverWeek = true;
 
-const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({ version: currentVersion });
+const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({ version: currentVersion, week: currentWeek });
 
 // Simulate the season multiple times
 const simulateAndLogResults = (params: {

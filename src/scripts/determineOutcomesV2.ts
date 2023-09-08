@@ -9,7 +9,7 @@ import { calculateSingleGameProbability, getTeamAndScheduleData } from './utils'
 // for a set remaining games, determine who makes the playoff in every scenario
 
 // Import file containing team and schedule data
-const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData();
+const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({ version: 2, week: 1, year: 2023 });
 
 const determineEveryPossibleOutcome = (params: {
   schedule: IGame[];
