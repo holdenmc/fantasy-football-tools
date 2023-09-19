@@ -11,9 +11,9 @@ import { getTeamAndScheduleData, currentYear } from './utils';
 
 // Import file containing team and schedule data
 const previousWeek = 1; // previous week and version to compare aainst
-const previousVersion = 1;
-const currentVersion = 2; // current version of current week
-const currentWeek = 1;
+const previousVersion = 2;
+const currentVersion = 0; // current version of current week
+const currentWeek = 2;
 const includeChangeWeekOverWeek = true;
 
 const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({ version: currentVersion, week: currentWeek });
