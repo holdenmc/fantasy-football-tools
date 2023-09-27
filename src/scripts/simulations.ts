@@ -1,6 +1,8 @@
 import * as _ from 'lodash';
 import type { ITeamData, IGame } from '../interfaces';
-import { calculateSingleGameProbability, determineHead2HeadTiebreaker } from './utils';
+import {
+  calculateSingleGameProbability, determineHead2HeadTiebreaker, initializeLookupTable, lookupProbabilityValue,
+} from './utils';
 
 // Script for simulating one or many seasons
 
@@ -26,7 +28,7 @@ import { calculateSingleGameProbability, determineHead2HeadTiebreaker } from './
  */
 
 // default number of simulations to run
-const NUM_SIMULATIONS = 10 * 1000 * 1000; // 10 mil
+const NUM_SIMULATIONS = 100 * 1000; // 100k for speeeed
 
 /**
  * Determine the proper sorted order of the teams, taking into account tiebreakers
@@ -41,12 +43,12 @@ const determineResults = (params: {
 
   // just sorted by wins, not tiebreakers
   const sortedTeamsByWins = Object.values(teams).sort(sortFunc);
+  const totalTeams = sortedTeamsByWins.length;
 
-  const rankedNames: string[] = [];
   const rankingList: ITeamData[] = [];
 
-  for (let i = 0; i < sortedTeamsByWins.length; i++) {
-    let eligibleTeams = sortedTeamsByWins.filter((team) => !rankedNames.includes(team.name));
+  for (let i = 0; i < totalTeams; i++) {
+    let eligibleTeams = sortedTeamsByWins;
 
     if (i === 1) {
       // special handling for the 2 seed, which is always the other division winner, regardless of record
@@ -54,46 +56,51 @@ const determineResults = (params: {
       eligibleTeams = Object.values(teams).filter((a) => a.division !== firstSeedDivision).sort(sortFunc);
     }
 
-    // teams tied with the current first eligible team
-    const tiedTeams = eligibleTeams.filter((team) => team.wins === eligibleTeams[0].wins);
     let selectedTeam: ITeamData;
 
-    if (tiedTeams.length === 1) {
-      [selectedTeam] = tiedTeams;
-    } else if (tiedTeams.length === 2) {
-      // console.log(`Evaluating multi-team tie between ${tiedTeams.map(team => team.name).join(', ')}`);
-      // first tiebreaker, h2h
-      const head2HeadWinner = determineHead2HeadTiebreaker(tiedTeams[0], tiedTeams[1]);
-
-      if (head2HeadWinner) {
-        selectedTeam = head2HeadWinner;
-        // console.log(`Selected team ${selectedTeam.name} from ${tiedTeams.length}-way tie due to outright head to head win`);
-      } else {
-        // 2nd tiebreaker, points
-        selectedTeam = tiedTeams[0].totalPoints > tiedTeams[1].totalPoints ? tiedTeams[0] : tiedTeams[1];
-        // console.log(`Selected team ${selectedTeam.name} from ${tiedTeams.length}-way tie (${tiedTeams.map(team => team.name).join(',')}) due to highest totalPoints`);
-      }
+    // teams tied with the current first eligible team
+    let tiedTeams: ITeamData[];
+    if (eligibleTeams.length === 1 || eligibleTeams[0].wins !== eligibleTeams[1].wins) {
+      [selectedTeam] = eligibleTeams;
     } else {
-      // 3 or more teams
-      // console.log(`Evaluating multi-team tie between ${tiedTeams.map(team => team.name).join(', ')}`);
-      const outrightHead2HeadWinner = tiedTeams.filter((consideredTeam) => {
-        const h2hWinners = tiedTeams
-          .filter((team) => team.name !== consideredTeam.name)
-          .map((team) => determineHead2HeadTiebreaker(team, consideredTeam));
-        return h2hWinners.every((team) => team?.name === consideredTeam.name);
-      })[0];
+      tiedTeams = eligibleTeams.filter((team) => team.wins === eligibleTeams[0].wins);
 
-      if (outrightHead2HeadWinner) {
-        selectedTeam = outrightHead2HeadWinner;
-        // console.log(`Selected team ${selectedTeam.name} from ${tiedTeams.length}-way tie due to outright head to head win`);
+      if (tiedTeams.length === 2) {
+        // console.log(`Evaluating multi-team tie between ${tiedTeams.map(team => team.name).join(', ')}`);
+        // first tiebreaker, h2h
+        const head2HeadWinner = determineHead2HeadTiebreaker(tiedTeams[0], tiedTeams[1]);
+
+        if (head2HeadWinner) {
+          selectedTeam = head2HeadWinner;
+          // console.log(`Selected team ${selectedTeam.name} from ${tiedTeams.length}-way tie due to outright head to head win`);
+        } else {
+          // 2nd tiebreaker, points
+          selectedTeam = tiedTeams[0].totalPoints > tiedTeams[1].totalPoints ? tiedTeams[0] : tiedTeams[1];
+          // console.log(`Selected team ${selectedTeam.name} from ${tiedTeams.length}-way tie (${tiedTeams.map(team => team.name).join(',')}) due to highest totalPoints`);
+        }
       } else {
-        [selectedTeam] = tiedTeams.sort((a, b) => ((a.totalPoints > b.totalPoints) ? -1 : 1));
-        // console.log(`Selected team ${selectedTeam.name} from ${tiedTeams.length}-way tie (${tiedTeams.map(team => team.name).join(',')}) due to highest totalPoints`);
+        // 3 or more teams
+        // console.log(`Evaluating multi-team tie between ${tiedTeams.map(team => team.name).join(', ')}`);
+        const outrightHead2HeadWinner = tiedTeams.filter((consideredTeam) => {
+          const h2hWinners = tiedTeams
+            .filter((team) => team.name !== consideredTeam.name)
+            .map((team) => determineHead2HeadTiebreaker(team, consideredTeam));
+          return h2hWinners.every((team) => team?.name === consideredTeam.name);
+        })[0];
+
+        if (outrightHead2HeadWinner) {
+          selectedTeam = outrightHead2HeadWinner;
+          // console.log(`Selected team ${selectedTeam.name} from ${tiedTeams.length}-way tie due to outright head to head win`);
+        } else {
+          [selectedTeam] = tiedTeams.sort((a, b) => ((a.totalPoints > b.totalPoints) ? -1 : 1));
+          // console.log(`Selected team ${selectedTeam.name} from ${tiedTeams.length}-way tie (${tiedTeams.map(team => team.name).join(',')}) due to highest totalPoints`);
+        }
       }
     }
 
     // console.log(`Selected team ${selectedTeam.name} for rank #${i + 1}`);
-    rankedNames.push(selectedTeam.name);
+    const index = sortedTeamsByWins.findIndex((team) => team.name === selectedTeam.name);
+    sortedTeamsByWins.splice(index, 1);
     rankingList.push(selectedTeam);
   }
 
@@ -112,7 +119,7 @@ const runIndividualSimulation = (params: {
     const teamB = seasonTeams[matchup.away];
     const winProbA = calculateSingleGameProbability(teamA.projectedFuturePPG, teamB.projectedFuturePPG);
 
-    const result = Math.random();
+    const result = lookupProbabilityValue();
     if (result <= winProbA) {
       teamA.wins++;
       teamB.losses++;
@@ -142,7 +149,7 @@ const simulatePlayoffs = (playoffTeams: ITeamData[]): ITeamData[] => {
 
   // first semifinal
   const winProbA = calculateSingleGameProbability(oneSeed.projectedFuturePPG, fourSeed.projectedFuturePPG);
-  const resultA = Math.random();
+  const resultA = lookupProbabilityValue();
 
   if (resultA <= winProbA) {
     winnerA = oneSeed;
@@ -152,7 +159,7 @@ const simulatePlayoffs = (playoffTeams: ITeamData[]): ITeamData[] => {
 
   // second semifinal
   const winProbB = calculateSingleGameProbability(twoSeed.projectedFuturePPG, threeSeed.projectedFuturePPG);
-  const resultB = Math.random();
+  const resultB = lookupProbabilityValue();
 
   if (resultB <= winProbB) {
     winnerB = twoSeed;
@@ -162,7 +169,7 @@ const simulatePlayoffs = (playoffTeams: ITeamData[]): ITeamData[] => {
 
   // final
   const winProbChamp = calculateSingleGameProbability(winnerA.projectedFuturePPG, winnerB.projectedFuturePPG);
-  const resultChamp = Math.random();
+  const resultChamp = lookupProbabilityValue();
 
   if (resultChamp <= winProbChamp) {
     return [winnerA, winnerB];
@@ -212,7 +219,12 @@ export const runSimulations = (params: {
     return acc;
   }, {});
 
+  initializeLookupTable();
+
   for (let i = 0; i < numSimulations; i++) {
+    if (i % 100000 === 0) {
+      console.log(`Completed simulation ${i} out of ${NUM_SIMULATIONS}: ${new Date()}`);
+    }
     const results = runIndividualSimulation({ schedule, teams: teamsCopy });
     const playoffTeams = results.slice(0, 4);
 
@@ -228,6 +240,7 @@ export const runSimulations = (params: {
       statsToAnalyze[runnerUp.name].runnerUps++;
     }
   }
+  console.log(`Completed simulation ${NUM_SIMULATIONS} out of ${NUM_SIMULATIONS}: ${new Date()}`);
 
   return statsToAnalyze;
 };
@@ -247,3 +260,11 @@ export const generateProbabilityMap = (
 
   return probabilityMap;
 };
+
+// const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({ version: 0, week: 4 });
+
+// runSimulations({
+//   schedule: originalSchedule,
+//   teams: originalTeams,
+//   shouldSimulatePlayoffs: true,
+// });

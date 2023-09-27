@@ -25,6 +25,24 @@ export const calculateSingleGameProbability = (
   return probability;
 };
 
+let index = 0;
+const limit = 100 * 1000;
+const lookupTable: number[] = [];
+export const lookupProbabilityValue = (): number => {
+  if (index > limit - 1) {
+    index = 0;
+  }
+  const result = lookupTable[index];
+  index++;
+  return result;
+};
+
+export const initializeLookupTable = () => {
+  for (let i = 0; i < limit; i++) {
+    lookupTable.push(Math.random());
+  }
+};
+
 /**
  * Given two teams, determine who wins a h2h tiebreaker, returns null if neither
  * @param teamA

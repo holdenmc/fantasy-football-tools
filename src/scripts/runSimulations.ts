@@ -71,17 +71,20 @@ const simulateAndLogResults = (params: {
   sortedTeamList.forEach((entity, index) => {
     const teamStats = currentWeekSimulationResults[entity.name];
 
-    let playoffDelta;
+    let playoffDelta: string = '';
     if (includeChangeWeekOverWeek) {
       const previousWeekStats = previousWeekSimulationResults[entity.name];
-      playoffDelta = teamStats.playoffAppearances - previousWeekStats.playoffAppearances;
+      playoffDelta = (
+        ((teamStats.playoffAppearances / teamStats.numSeasons) * 100)
+        - ((previousWeekStats.playoffAppearances / previousWeekStats.numSeasons) * 100)
+      ).toFixed(2);
     }
 
     resultsList.push([
       `${index + 1}`,
       entity.name,
       getStringPercentage(teamStats.playoffAppearances),
-      ...(includeChangeWeekOverWeek ? [getStringPercentage(playoffDelta)] : []),
+      ...(includeChangeWeekOverWeek ? [playoffDelta] : []),
       getStringPercentage(teamStats.rankings['1']),
       getStringPercentage(teamStats.rankings['2']),
       getStringPercentage(teamStats.rankings['3']),
