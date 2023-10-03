@@ -13,7 +13,7 @@ import { getTeamAndScheduleData, currentYear } from './utils';
 const previousWeek = 3; // previous week and version to compare aainst
 const previousVersion = 1;
 const currentWeek = 4; // current week and version to simulate
-const currentVersion = 0;
+const currentVersion = 1;
 const includeChangeWeekOverWeek = true;
 
 const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({ version: currentVersion, week: currentWeek });
@@ -30,12 +30,22 @@ const simulateAndLogResults = (params: {
     shouldSimulatePlayoffs = false,
   } = params;
 
-  const currentWeekSimulationResults = runSimulations(params);
+  const currentWeekFilePath = path.join(__dirname, `../data/simulationResults/${currentYear}-${currentWeek}-${currentVersion}.json`);
+  let existingCurrentWeekFile;
+  try {
+    existingCurrentWeekFile = fs.readFileSync(currentWeekFilePath, 'utf8');
+  } catch (err) {
+    console.log('Error when reading current week file, continuing as if it does not exist', err);
+  }
 
-  // TODO: handle case where file already exists and we can either augment it with more results or reference it instead
-  // write simulation results to file system
-  const outputFilePath = path.join(__dirname, `../data/simulationResults/${currentYear}-${currentWeek}-${currentVersion}.json`);
-  fs.writeFileSync(outputFilePath, JSON.stringify(currentWeekSimulationResults, null, 2), 'utf8');
+  let currentWeekSimulationResults;
+  if (existingCurrentWeekFile) {
+    currentWeekSimulationResults = JSON.parse(existingCurrentWeekFile);
+  } else {
+    // if no previous results, run simulations and write results to file system
+    currentWeekSimulationResults = runSimulations(params);
+    fs.writeFileSync(currentWeekFilePath, JSON.stringify(currentWeekSimulationResults, null, 2), 'utf8');
+  }
 
   let previousWeekSimulationResults;
   if (includeChangeWeekOverWeek) {

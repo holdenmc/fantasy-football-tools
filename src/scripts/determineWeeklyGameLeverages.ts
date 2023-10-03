@@ -15,8 +15,9 @@ import { generateProbabilityMap, runSimulations } from './simulations';
 // TODO: put logs behind a verbose/silent mode flag
 
 // Import file containing team and schedule data
-const currentWeek = 1;
-const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({ version: 2, week: currentWeek, year: 2023 });
+const currentWeek = 4;
+const currentVersion = 1;
+const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({ version: currentVersion, week: currentWeek, year: 2023 });
 
 const numSimulations = 1000000; // 1 mil
 const includeWeekInHeader = false;
@@ -129,7 +130,7 @@ const runWeeklyGameLeverages = (params: {
   const { schedule, teams } = params;
   console.log('beginning baseline simulation');
 
-  const simulationResultsPath = path.join(__dirname, `../data/simulationResults/${currentYear}-${currentWeek}.json`);
+  const simulationResultsPath = path.join(__dirname, `../data/simulationResults/${currentYear}-${currentWeek}-${currentVersion}.json`);
   const simulationResults = JSON.parse(fs.readFileSync(simulationResultsPath, 'utf8'));
   const baseProbabilityMap = generateProbabilityMap(simulationResults);
   console.log('Done with baseline simulation', baseProbabilityMap);

@@ -223,7 +223,7 @@ export const runSimulations = (params: {
 
   for (let i = 0; i < numSimulations; i++) {
     if (i % 100000 === 0) {
-      console.log(`Completed simulation ${i} out of ${NUM_SIMULATIONS}: ${new Date()}`);
+      console.log(`Completed simulation ${i} out of ${numSimulations}: ${new Date()}`);
     }
     const results = runIndividualSimulation({ schedule, teams: teamsCopy });
     const playoffTeams = results.slice(0, 4);
@@ -240,7 +240,7 @@ export const runSimulations = (params: {
       statsToAnalyze[runnerUp.name].runnerUps++;
     }
   }
-  console.log(`Completed simulation ${NUM_SIMULATIONS} out of ${NUM_SIMULATIONS}: ${new Date()}`);
+  console.log(`Completed simulation ${numSimulations} out of ${numSimulations}: ${new Date()}`);
 
   return statsToAnalyze;
 };

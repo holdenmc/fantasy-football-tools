@@ -6,7 +6,10 @@ import { calculateSingleGameProbability, getTeamAndScheduleData } from './utils'
 // ts-node src/scripts/determineExpectedWins.ts
 
 // Import file containing team and schedule data
-const { teams, schedule } = getTeamAndScheduleData({ version: 1, week: 1, year: 2023 });
+const totalWeeks = 15;
+const currentWeek = 4;
+const currentVersion = 1;
+const { teams, schedule } = getTeamAndScheduleData({ version: currentVersion, week: currentWeek, year: 2023 });
 
 /**
  * Determine expected values for wins and losses, based on schedule and projected future PPG
@@ -33,7 +36,7 @@ const determineExpectedWins = () => {
   });
 
   Object.values(seasonTeams).forEach((team) => {
-    seasonTeams[team.name].totalOpponentPPG = (team.totalOpponentPoints) / (team.wins + team.losses);
+    seasonTeams[team.name].totalOpponentPPG = (team.totalOpponentPoints) / (totalWeeks - currentWeek + 1);
   });
 
   const resultsList = [[
