@@ -15,11 +15,11 @@ import { generateProbabilityMap, runSimulations } from './simulations';
 // TODO: put logs behind a verbose/silent mode flag
 
 // Import file containing team and schedule data
-const currentWeek = 4;
-const currentVersion = 1;
+const currentWeek = 5;
+const currentVersion = 0;
 const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({ version: currentVersion, week: currentWeek, year: 2023 });
 
-const numSimulations = 1000000; // 1 mil
+const numSimulations = 100 * 1000; // 100k
 const includeWeekInHeader = false;
 
 const weeklyGameLeverages = (params: {
