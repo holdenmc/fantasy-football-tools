@@ -10,11 +10,11 @@ import { getTeamAndScheduleData, currentYear } from './utils';
 // simulate the season, write the results to the file system and log the results in a table
 
 // Import file containing team and schedule data
-const previousWeek = 4; // previous week and version to compare aainst
-const previousVersion = 1;
-const currentWeek = 5; // current week and version to simulate
+const previousWeek = 5; // previous week and version to compare aainst
+const previousVersion = 0;
+const currentWeek = 7; // current week and version to simulate
 const currentVersion = 0;
-const includeChangeWeekOverWeek = true;
+const includeChangeWeekOverWeek = false;
 
 const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({ version: currentVersion, week: currentWeek });
 
