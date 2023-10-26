@@ -19,18 +19,18 @@ const currentYear = 2023;
 const version = 0;
 
 // Usually from footballguys' free league dominator tool: https://league.footballguys.com/#fbgroster/forecast/points
-// Last updated: 10/18/23 11:00 am
+// Last updated: 10/25/23 12:30 pm
 const teamFuturePPG: Record<string, number> = {
-  Carter: 141.09,
-  Jeremy: 134.00,
-  Brandon: 133.57,
-  Chris: 130.75,
-  Zach: 126.16,
-  Mike: 124.91,
-  Paul: 104.42,
-  Holden: 103.68,
-  Jake: 97.37,
-  Kevin: 95.18,
+  Carter: 143.19,
+  Brandon: 133.81,
+  Jeremy: 133.04,
+  Chris: 131.45,
+  Zach: 128.02,
+  Mike: 125.95,
+  Paul: 106.67,
+  Holden: 105.52,
+  Kevin: 98.19,
+  Jake: 92.82,
 };
 
 const computeTeams = async () => {
@@ -72,7 +72,7 @@ const computeTeams = async () => {
     .send();
 
   const currentWeek = currentWeekScoreboard.body.schedulePeriod.value;
-  const isCurrentWeekComplete = currentWeekScoreboard.body.games[0].isFinalScore;
+  const isCurrentWeekComplete = currentWeekScoreboard.body.games?.length > 0 && currentWeekScoreboard.body.games[0].isFinalScore;
   // 1 to (current week - 1) in array form (i.e. [1, 2] when current week is 3)
   const schedulingPeriodsToQuery = [...Array(currentWeek).keys()].slice(1);
 
@@ -120,7 +120,7 @@ const computeSchedules = async () => {
     .send();
 
   const currentWeek = currentWeekScoreboard.body.schedulePeriod.value;
-  const isCurrentWeekComplete = currentWeekScoreboard.body.games[0].isFinalScore;
+  const isCurrentWeekComplete = currentWeekScoreboard.body.games?.length > 0 && currentWeekScoreboard.body.games[0].isFinalScore;
 
   // numbers from currentWeek + 1 to end of season
   const schedulingPeriodsToQuery = [...Array(maxWeeks + 1).keys()].slice(currentWeek + 1);
@@ -144,11 +144,15 @@ const computeSchedules = async () => {
   });
 
   // 1x game against the median in week 8, simulated as top half vs. bottom counterpart (i.e. 1 vs. 10, 2 vs. 9, etc...)
-  const topHalf = Object.keys(teamFuturePPG).slice(0, 5);
-  const bottomHalf = Object.keys(teamFuturePPG).slice(5, 10);
-  topHalf.forEach((name, index) => {
-    schedule.push({ home: name, away: bottomHalf[bottomHalf.length - 1 - index], week: 8 });
-  });
+  if (currentWeek <= 8) {
+    const topHalf = Object.keys(teamFuturePPG).slice(0, 5);
+    const bottomHalf = Object.keys(teamFuturePPG).slice(5, 10);
+    topHalf.forEach((name, index) => {
+      const scheduleItem = { home: name, away: bottomHalf[bottomHalf.length - 1 - index], week: 8 };
+      const scheduleUpdateMethod = currentWeek === 8 ? 'unshift' : 'push';
+      schedule[scheduleUpdateMethod](scheduleItem);
+    });
+  }
 
   // console.log(JSON.stringify(schedule, null, 4));
   return schedule;

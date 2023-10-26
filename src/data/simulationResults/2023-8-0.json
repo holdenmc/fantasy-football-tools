@@ -1,0 +1,122 @@
+{
+  "Paul": {
+    "numSeasons": 100000,
+    "playoffAppearances": 2124,
+    "championships": 139,
+    "runnerUps": 400,
+    "rankings": {
+      "1": 2,
+      "2": 17,
+      "3": 191,
+      "4": 1914
+    }
+  },
+  "Carter": {
+    "numSeasons": 100000,
+    "playoffAppearances": 94322,
+    "championships": 33708,
+    "runnerUps": 22927,
+    "rankings": {
+      "1": 33491,
+      "2": 9257,
+      "3": 40593,
+      "4": 10981
+    }
+  },
+  "Brandon": {
+    "numSeasons": 100000,
+    "playoffAppearances": 97709,
+    "championships": 23988,
+    "runnerUps": 25470,
+    "rankings": {
+      "1": 42727,
+      "2": 14506,
+      "3": 30893,
+      "4": 9583
+    }
+  },
+  "Zach": {
+    "numSeasons": 100000,
+    "playoffAppearances": 66055,
+    "championships": 12167,
+    "runnerUps": 16289,
+    "rankings": {
+      "1": 11313,
+      "2": 22103,
+      "3": 12621,
+      "4": 20018
+    }
+  },
+  "Holden": {
+    "numSeasons": 100000,
+    "playoffAppearances": 1,
+    "championships": 0,
+    "runnerUps": 1,
+    "rankings": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 1
+    }
+  },
+  "Chris": {
+    "numSeasons": 100000,
+    "playoffAppearances": 33314,
+    "championships": 7252,
+    "runnerUps": 8343,
+    "rankings": {
+      "1": 811,
+      "2": 8884,
+      "3": 4730,
+      "4": 18889
+    }
+  },
+  "Jeremy": {
+    "numSeasons": 100000,
+    "playoffAppearances": 79135,
+    "championships": 18223,
+    "runnerUps": 19995,
+    "rankings": {
+      "1": 11287,
+      "2": 37629,
+      "3": 8306,
+      "4": 21913
+    }
+  },
+  "Mike": {
+    "numSeasons": 100000,
+    "playoffAppearances": 27338,
+    "championships": 4522,
+    "runnerUps": 6575,
+    "rankings": {
+      "1": 369,
+      "2": 7604,
+      "3": 2666,
+      "4": 16699
+    }
+  },
+  "Jake": {
+    "numSeasons": 100000,
+    "playoffAppearances": 0,
+    "championships": 0,
+    "runnerUps": 0,
+    "rankings": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0
+    }
+  },
+  "Kevin": {
+    "numSeasons": 100000,
+    "playoffAppearances": 2,
+    "championships": 1,
+    "runnerUps": 0,
+    "rankings": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 2
+    }
+  }
+}
