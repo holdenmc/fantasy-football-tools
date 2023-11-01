@@ -15,7 +15,7 @@ import { generateProbabilityMap, runSimulations } from './simulations';
 // TODO: put logs behind a verbose/silent mode flag
 
 // Import file containing team and schedule data
-const currentWeek = 8;
+const currentWeek = 9;
 const currentVersion = 0;
 const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({ version: currentVersion, week: currentWeek, year: 2023 });
 
