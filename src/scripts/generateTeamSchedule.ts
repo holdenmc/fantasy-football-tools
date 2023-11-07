@@ -16,21 +16,21 @@ import { idToName, leagueId } from '../leagueData';
 
 const maxWeeks = 15;
 const currentYear = 2023;
-const version = 0;
+const version = 1;
 
 // Usually from footballguys' free league dominator tool: https://league.footballguys.com/#fbgroster/forecast/points
 // Last updated: 11/7/23 10:20 am
 const teamFuturePPG: Record<string, number> = {
-  Carter: 141.27,
-  Brandon: 140.18,
-  Jeremy: 136.02,
-  Zach: 135.59,
-  Mike: 128.54,
-  Chris: 125.60,
-  Paul: 112.57,
-  Holden: 107.71,
-  Kevin: 107.41,
-  Jake: 98.59,
+  Carter: 132.54,
+  Brandon: 145.44,
+  Jeremy: 144.88,
+  Zach: 126.61,
+  Mike: 125.62,
+  Chris: 136.99,
+  Paul: 101.86,
+  Holden: 109.59,
+  Kevin: 102.7,
+  Jake: 89.53,
 };
 
 const computeTeams = async () => {
