@@ -16,7 +16,7 @@ import { generateProbabilityMap, runSimulations } from './simulations';
 
 // Import file containing team and schedule data
 const currentWeek = 11;
-const currentVersion = 0;
+const currentVersion = 1;
 const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({ version: currentVersion, week: currentWeek, year: 2023 });
 
 const numSimulations = 100 * 1000; // 100k

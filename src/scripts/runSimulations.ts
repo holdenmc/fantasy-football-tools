@@ -13,7 +13,7 @@ import { getTeamAndScheduleData, currentYear } from './utils';
 const previousWeek = 10; // previous week and version to compare aainst
 const previousVersion = 0;
 const currentWeek = 11; // current week and version to simulate
-const currentVersion = 0;
+const currentVersion = 1;
 const includeChangeWeekOverWeek = true;
 
 const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({ version: currentVersion, week: currentWeek });
