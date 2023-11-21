@@ -7,7 +7,7 @@ import { calculateSingleGameProbability, getTeamAndScheduleData } from './utils'
 
 // Import file containing team and schedule data
 const totalWeeks = 15;
-const currentWeek = 10;
+const currentWeek = 12;
 const currentVersion = 0;
 const { teams, schedule } = getTeamAndScheduleData({ version: currentVersion, week: currentWeek, year: 2023 });
 
