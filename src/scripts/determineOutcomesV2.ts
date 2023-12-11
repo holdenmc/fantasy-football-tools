@@ -9,7 +9,7 @@ import { calculateSingleGameProbability, getTeamAndScheduleData } from './utils'
 // for a set remaining games, determine who makes the playoff in every scenario
 
 // Import file containing team and schedule data
-const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({ version: 2, week: 1, year: 2023 });
+const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({ version: 0, week: 14, year: 2023 });
 
 const determineEveryPossibleOutcome = (params: {
   schedule: IGame[];
@@ -21,7 +21,7 @@ const determineEveryPossibleOutcome = (params: {
 
   // all potential sets of outcomes for person's games
   let outcomes: string[][] = [];
-  const remainingGames = schedule.filter((game) => game.home !== 'Paul' && game.home !== 'Brandon');
+  const remainingGames = schedule.filter((game) => game.home !== 'Kevin' && game.home !== 'Paul' && game.home !== 'Brandon');
   remainingGames.forEach(() => {
     const results = ['win', 'lose'];
     if (outcomes.length === 0) {
@@ -80,7 +80,7 @@ const determineEveryPossibleOutcome = (params: {
     const probabilityMap = generateProbabilityMap(simulationResults);
     const names = Object.keys(probabilityMap);
     console.log(`Completed outcome set ${index + 1} of ${outcomes.length}`);
-    // console.log(probabilityMap[names[3]]);
+    // console.log(JSON.stringify(probabilityMap, null, 2));
 
     data.push([
       outcomeSet.map(
