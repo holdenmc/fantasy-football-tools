@@ -20,17 +20,18 @@ const version = 0;
 
 // Usually from footballguys' free league dominator tool: https://league.footballguys.com/#fbgroster/forecast/points
 // Last updated: 12/5/23 9:52 am
+// manually set to everyone's week 15 projected optimal lineup
 const teamFuturePPG: Record<string, number> = {
-  Brandon: 139.57,
-  Zach: 138.22,
-  Jeremy: 136.93,
-  Carter: 135.26,
-  Chris: 132.95,
-  Mike: 131.41,
-  Holden: 111.85,
-  Kevin: 110.84,
-  Paul: 109.77,
-  Jake: 98.81,
+  Zach: 141.41,
+  Jeremy: 139.47,
+  Brandon: 133.18,
+  Chris: 131.76,
+  Carter: 131.54,
+  Mike: 128.69,
+  Holden: 111.47,
+  Jake: 109.24,
+  Kevin: 104.12,
+  Paul: 103.25,
 };
 
 const computeTeams = async () => {
