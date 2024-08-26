@@ -14,9 +14,10 @@ import { LeagueId, leagues } from '../leagueData';
 
 // TODO: extract fleaflicker API code to a helper file
 
+// 183250 or 345994
 const leagueId: LeagueId = 183250;
 const maxWeeks = 15;
-const currentYear = 2023;
+const currentYear = 2024;
 const version = 0;
 
 const { teamFuturePPG, idToName } = leagues[leagueId];
@@ -123,6 +124,8 @@ const computeSchedules = async () => {
   // we need to include the current week's games if it's not complete
   [...(isCurrentWeekComplete ? [] : [currentWeekScoreboard]), ...results].forEach((scoreboard) => {
     scoreboard.body.games?.forEach((game) => {
+      // Skip week 8, it'll get added to the schedule automatically later as a game vs. median
+      if (currentWeek <= 8 && scoreboard.body.schedulePeriod.value === 8) return;
       schedule.push({
         home: idToName[game.home.id],
         away: idToName[game.away.id],
@@ -133,8 +136,9 @@ const computeSchedules = async () => {
 
   // 1x game against the median in week 8, simulated as top half vs. bottom counterpart (i.e. 1 vs. 10, 2 vs. 9, etc...)
   if (currentWeek <= 8) {
-    const topHalf = Object.keys(teamFuturePPG).slice(0, 5);
-    const bottomHalf = Object.keys(teamFuturePPG).slice(5, 10);
+    const leagueSize = Object.keys(teamFuturePPG).length;
+    const topHalf = Object.keys(teamFuturePPG).slice(0, leagueSize / 2);
+    const bottomHalf = Object.keys(teamFuturePPG).slice(leagueSize / 2, leagueSize);
     topHalf.forEach((name, index) => {
       const scheduleItem = { home: name, away: bottomHalf[bottomHalf.length - 1 - index], week: 8 };
       const scheduleUpdateMethod = currentWeek === 8 ? 'unshift' : 'push';
