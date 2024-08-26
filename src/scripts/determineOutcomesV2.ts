@@ -3,13 +3,17 @@ import * as _ from 'lodash';
 import { IGame, ITeamData } from '../interfaces';
 import { generateProbabilityMap, runSimulations } from './simulations';
 import { calculateSingleGameProbability, getTeamAndScheduleData } from './utils';
+import { LeagueId } from '../leagueData';
 
 // ts-node src/scripts/determineOutcomesV2.ts
 
 // for a set remaining games, determine who makes the playoff in every scenario
 
+// 183250 or 345994
+const leagueId: LeagueId = 183250;
+
 // Import file containing team and schedule data
-const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({ version: 0, week: 14, year: 2023 });
+const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({ version: 0, week: 14, year: 2023, leagueId });
 
 const determineEveryPossibleOutcome = (params: {
   schedule: IGame[];

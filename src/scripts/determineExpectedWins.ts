@@ -2,14 +2,19 @@ import { table } from 'table';
 import * as _ from 'lodash';
 import { ITeamData } from '../interfaces';
 import { calculateSingleGameProbability, getTeamAndScheduleData } from './utils';
+import { LeagueId } from '../leagueData';
 
 // ts-node src/scripts/determineExpectedWins.ts
 
+// 183250 or 345994
+const leagueId: LeagueId = 183250;
+
 // Import file containing team and schedule data
 const totalWeeks = 15;
+const currentYear = 2024;
 const currentWeek = 12;
 const currentVersion = 0;
-const { teams, schedule } = getTeamAndScheduleData({ version: currentVersion, week: currentWeek, year: 2023 });
+const { teams, schedule } = getTeamAndScheduleData({ version: currentVersion, week: currentWeek, year: currentYear, leagueId });
 
 /**
  * Determine expected values for wins and losses, based on schedule and projected future PPG

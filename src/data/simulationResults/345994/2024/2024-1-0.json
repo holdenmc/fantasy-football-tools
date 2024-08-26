@@ -1,0 +1,98 @@
+{
+  "Chris": {
+    "numSeasons": 100000,
+    "playoffAppearances": 62921,
+    "championships": 17584,
+    "runnerUps": 15679,
+    "rankings": {
+      "1": 17906,
+      "2": 17647,
+      "3": 13727,
+      "4": 13641
+    }
+  },
+  "Zach": {
+    "numSeasons": 100000,
+    "playoffAppearances": 47831,
+    "championships": 11026,
+    "runnerUps": 11988,
+    "rankings": {
+      "1": 10177,
+      "2": 12335,
+      "3": 11809,
+      "4": 13510
+    }
+  },
+  "Holden": {
+    "numSeasons": 100000,
+    "playoffAppearances": 36547,
+    "championships": 7260,
+    "runnerUps": 9129,
+    "rankings": {
+      "1": 6665,
+      "2": 9296,
+      "3": 9182,
+      "4": 11404
+    }
+  },
+  "Jordan": {
+    "numSeasons": 100000,
+    "playoffAppearances": 48532,
+    "championships": 11583,
+    "runnerUps": 12148,
+    "rankings": {
+      "1": 11065,
+      "2": 14909,
+      "3": 11507,
+      "4": 11051
+    }
+  },
+  "Paul": {
+    "numSeasons": 100000,
+    "playoffAppearances": 47265,
+    "championships": 11497,
+    "runnerUps": 11848,
+    "rankings": {
+      "1": 10950,
+      "2": 10037,
+      "3": 13624,
+      "4": 12654
+    }
+  },
+  "Brandon": {
+    "numSeasons": 100000,
+    "playoffAppearances": 41817,
+    "championships": 9277,
+    "runnerUps": 10461,
+    "rankings": {
+      "1": 9222,
+      "2": 8283,
+      "3": 11986,
+      "4": 12326
+    }
+  },
+  "Jacob": {
+    "numSeasons": 100000,
+    "playoffAppearances": 56137,
+    "championships": 15431,
+    "runnerUps": 14000,
+    "rankings": {
+      "1": 16287,
+      "2": 12687,
+      "3": 14208,
+      "4": 12955
+    }
+  },
+  "Riley": {
+    "numSeasons": 100000,
+    "playoffAppearances": 58950,
+    "championships": 16342,
+    "runnerUps": 14747,
+    "rankings": {
+      "1": 17728,
+      "2": 14806,
+      "3": 13957,
+      "4": 12459
+    }
+  }
+}

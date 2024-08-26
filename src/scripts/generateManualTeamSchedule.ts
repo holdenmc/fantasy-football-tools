@@ -1,31 +1,22 @@
 import fs from 'fs';
 import path from 'path';
-import { idToName } from '../leagueData';
+import { LeagueId, leagues } from '../leagueData';
 
 // ts-node src/scripts/generateManualTeamSchedule.ts
 
 /**
  * Manually generates a league schedule before Paul has updated Fleaflicker
+ *
+ * If this needs to be run for league 345994 - it will need more refactoring
  */
 
+// 183250 or 345994
+const leagueId: LeagueId = 183250;
 const maxWeeks = 15;
-const currentYear = 2023;
+const currentYear = 2024;
 const version = 1;
 
-// Usually from footballguys' free league dominator tool: https://league.footballguys.com/#fbgroster/forecast/points
-// Last updated: 8/24/23 10:00 pm
-const teamFuturePPG: Record<string, number> = {
-  Brandon: 146.34,
-  Carter: 141.08,
-  Jeremy: 134.54,
-  Zach: 134.39,
-  Kevin: 127.57,
-  Chris: 125.82,
-  Mike: 122.42,
-  Paul: 118.01,
-  Holden: 102.66,
-  Jake: 100.75, // assumed 6 ppg kicker pickup
-};
+const { teamFuturePPG, idToName } = leagues[leagueId];
 
 const divisions = [{
   name: '3-Cup Chickens',
@@ -125,7 +116,7 @@ const computeAndWriteToFile = async () => {
     schedule: await computeSchedules(),
   };
   const currentWeek = 1;
-  const filePath = path.join(__dirname, `../data/teamSchedules/${currentYear}-${currentWeek}-${version}.json`);
+  const filePath = path.join(__dirname, `../data/teamSchedules/${leagueId}/${currentYear}/${currentYear}-${currentWeek}-${version}.json`);
   fs.writeFileSync(filePath, JSON.stringify(fileData, null, 2), 'utf8');
 };
 

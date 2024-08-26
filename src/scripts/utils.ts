@@ -65,12 +65,10 @@ export const determineHead2HeadTiebreaker = (
   return null;
 };
 
-export const currentYear = 2023;
-
-export const getTeamAndScheduleData = (options: { version?: number, week?: number, year?: number } = {}): { teams: Record<string, ITeamData>; schedule: IGame[]; } => {
+export const getTeamAndScheduleData = (options: { version?: number, week?: number, year?: number, leagueId: number }): { teams: Record<string, ITeamData>; schedule: IGame[]; } => {
   // Import file containing team and schedule data
-  const { version = 0, week = 1, year = 2023 } = options;
-  const dataFilePath = path.join(__dirname, `../data/teamSchedules/${year}-${week}-${version}.json`);
+  const { version = 0, week = 1, year = 2024, leagueId } = options;
+  const dataFilePath = path.join(__dirname, `../data/teamSchedules/${leagueId}/${year}/${year}-${week}-${version}.json`);
   const teamAndScheduleData = JSON.parse(fs.readFileSync(dataFilePath, 'utf8'));
   return teamAndScheduleData;
 };

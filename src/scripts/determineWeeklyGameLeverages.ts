@@ -4,9 +4,10 @@ import fs from 'fs';
 import path from 'path';
 import { IGame, ITeamData } from '../interfaces';
 import {
-  calculateSingleGameProbability, currentYear, getTeamAndScheduleData,
+  calculateSingleGameProbability, getTeamAndScheduleData,
 } from './utils';
 import { generateProbabilityMap, runSimulations } from './simulations';
+import { LeagueId } from '../leagueData';
 
 // ts-node src/scripts/determineWeeklyGameLeverages.ts
 
@@ -14,10 +15,14 @@ import { generateProbabilityMap, runSimulations } from './simulations';
 
 // TODO: put logs behind a verbose/silent mode flag
 
+// 183250 or 345994
+const leagueId: LeagueId = 183250;
+
 // Import file containing team and schedule data
+const currentYear = 2024;
 const currentWeek = 14;
 const currentVersion = 0;
-const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({ version: currentVersion, week: currentWeek, year: 2023 });
+const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({ version: currentVersion, week: currentWeek, year: currentYear, leagueId });
 
 const numSimulations = 100 * 1000; // 100k
 const includeWeekInHeader = false;
@@ -130,7 +135,7 @@ const runWeeklyGameLeverages = (params: {
   const { schedule, teams } = params;
   console.log('beginning baseline simulation');
 
-  const simulationResultsPath = path.join(__dirname, `../data/simulationResults/${currentYear}-${currentWeek}-${currentVersion}.json`);
+  const simulationResultsPath = path.join(__dirname, `../data/simulationResults/${leagueId}/${currentYear}/${currentYear}-${currentWeek}-${currentVersion}.json`);
   const simulationResults = JSON.parse(fs.readFileSync(simulationResultsPath, 'utf8'));
   const baseProbabilityMap = generateProbabilityMap(simulationResults);
   console.log('Done with baseline simulation', baseProbabilityMap);

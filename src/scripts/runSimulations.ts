@@ -3,20 +3,25 @@ import fs from 'fs';
 import { table } from 'table';
 import type { ITeamData, IGame } from '../interfaces';
 import { runSimulations } from './simulations';
-import { getTeamAndScheduleData, currentYear } from './utils';
+import { getTeamAndScheduleData } from './utils';
+import { LeagueId } from '../leagueData';
 
 // ts-node src/scripts/runSimulations.ts
 
 // simulate the season, write the results to the file system and log the results in a table
 
-// Import file containing team and schedule data
-const previousWeek = 14; // previous week and version to compare against
-const previousVersion = 0;
-const currentWeek = 15; // current week and version to simulate
-const currentVersion = 0;
-const includeChangeWeekOverWeek = true;
+// 183250 or 345994
+const leagueId: LeagueId = 345994;
 
-const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({ version: currentVersion, week: currentWeek });
+// Import file containing team and schedule data
+const currentYear = 2024;
+const previousWeek = 0; // previous week and version to compare against
+const previousVersion = 0;
+const currentWeek = 1; // current week and version to simulate
+const currentVersion = 0;
+const includeChangeWeekOverWeek = false;
+
+const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({ version: currentVersion, week: currentWeek, year: currentYear, leagueId });
 
 // Simulate the season multiple times
 const simulateAndLogResults = (params: {
@@ -30,7 +35,7 @@ const simulateAndLogResults = (params: {
     shouldSimulatePlayoffs = false,
   } = params;
 
-  const currentWeekFilePath = path.join(__dirname, `../data/simulationResults/${currentYear}-${currentWeek}-${currentVersion}.json`);
+  const currentWeekFilePath = path.join(__dirname, `../data/simulationResults/${leagueId}/${currentYear}/${currentYear}-${currentWeek}-${currentVersion}.json`);
   let existingCurrentWeekFile;
   try {
     existingCurrentWeekFile = fs.readFileSync(currentWeekFilePath, 'utf8');
@@ -50,7 +55,7 @@ const simulateAndLogResults = (params: {
   let previousWeekSimulationResults;
   if (includeChangeWeekOverWeek) {
     // note assumes same simulation count as current week (for now)
-    const previousWeekFilePath = path.join(__dirname, `../data/simulationResults/${currentYear}-${previousWeek}-${previousVersion}.json`);
+    const previousWeekFilePath = path.join(__dirname, `../data/simulationResults/${leagueId}/${currentYear}/${currentYear}-${previousWeek}-${previousVersion}.json`);
     previousWeekSimulationResults = JSON.parse(fs.readFileSync(previousWeekFilePath, 'utf8'));
   }
 
