@@ -16,3 +16,8 @@ Feature TODO
 - 538/NYT-like UI to analyze individual game outcomes (i.e. select a result for a specific game and see how odds change)
 - build week-by-week team level projections based on some projections API (ESPN? Sleeper?)
 - Historic win-loss records and scoring records
+
+To use
+- Update teamFuturePPG in `leagueData.ts` from FBG League Dominator
+- Run `generateTeamSchedule` to create a Team Schedule JSON file
+- Run `runSimulations` to create a simulation results JSON file and output a table
