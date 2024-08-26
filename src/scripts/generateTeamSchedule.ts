@@ -1,7 +1,7 @@
 import request from 'superagent';
 import fs from 'fs';
 import path from 'path';
-import { idToName, leagueId } from '../leagueData';
+import { LeagueId, leagues } from '../leagueData';
 
 // ts-node src/scripts/generateTeamSchedule.ts
 
@@ -14,25 +14,12 @@ import { idToName, leagueId } from '../leagueData';
 
 // TODO: extract fleaflicker API code to a helper file
 
+const leagueId: LeagueId = 183250;
 const maxWeeks = 15;
 const currentYear = 2023;
 const version = 0;
 
-// Usually from footballguys' free league dominator tool: https://league.footballguys.com/#fbgroster/forecast/points
-// Last updated: 12/5/23 9:52 am
-// manually set to everyone's week 15 projected optimal lineup
-const teamFuturePPG: Record<string, number> = {
-  Zach: 141.41,
-  Jeremy: 139.47,
-  Brandon: 133.18,
-  Chris: 131.76,
-  Carter: 131.54,
-  Mike: 128.69,
-  Holden: 111.47,
-  Jake: 109.24,
-  Kevin: 104.12,
-  Paul: 103.25,
-};
+const { teamFuturePPG, idToName } = leagues[leagueId];
 
 const computeTeams = async () => {
   const teams = Object.values(idToName).reduce((acc, curr) => {
@@ -165,7 +152,7 @@ const computeAndWriteToFile = async () => {
     schedule: await computeSchedules(),
   };
   const currentWeek = fileData.schedule[0].week;
-  const filePath = path.join(__dirname, `../data/teamSchedules/${currentYear}-${currentWeek}-${version}.json`);
+  const filePath = path.join(__dirname, `../data/teamSchedules/${leagueId}/${currentYear}/${currentYear}-${currentWeek}-${version}.json`);
   fs.writeFileSync(filePath, JSON.stringify(fileData, null, 2), 'utf8');
 };
 
