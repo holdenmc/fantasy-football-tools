@@ -21,7 +21,9 @@ const currentWeek = 1; // current week and version to simulate
 const currentVersion = 0;
 const includeChangeWeekOverWeek = false;
 
-const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({ version: currentVersion, week: currentWeek, year: currentYear, leagueId });
+const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({
+  version: currentVersion, week: currentWeek, year: currentYear, leagueId,
+});
 
 // Simulate the season multiple times
 const simulateAndLogResults = (params: {
