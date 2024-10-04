@@ -1,0 +1,370 @@
+{
+  "teams": {
+    "Chris": {
+      "name": "Chris",
+      "records": {
+        "Zach": 0,
+        "Holden": 0,
+        "Jordan": 1,
+        "Paul": 1,
+        "Brandon": 0,
+        "Jacob": 0,
+        "Riley": 0
+      },
+      "wins": 2,
+      "losses": 2,
+      "division": "Division 1",
+      "totalPoints": 2187.27,
+      "totalOpponentPoints": 0,
+      "projectedFuturePPG": 145.69
+    },
+    "Zach": {
+      "name": "Zach",
+      "records": {
+        "Chris": 1,
+        "Holden": 1,
+        "Jordan": 1,
+        "Paul": 0,
+        "Brandon": 1,
+        "Jacob": 0,
+        "Riley": 0
+      },
+      "wins": 4,
+      "losses": 0,
+      "division": "Division 2",
+      "totalPoints": 2546.75,
+      "totalOpponentPoints": 0,
+      "projectedFuturePPG": 164.01
+    },
+    "Holden": {
+      "name": "Holden",
+      "records": {
+        "Chris": 1,
+        "Zach": 0,
+        "Jordan": 1,
+        "Paul": 0,
+        "Brandon": 0,
+        "Jacob": 0,
+        "Riley": 0
+      },
+      "wins": 2,
+      "losses": 2,
+      "division": "Division 1",
+      "totalPoints": 2238.7799999999997,
+      "totalOpponentPoints": 0,
+      "projectedFuturePPG": 146.84
+    },
+    "Jordan": {
+      "name": "Jordan",
+      "records": {
+        "Chris": 0,
+        "Zach": 0,
+        "Holden": 0,
+        "Paul": 0,
+        "Brandon": 0,
+        "Jacob": 0,
+        "Riley": 1
+      },
+      "wins": 1,
+      "losses": 3,
+      "division": "Division 2",
+      "totalPoints": 2306.06,
+      "totalOpponentPoints": 0,
+      "projectedFuturePPG": 156.66
+    },
+    "Paul": {
+      "name": "Paul",
+      "records": {
+        "Chris": 0,
+        "Zach": 0,
+        "Holden": 0,
+        "Jordan": 0,
+        "Brandon": 1,
+        "Jacob": 1,
+        "Riley": 1
+      },
+      "wins": 3,
+      "losses": 1,
+      "division": "Division 1",
+      "totalPoints": 2209.86,
+      "totalOpponentPoints": 0,
+      "projectedFuturePPG": 146.46
+    },
+    "Brandon": {
+      "name": "Brandon",
+      "records": {
+        "Chris": 0,
+        "Zach": 0,
+        "Holden": 0,
+        "Jordan": 0,
+        "Paul": 0,
+        "Jacob": 0,
+        "Riley": 1
+      },
+      "wins": 1,
+      "losses": 3,
+      "division": "Division 2",
+      "totalPoints": 2092.04,
+      "totalOpponentPoints": 0,
+      "projectedFuturePPG": 140.28
+    },
+    "Jacob": {
+      "name": "Jacob",
+      "records": {
+        "Chris": 0,
+        "Zach": 0,
+        "Holden": 1,
+        "Jordan": 0,
+        "Paul": 0,
+        "Brandon": 1,
+        "Riley": 0
+      },
+      "wins": 2,
+      "losses": 2,
+      "division": "Division 2",
+      "totalPoints": 2182.9,
+      "totalOpponentPoints": 0,
+      "projectedFuturePPG": 145.28
+    },
+    "Riley": {
+      "name": "Riley",
+      "records": {
+        "Chris": 0,
+        "Zach": 0,
+        "Holden": 0,
+        "Jordan": 0,
+        "Paul": 0,
+        "Brandon": 0,
+        "Jacob": 1
+      },
+      "wins": 1,
+      "losses": 3,
+      "division": "Division 1",
+      "totalPoints": 2204.23,
+      "totalOpponentPoints": 0,
+      "projectedFuturePPG": 149.03
+    }
+  },
+  "schedule": [
+    {
+      "home": "Brandon",
+      "away": "Chris",
+      "week": 5
+    },
+    {
+      "home": "Jacob",
+      "away": "Zach",
+      "week": 5
+    },
+    {
+      "home": "Riley",
+      "away": "Holden",
+      "week": 5
+    },
+    {
+      "home": "Paul",
+      "away": "Jordan",
+      "week": 5
+    },
+    {
+      "home": "Holden",
+      "away": "Paul",
+      "week": 6
+    },
+    {
+      "home": "Jordan",
+      "away": "Brandon",
+      "week": 6
+    },
+    {
+      "home": "Chris",
+      "away": "Jacob",
+      "week": 6
+    },
+    {
+      "home": "Zach",
+      "away": "Riley",
+      "week": 6
+    },
+    {
+      "home": "Riley",
+      "away": "Chris",
+      "week": 7
+    },
+    {
+      "home": "Paul",
+      "away": "Zach",
+      "week": 7
+    },
+    {
+      "home": "Brandon",
+      "away": "Holden",
+      "week": 7
+    },
+    {
+      "home": "Jacob",
+      "away": "Jordan",
+      "week": 7
+    },
+    {
+      "home": "Jordan",
+      "away": "Paul",
+      "week": 9
+    },
+    {
+      "home": "Chris",
+      "away": "Brandon",
+      "week": 9
+    },
+    {
+      "home": "Zach",
+      "away": "Jacob",
+      "week": 9
+    },
+    {
+      "home": "Holden",
+      "away": "Riley",
+      "week": 9
+    },
+    {
+      "home": "Jacob",
+      "away": "Chris",
+      "week": 10
+    },
+    {
+      "home": "Riley",
+      "away": "Zach",
+      "week": 10
+    },
+    {
+      "home": "Paul",
+      "away": "Holden",
+      "week": 10
+    },
+    {
+      "home": "Brandon",
+      "away": "Jordan",
+      "week": 10
+    },
+    {
+      "home": "Zach",
+      "away": "Paul",
+      "week": 11
+    },
+    {
+      "home": "Holden",
+      "away": "Brandon",
+      "week": 11
+    },
+    {
+      "home": "Jordan",
+      "away": "Jacob",
+      "week": 11
+    },
+    {
+      "home": "Chris",
+      "away": "Riley",
+      "week": 11
+    },
+    {
+      "home": "Paul",
+      "away": "Chris",
+      "week": 12
+    },
+    {
+      "home": "Brandon",
+      "away": "Zach",
+      "week": 12
+    },
+    {
+      "home": "Jacob",
+      "away": "Holden",
+      "week": 12
+    },
+    {
+      "home": "Riley",
+      "away": "Jordan",
+      "week": 12
+    },
+    {
+      "home": "Holden",
+      "away": "Chris",
+      "week": 13
+    },
+    {
+      "home": "Jordan",
+      "away": "Zach",
+      "week": 13
+    },
+    {
+      "home": "Jacob",
+      "away": "Paul",
+      "week": 13
+    },
+    {
+      "home": "Riley",
+      "away": "Brandon",
+      "week": 13
+    },
+    {
+      "home": "Jordan",
+      "away": "Chris",
+      "week": 14
+    },
+    {
+      "home": "Zach",
+      "away": "Holden",
+      "week": 14
+    },
+    {
+      "home": "Riley",
+      "away": "Paul",
+      "week": 14
+    },
+    {
+      "home": "Brandon",
+      "away": "Jacob",
+      "week": 14
+    },
+    {
+      "home": "Chris",
+      "away": "Zach",
+      "week": 15
+    },
+    {
+      "home": "Jordan",
+      "away": "Holden",
+      "week": 15
+    },
+    {
+      "home": "Paul",
+      "away": "Brandon",
+      "week": 15
+    },
+    {
+      "home": "Riley",
+      "away": "Jacob",
+      "week": 15
+    },
+    {
+      "home": "Brandon",
+      "away": "Jordan",
+      "week": 8
+    },
+    {
+      "home": "Holden",
+      "away": "Riley",
+      "week": 8
+    },
+    {
+      "home": "Chris",
+      "away": "Jacob",
+      "week": 8
+    },
+    {
+      "home": "Zach",
+      "away": "Paul",
+      "week": 8
+    }
+  ]
+}

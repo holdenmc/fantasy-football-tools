@@ -24,17 +24,17 @@ export const leagues = {
       1244239: 'Paul',
     },
     teamFuturePPG: {
-      Zach: 137.51,
-      Jeremy: 132.56,
-      Brandon: 145.50,
-      Chris: 96.62,
-      Carter: 112.96,
-      Mike: 129.43,
-      Holden: 135.69,
-      Jake: 115.82,
-      Kevin: 98.78,
-      Paul: 132.30,
-    }
+      Zach: 130.72,
+      Jeremy: 129.84,
+      Brandon: 129.34,
+      Chris: 91.14,
+      Carter: 99.17,
+      Mike: 129.17,
+      Holden: 124.72,
+      Jake: 102.67,
+      Kevin: 100.62,
+      Paul: 117.07,
+    },
   },
   345994: {
     idToName: {
@@ -48,14 +48,14 @@ export const leagues = {
       1777463: 'Jordan',
     },
     teamFuturePPG: {
-      Brandon: 158.04,
-      Holden: 154.88,
-      Chris: 164.31,
-      Zach: 158.52,
-      Paul: 159.85,
-      Jacob: 164.02,
-      Riley: 164.01,
-      Jordan: 159.75,
-    }
-  }
-}
+      Brandon: 140.28,
+      Holden: 146.84,
+      Chris: 145.69,
+      Zach: 164.01,
+      Paul: 146.46,
+      Jacob: 145.28,
+      Riley: 149.03,
+      Jordan: 156.66,
+    },
+  },
+};
