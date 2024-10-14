@@ -20,8 +20,8 @@ const leagueId: LeagueId = 183250;
 
 // Import file containing team and schedule data
 const currentYear = 2024;
-const currentWeek = 5;
-const currentVersion = 0;
+const currentWeek = 6;
+const currentVersion = 1;
 const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({
   version: currentVersion, week: currentWeek, year: currentYear, leagueId,
 });
