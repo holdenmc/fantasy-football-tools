@@ -11,14 +11,14 @@ import { LeagueId } from '../leagueData';
 // simulate the season, write the results to the file system and log the results in a table
 
 // 183250 or 345994
-const leagueId: LeagueId = 183250;
+const leagueId: LeagueId = 345994;
 
 // Import file containing team and schedule data
 const currentYear = 2024;
-const previousWeek = 5; // previous week and version to compare against
+const previousWeek = 6; // previous week and version to compare against
 const previousVersion = 0;
-const currentWeek = 6; // current week and version to simulate
-const currentVersion = 1;
+const currentWeek = 7; // current week and version to simulate
+const currentVersion = 0;
 const includeChangeWeekOverWeek = true;
 
 const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({
