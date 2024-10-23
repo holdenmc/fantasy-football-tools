@@ -16,11 +16,11 @@ import { LeagueId } from '../leagueData';
 // TODO: put logs behind a verbose/silent mode flag
 
 // 183250 or 345994
-const leagueId: LeagueId = 345994;
+const leagueId: LeagueId = 183250;
 
 // Import file containing team and schedule data
 const currentYear = 2024;
-const currentWeek = 7;
+const currentWeek = 8;
 const currentVersion = 0;
 const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({
   version: currentVersion, week: currentWeek, year: currentYear, leagueId,

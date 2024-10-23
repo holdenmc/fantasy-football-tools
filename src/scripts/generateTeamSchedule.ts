@@ -15,7 +15,7 @@ import { LeagueId, leagues } from '../leagueData';
 // TODO: extract fleaflicker API code to a helper file
 
 // 183250 or 345994
-const leagueId: LeagueId = 345994;
+const leagueId: LeagueId = 183250;
 const maxWeeks = 15;
 const currentYear = 2024;
 const version = 0;
