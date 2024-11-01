@@ -29,7 +29,7 @@ export const leagues = {
       Holden: 133.26,
       Jeremy: 131.68,
       Paul: 128.69,
-      Mike: 126.23,
+      Mike: 126.23 + 10, // Arbitrary boost to ignore WR injuries
       Kevin: 113.33,
       Carter: 107.13,
       Jake: 100.01,

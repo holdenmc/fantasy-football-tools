@@ -18,7 +18,7 @@ import { LeagueId, leagues } from '../leagueData';
 const leagueId: LeagueId = 183250;
 const maxWeeks = 15;
 const currentYear = 2024;
-const version = 0;
+const version = 1;
 
 const { teamFuturePPG, idToName } = leagues[leagueId];
 
