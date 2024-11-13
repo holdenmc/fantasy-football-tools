@@ -11,30 +11,28 @@ import { LeagueId } from '../leagueData';
 // simulate the season, write the results to the file system and log the results in a table
 
 // 183250 or 345994
-const leagueId: LeagueId = 345994;
+const leagueIds: LeagueId[] = [183250, 345994];
 
 // Import file containing team and schedule data
 const currentYear = 2024;
-const previousWeek = 9; // previous week and version to compare against
+const previousWeek = 10; // previous week and version to compare against
 const previousVersion = 0;
-const currentWeek = 10; // current week and version to simulate
+const currentWeek = 11; // current week and version to simulate
 const currentVersion = 0;
 const includeChangeWeekOverWeek = true;
-
-const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({
-  version: currentVersion, week: currentWeek, year: currentYear, leagueId,
-});
 
 // Simulate the season multiple times
 const simulateAndLogResults = (params: {
     schedule: IGame[];
     teams: Record<string, ITeamData>;
     shouldSimulatePlayoffs?: boolean;
-    numSimulations?: number;
+    leagueId: LeagueId;
 }) => {
   const {
     teams,
+    schedule,
     shouldSimulatePlayoffs = false,
+    leagueId,
   } = params;
 
   const currentWeekFilePath = path.join(__dirname, `../data/simulationResults/${leagueId}/${currentYear}/${currentYear}-${currentWeek}-${currentVersion}.json`);
@@ -50,7 +48,7 @@ const simulateAndLogResults = (params: {
     currentWeekSimulationResults = JSON.parse(existingCurrentWeekFile);
   } else {
     // if no previous results, run simulations and write results to file system
-    currentWeekSimulationResults = runSimulations(params);
+    currentWeekSimulationResults = runSimulations({ schedule, teams, shouldSimulatePlayoffs });
     fs.writeFileSync(currentWeekFilePath, JSON.stringify(currentWeekSimulationResults, null, 2), 'utf8');
   }
 
@@ -117,8 +115,15 @@ const simulateAndLogResults = (params: {
   console.log(table(resultsList));
 };
 
-simulateAndLogResults({
-  schedule: originalSchedule,
-  teams: originalTeams,
-  shouldSimulatePlayoffs: true,
+leagueIds.forEach((leagueId) => {
+  const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({
+    version: currentVersion, week: currentWeek, year: currentYear, leagueId,
+  });
+
+  simulateAndLogResults({
+    schedule: originalSchedule,
+    teams: originalTeams,
+    shouldSimulatePlayoffs: true,
+    leagueId,
+  });
 });
