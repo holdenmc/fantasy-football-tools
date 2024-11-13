@@ -14,15 +14,13 @@ import { LeagueId, leagues } from '../leagueData';
 
 // TODO: extract fleaflicker API code to a helper file
 
-// 183250 or 345994
-const leagueId: LeagueId = 183250;
+const leagueIds: LeagueId[] = [183250, 345994];
 const maxWeeks = 15;
 const currentYear = 2024;
 const version = 0;
 
-const { teamFuturePPG, idToName } = leagues[leagueId];
-
-const computeTeams = async () => {
+const computeTeams = async (leagueId: LeagueId) => {
+  const { teamFuturePPG, idToName } = leagues[leagueId];
   const teams = Object.values(idToName).reduce((acc, curr) => {
     acc[curr] = {
       name: curr,
@@ -99,7 +97,8 @@ const computeTeams = async () => {
   return teams;
 };
 
-const computeSchedules = async () => {
+const computeSchedules = async (leagueId: LeagueId) => {
+  const { teamFuturePPG, idToName } = leagues[leagueId];
   const schedule: { home: string; away: string; week: number; }[] = [];
 
   // always get current week's scoreboard
@@ -150,14 +149,16 @@ const computeSchedules = async () => {
   return schedule;
 };
 
-const computeAndWriteToFile = async () => {
+const computeAndWriteToFile = async (leagueId: LeagueId) => {
   const fileData = {
-    teams: await computeTeams(),
-    schedule: await computeSchedules(),
+    teams: await computeTeams(leagueId),
+    schedule: await computeSchedules(leagueId),
   };
   const currentWeek = fileData.schedule[0].week;
   const filePath = path.join(__dirname, `../data/teamSchedules/${leagueId}/${currentYear}/${currentYear}-${currentWeek}-${version}.json`);
   fs.writeFileSync(filePath, JSON.stringify(fileData, null, 2), 'utf8');
 };
 
-computeAndWriteToFile();
+leagueIds.forEach((leagueId) => {
+  computeAndWriteToFile(leagueId);
+});
