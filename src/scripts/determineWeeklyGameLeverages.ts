@@ -15,16 +15,12 @@ import { LeagueId } from '../leagueData';
 
 // TODO: put logs behind a verbose/silent mode flag
 
-// 183250 or 345994
-const leagueId: LeagueId = 345994;
+const leagueIds: LeagueId[] = [183250, 345994];
 
 // Import file containing team and schedule data
 const currentYear = 2024;
-const currentWeek = 10;
+const currentWeek = 11;
 const currentVersion = 0;
-const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({
-  version: currentVersion, week: currentWeek, year: currentYear, leagueId,
-});
 
 const numSimulations = 100 * 1000; // 100k
 const includeWeekInHeader = false;
@@ -131,10 +127,11 @@ const weeklyGameLeverages = (params: {
 };
 
 const runWeeklyGameLeverages = (params: {
-    schedule: IGame[],
-    teams: Record<string, ITeamData>
+    schedule: IGame[];
+    teams: Record<string, ITeamData>;
+    leagueId: LeagueId;
 }) => {
-  const { schedule, teams } = params;
+  const { schedule, teams, leagueId } = params;
   console.log('beginning baseline simulation');
 
   const simulationResultsPath = path.join(__dirname, `../data/simulationResults/${leagueId}/${currentYear}/${currentYear}-${currentWeek}-${currentVersion}.json`);
@@ -151,4 +148,10 @@ const runWeeklyGameLeverages = (params: {
   });
 };
 
-runWeeklyGameLeverages({ schedule: originalSchedule, teams: originalTeams });
+leagueIds.forEach((leagueId) => {
+  const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({
+    version: currentVersion, week: currentWeek, year: currentYear, leagueId,
+  });
+
+  runWeeklyGameLeverages({ schedule: originalSchedule, teams: originalTeams, leagueId });
+});
