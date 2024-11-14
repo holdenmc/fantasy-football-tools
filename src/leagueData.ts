@@ -4,7 +4,7 @@
  * idToName is the Fleaflicker team ID mapped to the person's name
  *
  * teamFuturePPG is pulled manually from footballguys' free league dominator tool: https://league.footballguys.com/#fbgroster/forecast/points
- * Last updated: 10/16/24 11:00am
+ * Last updated: 11/13/24 9:15am
  */
 
 export type LeagueId = 183250 | 345994;
@@ -24,16 +24,16 @@ export const leagues = {
       1244239: 'Paul',
     },
     teamFuturePPG: {
-      Brandon: 142.58,
-      Holden: 137.39,
-      Zach: 135.28,
-      Jeremy: 131.32,
-      Paul: 130.49,
-      Mike: 127.34,
-      Kevin: 111.49,
-      Carter: 106.60,
-      Jake: 95.53,
-      Chris: 87.17,
+      Brandon: 140.07,
+      Holden: 138.56,
+      Zach: 132.07,
+      Jeremy: 130.66,
+      Paul: 129.95,
+      Mike: 128.77,
+      Kevin: 109.07,
+      Carter: 102.35,
+      Jake: 101.50,
+      Chris: 89.99,
     },
   },
   345994: {
@@ -48,14 +48,14 @@ export const leagues = {
       1777463: 'Jordan',
     },
     teamFuturePPG: {
-      Zach: 172.83,
-      Chris: 163.40,
-      Paul: 160.20,
-      Jordan: 159.18,
-      Riley: 157.84,
-      Jacob: 145.03,
-      Holden: 142.77,
-      Brandon: 138.98,
+      Zach: 167.55,
+      Paul: 160.47,
+      Jordan: 160.42,
+      Chris: 159.78,
+      Riley: 154.33,
+      Jacob: 142.06,
+      Holden: 141.27,
+      Brandon: 135.23,
     },
   },
 };
