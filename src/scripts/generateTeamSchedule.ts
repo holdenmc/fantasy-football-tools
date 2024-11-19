@@ -125,6 +125,7 @@ const computeSchedules = async (leagueId: LeagueId) => {
     scoreboard.body.games?.forEach((game) => {
       // Skip week 8, it'll get added to the schedule automatically later as a game vs. median
       if (currentWeek <= 8 && scoreboard.body.schedulePeriod.value === 8) return;
+
       schedule.push({
         home: idToName[game.home.id],
         away: idToName[game.away.id],
