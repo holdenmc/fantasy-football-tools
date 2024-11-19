@@ -19,7 +19,7 @@ const leagueIds: LeagueId[] = [183250, 345994];
 
 // Import file containing team and schedule data
 const currentYear = 2024;
-const currentWeek = 11;
+const currentWeek = 12;
 const currentVersion = 0;
 
 const numSimulations = 100 * 1000; // 100k
@@ -62,15 +62,14 @@ const weeklyGameLeverages = (params: {
     }
   });
 
-  // console.log(resultsList);
-
+  let gameOfTheWeekScore = 0;
+  let gameOfTheWeek;
   gamesToAnalyze.forEach((game) => {
     // new schedule without the game in question
     const newSchedule = _.cloneDeep(schedule)
       .filter((filterGame) => !(filterGame.home === game.home
         && filterGame.away === game.away
         && filterGame.week === game.week));
-    // console.log(newSchedule);
 
     const newProbabilityMaps: Record<string, number>[] = [];
 
@@ -108,6 +107,7 @@ const weeklyGameLeverages = (params: {
       );
     }
 
+    let totalWinProbabilityChange = 0;
     let index = 0;
     Object.keys(baseProbabilityMap).forEach((name) => {
       if (includeInOutput(name)) {
@@ -118,12 +118,21 @@ const weeklyGameLeverages = (params: {
         );
         index++;
       }
+
+      totalWinProbabilityChange += Math.abs(newProbabilityMaps[0][name] - baseProbabilityMap[name]);
+      totalWinProbabilityChange += Math.abs(newProbabilityMaps[1][name] - baseProbabilityMap[name]);
     });
     console.log(`Done with simulation of ${game.home} vs. ${game.away} in week ${week}`);
+    console.log(`Total amplitude: ${totalWinProbabilityChange}`);
+    if (totalWinProbabilityChange > gameOfTheWeekScore) {
+      gameOfTheWeekScore = totalWinProbabilityChange;
+      gameOfTheWeek = game;
+    }
   });
 
   // console.log(JSON.stringify(resultsList, null, 2));
   console.log(table(resultsList));
+  console.log(`Game of the Week: ${gameOfTheWeek.home} vs. ${gameOfTheWeek.away}: ${gameOfTheWeekScore}`);
 };
 
 const runWeeklyGameLeverages = (params: {

@@ -15,9 +15,9 @@ const leagueIds: LeagueId[] = [183250, 345994];
 
 // Import file containing team and schedule data
 const currentYear = 2024;
-const previousWeek = 10; // previous week and version to compare against
+const previousWeek = 11; // previous week and version to compare against
 const previousVersion = 0;
-const currentWeek = 11; // current week and version to simulate
+const currentWeek = 12; // current week and version to simulate
 const currentVersion = 0;
 const includeChangeWeekOverWeek = true;
 
