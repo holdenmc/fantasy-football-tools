@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import type { ITeamData, IGame } from '../interfaces';
 import {
-  calculateSingleGameProbability, determineHead2HeadTiebreaker, initializeLookupTable, lookupProbabilityValue,
+  calculateSingleGameProbability, determineDivisionWinsTiebreaker, determineHead2HeadTiebreaker, initializeLookupTable, lookupProbabilityValue,
 } from './utils';
 
 // Script for simulating one or many seasons
@@ -37,8 +37,9 @@ const NUM_SIMULATIONS = 100 * 1000; // 100k for speeeed
  */
 const determineResults = (params: {
     teams: Record<string, ITeamData>;
+    useDivisionTiebreaker?: boolean; // when true, includes the Division Record tiebreaker in between H2H and Points For
 }) => {
-  const { teams } = params;
+  const { teams, useDivisionTiebreaker = false } = params;
   const sortFunc = (a: { wins: number; }, b: { wins: number }) => ((a.wins > b.wins) ? -1 : 1);
 
   // just sorted by wins, not tiebreakers
@@ -68,11 +69,15 @@ const determineResults = (params: {
       if (tiedTeams.length === 2) {
         // first tiebreaker, h2h
         const head2HeadWinner = determineHead2HeadTiebreaker(tiedTeams[0], tiedTeams[1]);
+        const divisionRecordWinner = useDivisionTiebreaker && determineDivisionWinsTiebreaker(tiedTeams[0], tiedTeams[1]);
 
         if (head2HeadWinner) {
           selectedTeam = head2HeadWinner;
+        } else if (divisionRecordWinner) {
+          // 2nd tiebreaker, Division Record. Only applies if teams are in the same division and setting is enabled
+          selectedTeam = divisionRecordWinner;
         } else {
-          // 2nd tiebreaker, points
+          // 2nd or 3rd tiebreaker, points
           selectedTeam = tiedTeams[0].totalPoints > tiedTeams[1].totalPoints ? tiedTeams[0] : tiedTeams[1];
         }
       } else {
@@ -104,8 +109,9 @@ const determineResults = (params: {
 const runIndividualSimulation = (params: {
     schedule: IGame[],
     teams: Record<string, ITeamData>
+    useDivisionTiebreaker?: boolean;
 }) => {
-  const { schedule, teams } = params;
+  const { schedule, teams, useDivisionTiebreaker = false } = params;
   const seasonTeams = _.cloneDeep(teams);
   schedule.forEach((matchup) => {
     const teamA = seasonTeams[matchup.home];
@@ -124,7 +130,7 @@ const runIndividualSimulation = (params: {
     }
   });
 
-  return determineResults({ teams: seasonTeams });
+  return determineResults({ teams: seasonTeams, useDivisionTiebreaker });
 };
 
 /**
@@ -158,6 +164,7 @@ export const runSimulations = (params: {
     teams: Record<string, ITeamData>;
     shouldSimulatePlayoffs?: boolean;
     numSimulations?: number;
+    useDivisionTiebreaker?: boolean; // when true, includes the Division Record tiebreaker in between H2H and Points For
 }): Record<string, {
   numSeasons: number;
   playoffAppearances: number;
@@ -175,6 +182,7 @@ export const runSimulations = (params: {
     teams,
     shouldSimulatePlayoffs = false,
     numSimulations = NUM_SIMULATIONS,
+    useDivisionTiebreaker = false,
   } = params;
   const teamsCopy: Record<string, ITeamData> = _.cloneDeep(teams);
 
@@ -200,7 +208,7 @@ export const runSimulations = (params: {
     if (i % 100000 === 0) {
       console.log(`Completed simulation ${i} out of ${numSimulations}: ${new Date()}`);
     }
-    const results = runIndividualSimulation({ schedule, teams: teamsCopy });
+    const results = runIndividualSimulation({ schedule, teams: teamsCopy, useDivisionTiebreaker });
     const playoffTeams = results.slice(0, 4);
 
     playoffTeams.forEach((team, index) => {

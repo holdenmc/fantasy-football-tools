@@ -73,6 +73,19 @@ export const determineDivisionWins = (team: ITeamData): number => {
   return teamsInDivision.reduce((totalWins: number, teamName: string) => totalWins + records[teamName], 0);
 };
 
+export const determineDivisionWinsTiebreaker = (teamA: ITeamData, teamB: ITeamData): ITeamData | null => {
+  if (teamA.division !== teamB.division) {
+    return null;
+  }
+  const teamADivisionWins = determineDivisionWins(teamA);
+  const teamBDivisionWins = determineDivisionWins(teamB);
+
+  if (teamADivisionWins === teamBDivisionWins) {
+    return null;
+  }
+  return teamADivisionWins > teamBDivisionWins ? teamA : teamB;
+};
+
 export const getTeamAndScheduleData = (options: { version?: number, week?: number, year?: number, leagueId: number }): { teams: Record<string, ITeamData>; schedule: IGame[]; } => {
   // Import file containing team and schedule data
   const {

@@ -4,7 +4,7 @@ import { table } from 'table';
 import type { ITeamData, IGame } from '../interfaces';
 import { runSimulations } from './simulations';
 import { getTeamAndScheduleData } from './utils';
-import { LeagueId } from '../leagueData';
+import { hasDivisionTiebreaker, LeagueId } from '../leagueData';
 
 // ts-node src/scripts/runSimulations.ts
 
@@ -48,7 +48,9 @@ const simulateAndLogResults = (params: {
     currentWeekSimulationResults = JSON.parse(existingCurrentWeekFile);
   } else {
     // if no previous results, run simulations and write results to file system
-    currentWeekSimulationResults = runSimulations({ schedule, teams, shouldSimulatePlayoffs });
+    currentWeekSimulationResults = runSimulations({
+      schedule, teams, shouldSimulatePlayoffs, useDivisionTiebreaker: hasDivisionTiebreaker(leagueId),
+    });
     fs.writeFileSync(currentWeekFilePath, JSON.stringify(currentWeekSimulationResults, null, 2), 'utf8');
   }
 

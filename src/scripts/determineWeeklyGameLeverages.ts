@@ -7,7 +7,7 @@ import {
   calculateSingleGameProbability, getTeamAndScheduleData,
 } from './utils';
 import { generateProbabilityMap, runSimulations } from './simulations';
-import { LeagueId } from '../leagueData';
+import { LeagueId, hasDivisionTiebreaker } from '../leagueData';
 
 // ts-node src/scripts/determineWeeklyGameLeverages.ts
 
@@ -33,9 +33,10 @@ const weeklyGameLeverages = (params: {
     includeGameProbability?: boolean; // include a second header row with probability of each game
     userFilter?: string[]; // names to include in output
     scheduleFilter?: string[]; // include all the games remaining for this set of users
+    leagueId: LeagueId;
 }) => {
   const {
-    week, baseProbabilityMap, schedule, teams, includeGameProbability = false, userFilter, scheduleFilter,
+    week, baseProbabilityMap, schedule, teams, includeGameProbability = false, userFilter, scheduleFilter, leagueId,
   } = params;
 
   const includeInOutput = (name) => !userFilter || userFilter.includes(name);
@@ -88,7 +89,9 @@ const weeklyGameLeverages = (params: {
       // console.log(JSON.stringify(teamsCopy, null, 2));
 
       // console.log(`Running simulation where ${winner === 'home' ? game.home : game.away} wins ${game.home} vs. ${game.away} in week ${week}`);
-      const simulationResults = runSimulations({ schedule: newSchedule, teams: teamsCopy, numSimulations });
+      const simulationResults = runSimulations({
+        schedule: newSchedule, teams: teamsCopy, numSimulations, useDivisionTiebreaker: hasDivisionTiebreaker(leagueId),
+      });
       const newProbabilityMap = generateProbabilityMap(simulationResults);
 
       newProbabilityMaps.push(newProbabilityMap);
@@ -152,6 +155,7 @@ const runWeeklyGameLeverages = (params: {
     baseProbabilityMap,
     schedule,
     teams,
+    leagueId,
     // userFilter: ['Holden', 'Kevin', 'Jake'],
     // scheduleFilter: ['Holden', 'Kevin', 'Jake'],
   });
