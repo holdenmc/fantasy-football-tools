@@ -13,7 +13,7 @@ import {
  * - Assumes season-end total ppg = current total + games remaining * future ppg
  *   but that doesn't take into account wins/losses. i.e. if I win some game as an underdog, I probably overperformed my ppg
  * - individual game win probability model might be overfit, hard to say
- * - assumes future ppg is the same every week
+ * - assumes future ppg is the same every week (does not take into account byes)
  */
 
 /**
@@ -21,7 +21,7 @@ import {
  * - Determine highest leverage games for a given team owner
  *    - for each game on my schedule, calculate win probability removing it from simulation and setting result and compare
  *
- * - Add ability to highlight a specific result - like when does Jeremy ever make the playoffs
+ * - Add ability to highlight a specific result - like when does manager X ever make the playoffs
  *    - could persist simulation results in a db and make them queryable
  *
  * - more performance improvements. this is still all super slow...
@@ -66,21 +66,17 @@ const determineResults = (params: {
       tiedTeams = eligibleTeams.filter((team) => team.wins === eligibleTeams[0].wins);
 
       if (tiedTeams.length === 2) {
-        // console.log(`Evaluating multi-team tie between ${tiedTeams.map(team => team.name).join(', ')}`);
         // first tiebreaker, h2h
         const head2HeadWinner = determineHead2HeadTiebreaker(tiedTeams[0], tiedTeams[1]);
 
         if (head2HeadWinner) {
           selectedTeam = head2HeadWinner;
-          // console.log(`Selected team ${selectedTeam.name} from ${tiedTeams.length}-way tie due to outright head to head win`);
         } else {
           // 2nd tiebreaker, points
           selectedTeam = tiedTeams[0].totalPoints > tiedTeams[1].totalPoints ? tiedTeams[0] : tiedTeams[1];
-          // console.log(`Selected team ${selectedTeam.name} from ${tiedTeams.length}-way tie (${tiedTeams.map(team => team.name).join(',')}) due to highest totalPoints`);
         }
       } else {
         // 3 or more teams
-        // console.log(`Evaluating multi-team tie between ${tiedTeams.map(team => team.name).join(', ')}`);
         const outrightHead2HeadWinner = tiedTeams.filter((consideredTeam) => {
           const h2hWinners = tiedTeams
             .filter((team) => team.name !== consideredTeam.name)
@@ -90,15 +86,12 @@ const determineResults = (params: {
 
         if (outrightHead2HeadWinner) {
           selectedTeam = outrightHead2HeadWinner;
-          // console.log(`Selected team ${selectedTeam.name} from ${tiedTeams.length}-way tie due to outright head to head win`);
         } else {
           [selectedTeam] = tiedTeams.sort((a, b) => ((a.totalPoints > b.totalPoints) ? -1 : 1));
-          // console.log(`Selected team ${selectedTeam.name} from ${tiedTeams.length}-way tie (${tiedTeams.map(team => team.name).join(',')}) due to highest totalPoints`);
         }
       }
     }
 
-    // console.log(`Selected team ${selectedTeam.name} for rank #${i + 1}`);
     const index = sortedTeamsByWins.findIndex((team) => team.name === selectedTeam.name);
     sortedTeamsByWins.splice(index, 1);
     rankingList.push(selectedTeam);
@@ -124,12 +117,10 @@ const runIndividualSimulation = (params: {
       teamA.wins++;
       teamB.losses++;
       teamA.records[teamB.name]++;
-      // console.log(`Week ${matchup.week}: ${teamA.name} defeats ${teamB.name} (${(winProbA * 100).toFixed(2)}% chance)`);
     } else {
       teamB.wins++;
       teamA.losses++;
       teamB.records[teamA.name]++;
-      // console.log(`Week ${matchup.week}: ${teamB.name} defeats ${teamA.name} (${((1- winProbA) * 100).toFixed(2)}% chance)`);
     }
   });
 
@@ -144,37 +135,21 @@ const runIndividualSimulation = (params: {
 const simulatePlayoffs = (playoffTeams: ITeamData[]): ITeamData[] => {
   const [oneSeed, twoSeed, threeSeed, fourSeed] = playoffTeams;
 
-  let winnerA: ITeamData;
-  let winnerB: ITeamData;
-
   // first semifinal
   const winProbA = calculateSingleGameProbability(oneSeed.projectedFuturePPG, fourSeed.projectedFuturePPG);
   const resultA = lookupProbabilityValue();
-
-  if (resultA <= winProbA) {
-    winnerA = oneSeed;
-  } else {
-    winnerA = fourSeed;
-  }
+  const winnerA = (resultA <= winProbA) ? oneSeed : fourSeed;
 
   // second semifinal
   const winProbB = calculateSingleGameProbability(twoSeed.projectedFuturePPG, threeSeed.projectedFuturePPG);
   const resultB = lookupProbabilityValue();
-
-  if (resultB <= winProbB) {
-    winnerB = twoSeed;
-  } else {
-    winnerB = threeSeed;
-  }
+  const winnerB = (resultB <= winProbB) ? twoSeed : threeSeed;
 
   // final
   const winProbChamp = calculateSingleGameProbability(winnerA.projectedFuturePPG, winnerB.projectedFuturePPG);
   const resultChamp = lookupProbabilityValue();
 
-  if (resultChamp <= winProbChamp) {
-    return [winnerA, winnerB];
-  }
-  return [winnerB, winnerA];
+  return (resultChamp <= winProbChamp) ? [winnerA, winnerB] : [winnerB, winnerA];
 };
 
 // Simulate the season multiple times
@@ -260,11 +235,3 @@ export const generateProbabilityMap = (
 
   return probabilityMap;
 };
-
-// const { teams: originalTeams, schedule: originalSchedule } = getTeamAndScheduleData({ version: 0, week: 4 });
-
-// runSimulations({
-//   schedule: originalSchedule,
-//   teams: originalTeams,
-//   shouldSimulatePlayoffs: true,
-// });
