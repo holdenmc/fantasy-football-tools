@@ -59,3 +59,11 @@ export const leagues = {
     },
   },
 };
+
+export const divisions = {
+  // DRL League only, Han Dynasty doesn't have division record tiebreaker
+  'Division 1': ['Chris', 'Holden', 'Paul', 'Riley'],
+  'Division 2': ['Zach', 'Jordan', 'Jacob', 'Brandon'],
+};
+
+export const hasDivisionTiebreaker = (leagueId: LeagueId) => leagueId === 345994;

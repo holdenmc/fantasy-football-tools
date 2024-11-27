@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { IGame, ITeamData } from '../interfaces';
+import { divisions } from '../leagueData';
 
 // not sure if this is a good assumption, can always modify and see how it changes
 // I backed into this, comparing it to yahoo win probabilities for future matchups in another league.
@@ -63,6 +64,13 @@ export const determineHead2HeadTiebreaker = (
   }
 
   return null;
+};
+
+export const determineDivisionWins = (team: ITeamData): number => {
+  const { division, records } = team;
+  const teamsInDivision = divisions[division].filter((name: string) => name !== team.name);
+
+  return teamsInDivision.reduce((totalWins: number, teamName: string) => totalWins + records[teamName], 0);
 };
 
 export const getTeamAndScheduleData = (options: { version?: number, week?: number, year?: number, leagueId: number }): { teams: Record<string, ITeamData>; schedule: IGame[]; } => {
